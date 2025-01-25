@@ -11,18 +11,84 @@
             margin: 0;
             padding: 0;
             background-color: #000080; /* Latar belakang biru gelap */
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        /* Container utama */
+        .container {
+            display: flex;
+            width: 100%;
+        }
+
+        /* Styling untuk sidebar (menu) */
+        .sidebar {
+            width: 250px;
+            background-color: #333; /* Latar belakang sidebar */
+            color: white;
+            padding-top: 20px;
+        }
+
+        .sidebar ul {
+            list-style-type: none; /* Menghilangkan bullet points */
+            margin: 0;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            position: relative; /* Untuk posisi submenu */
+        }
+
+        .sidebar ul li a {
+            display: block;
+            padding: 14px 20px;
+            text-decoration: none;
+            color: white;
+            background-color: #333;
+            text-align: left;
+        }
+
+        .sidebar ul li a:hover {
+            background-color: #575757; /* Hover effect untuk menu utama */
+        }
+
+        /* Styling untuk submenu */
+        .sidebar ul li ul {
+            display: none; /* Menyembunyikan submenu */
+            position: absolute;
+            top: 0;
+            left: 250px; /* Menempatkan submenu di sebelah kanan menu utama */
+            background-color: #444;
+            min-width: 200px;
+        }
+
+        .sidebar ul li:hover ul {
+            display: block; /* Menampilkan submenu saat hover pada menu utama */
+        }
+
+        .sidebar ul li ul li a {
+            padding: 12px;
+            background-color: #444;
+            color: white;
+        }
+
+        .sidebar ul li ul li a:hover {
+            background-color: #666; /* Hover effect untuk submenu */
+        }
+
+        /* Styling untuk konten utama */
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            text-align: center;
+            color: white;
         }
 
         /* Styling untuk header */
         header {
             text-align: center;
             padding: 50px;
-        }
-
-        /* Styling untuk main content */
-        main {
-            text-align: center;
-            padding: 20px;
         }
 
         /* Styling untuk footer */
@@ -37,25 +103,56 @@
 
         /* Styling untuk gambar */
         .gambar {
-            max-width: 100%; /* Agar gambar tidak melebihi lebar layar */
+            max-width: 100%; /* Agar gambar tidak melebihi lebar container */
             height: auto; /* Menjaga rasio gambar */
             margin: 20px 0; /* Memberikan jarak atas dan bawah gambar */
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Selamat datang di Website Saya!</h1>
-    </header>
-    <main>
-        <p>Ini adalah halaman utama saya yang dihosting secara manual.</p>
+    <div class="container">
+        <!-- Sidebar (Menu Utama dan Submenu) -->
+        <div class="sidebar">
+            <ul>
+                <li><a href="#">Beranda</a></li>
+                <li>
+                    <a href="#">Tentang</a>
+                    <!-- Submenu -->
+                    <ul>
+                        <li><a href="#">Profil</a></li>
+                        <li><a href="#">Visi & Misi</a></li>
+                        <li><a href="#">Team</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Layanan</a>
+                    <!-- Submenu -->
+                    <ul>
+                        <li><a href="#">Konsultasi</a></li>
+                        <li><a href="#">Pelatihan</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Kontak</a></li>
+            </ul>
+        </div>
 
-        <!-- Menambahkan gambar menggunakan link yang diberikan -->
-        <img src="https://i.postimg.cc/P507ZHgM/bonusnya-belum-masuk-apa-f5-mbankingnya-rusak.jpg" alt="Gambar Terkait" class="gambar">
+        <!-- Konten Utama (Gambar dan Teks) -->
+        <div class="main-content">
+            <header>
+                <h1>Selamat datang di Website Saya!</h1>
+            </header>
 
-    </main>
-    <footer>
-        <p>&copy; 2025. DIRGA. Semua hak dilindungi.</p>
-    </footer>
+            <main>
+                <p>Ini adalah halaman utama saya yang dihosting secara manual.</p>
+
+                <!-- Menambahkan gambar -->
+                <img src="https://i.postimg.cc/P507ZHgM/bonusnya-belum-masuk-apa-f5-mbankingnya-rusak.jpg" alt="Gambar Terkait" class="gambar">
+            </main>
+
+            <footer>
+                <p>&copy; 2025. DIRGA. Semua hak dilindungi.</p>
+            </footer>
+        </div>
+    </div>
 </body>
 </html>
