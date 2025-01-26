@@ -165,9 +165,7 @@
                 <img src="https://i.postimg.cc/P507ZHgM/bonusnya-belum-masuk-apa-f5-mbankingnya-rusak.jpg" alt="Gambar Terkait" class="gambar">
 
                 <!-- Tombol Download CSV -->
-                <a href="https://raw.githubusercontent.com/PERAK170895/my-websit17/main/AKTUAL%20-%20C1.csv" download>
-                    <button class="download-button">Download CSV</button>
-                </a>
+                <button class="download-button" id="downloadButton">Download CSV</button>
             </main>
 
             <footer>
@@ -175,5 +173,14 @@
             </footer>
         </div>
     </div>
+
+    <script>
+        document.getElementById('downloadButton').addEventListener('click', function() {
+            var link = document.createElement('a');
+            link.href = 'https://raw.githubusercontent.com/PERAK170895/my-websit17/main/AKTUAL%20-%20C1.csv';
+            link.download = 'AKTUAL%20-%20C1.csv'; // Nama file saat diunduh
+            link.click();
+        });
+    </script>
 </body>
 </html>
