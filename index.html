@@ -107,6 +107,22 @@
             height: auto; /* Menjaga rasio gambar */
             margin: 20px 0; /* Memberikan jarak atas dan bawah gambar */
         }
+
+        /* Styling untuk tombol download */
+        .download-button {
+            background-color: #4CAF50; /* Hijau */
+            color: white;
+            border: none;
+            padding: 15px 32px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .download-button:hover {
+            background-color: #45a049; /* Efek hover hijau lebih gelap */
+        }
     </style>
 </head>
 <body>
@@ -147,6 +163,11 @@
 
                 <!-- Menambahkan gambar -->
                 <img src="https://i.postimg.cc/P507ZHgM/bonusnya-belum-masuk-apa-f5-mbankingnya-rusak.jpg" alt="Gambar Terkait" class="gambar">
+
+                <!-- Tombol Download CSV -->
+                <a href="https://github.com/username/website-saya/raw/main/data.csv" download>
+                    <button class="download-button">Download CSV</button>
+                </a>
             </main>
 
             <footer>
