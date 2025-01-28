@@ -5,6 +5,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tentang Kami</title>
     <link rel="stylesheet" href="styles.css"> <!-- Menghubungkan CSS jika diperlukan -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            display: flex;
+            flex-grow: 1;
+        }
+        .sidebar {
+            width: 200px;
+            background-color: #333;
+            color: white;
+            padding-top: 20px;
+            height: 100%;
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            padding: 10px 15px;
+        }
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            display: block;
+        }
+        .sidebar ul li a:hover {
+            background-color: #575757;
+        }
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: white;
+        }
+        h1 {
+            font-size: 2em;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+            margin-top: 20px;
+        }
+        /* Styling untuk form login */
+        .login-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .input-field {
+            margin-bottom: 15px;
+            width: 100%;
+        }
+        .input-field input {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .login-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .login-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -25,6 +111,22 @@
             </header>
             <main>
                 <p>Selamat datang di halaman tentang kami. Di sini Anda dapat mengetahui lebih lanjut tentang kami...</p>
+
+                <!-- Form Login -->
+                <div class="login-container">
+                    <h2>Login</h2>
+                    <form action="proses_login.php" method="post">
+                        <div class="input-field">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" name="username" placeholder="Masukkan username" required>
+                        </div>
+                        <div class="input-field">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" placeholder="Masukkan password" required>
+                        </div>
+                        <button type="submit" class="login-btn">Login</button>
+                    </form>
+                </div>
             </main>
             <footer>
                 <p>&copy; 2025. DIRGA. Semua hak dilindungi.</p>
