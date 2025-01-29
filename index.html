@@ -39,41 +39,27 @@
         .btn:hover {
             opacity: 0.8; /* Efek hover */
         }
-        .marquee-container {
-            margin-top: 50px;
-            font-size: 1.2em;
-            font-style: italic;
-        }
-        marquee {
-            color: #f39c12; /* Warna oranye untuk teks berjalan */
-        }
-        .footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background-color: #1E3A8A;
-            color: white;
-            text-align: center;
-            padding: 10px 0;
-            font-size: 1em;
-        }
     </style>
 </head>
 <body>
     <h1>Selamat Datang di Halaman Depan</h1>
     <div class="button-container">
-        <a href="login.html" class="btn btn-login">Login</a>
+        <a href="#" class="btn btn-login" onclick="login()">Login</a>
         <a href="daftar.html" class="btn btn-daftar">Daftar</a>
     </div>
 
-    <!-- Teks berjalan -->
-    <div class="marquee-container">
-        <marquee behavior="scroll" direction="left">If you have way to life, don't think about dying.</marquee>
-    </div>
+    <script>
+        function login() {
+            var username = prompt("Masukkan username:");
+            var password = prompt("Masukkan password:");
 
-    <!-- Footer -->
-    <div class="footer">
-        &copy; 2025 Hak Cipta Dilindungi oleh Dirga_Zaisps
-    </div>
+            if (username === "dirga" && password === "peranika") {
+                // Jika username dan password cocok, alihkan ke halaman tentang.html
+                window.location.href = "tentang.html";
+            } else {
+                alert("Username atau password salah!");
+            }
+        }
+    </script>
 </body>
 </html>
