@@ -3,188 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Saya</title>
+    <title>Halaman Depan</title>
     <style>
-        /* Styling untuk body */
         body {
+            background-color: #1E3A8A; /* Warna biru laut */
+            color: white;
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #000123; /* Latar belakang biru gelap */
+            text-align: center;
+            padding-top: 100px;
+        }
+        h1 {
+            font-size: 3em;
+            margin-bottom: 50px;
+        }
+        .button-container {
             display: flex;
-            justify-content: flex-start;
-            align-items: flex-start;
+            justify-content: center;
+            gap: 20px;
         }
-
-        /* Container utama */
-        .container {
-            display: flex;
-            width: 100%;
-        }
-
-        /* Styling untuk sidebar (menu) */
-        .sidebar {
-            width: 250px;
-            background-color: #333; /* Latar belakang sidebar */
-            color: white;
-            padding-top: 20px;
-        }
-
-        .sidebar ul {
-            list-style-type: none; /* Menghilangkan bullet points */
-            margin: 0;
-            padding: 0;
-        }
-
-        .sidebar ul li {
-            position: relative; /* Untuk posisi submenu */
-        }
-
-        .sidebar ul li a {
-            display: block;
-            padding: 14px 20px;
-            text-decoration: none;
-            color: white;
-            background-color: #333;
-            text-align: left;
-        }
-
-        .sidebar ul li a:hover {
-            background-color: #575757; /* Hover effect untuk menu utama */
-        }
-
-        /* Styling untuk submenu */
-        .sidebar ul li ul {
-            display: none; /* Menyembunyikan submenu */
-            position: absolute;
-            top: 0;
-            left: 250px; /* Menempatkan submenu di sebelah kanan menu utama */
-            background-color: #444;
-            min-width: 200px;
-        }
-
-        .sidebar ul li:hover ul {
-            display: block; /* Menampilkan submenu saat hover pada menu utama */
-        }
-
-        .sidebar ul li ul li a {
-            padding: 12px;
-            background-color: #444;
-            color: white;
-        }
-
-        .sidebar ul li ul li a:hover {
-            background-color: #666; /* Hover effect untuk submenu */
-        }
-
-        /* Styling untuk konten utama */
-        .main-content {
-            flex-grow: 1;
-            padding: 20px;
-            text-align: center;
-            color: white;
-        }
-
-        /* Styling untuk header */
-        header {
-            text-align: center;
-            padding: 50px;
-        }
-
-        /* Styling untuk footer */
-        footer {
-            background-color: #333; /* Latar belakang footer */
-            color: white; /* Warna teks footer */
-            text-align: center;
-            padding: 5px 0; /* Mengatur padding agar latar belakang sesuai dengan teks */
-            font-size: 1rem; /* Ukuran font footer */
-            line-height: 1; /* Menyesuaikan tinggi baris teks */
-        }
-
-        /* Styling untuk gambar */
-        .gambar {
-            max-width: 100%; /* Agar gambar tidak melebihi lebar container */
-            height: auto; /* Menjaga rasio gambar */
-            margin: 20px 0; /* Memberikan jarak atas dan bawah gambar */
-        }
-
-        /* Styling untuk tombol download */
-        .download-button {
-            background-color: #3CAF60; /* Hijau */
+        .btn {
+            background-color: #3498db;
             color: white;
             border: none;
-            padding: 15px 32px;
-            font-size: 16px;
+            padding: 15px 30px;
+            font-size: 1.2em;
             cursor: pointer;
-            text-align: center;
-            margin-top: 20px;
+            border-radius: 5px;
+            text-decoration: none;
         }
-
-        .download-button:hover {
-            background-color: #45a089; /* Efek hover hijau lebih gelap */
+        .btn:hover {
+            background-color: #2980b9;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Sidebar (Menu Utama dan Submenu) -->
-        <div class="sidebar">
-            <ul>
-                <li><a href="#">Beranda</a></li>
-                <li>
-                    <a href="tentang1234.html">Tentang</a>
-                    <!-- Submenu -->
-                    <ul>
-                        <li><a href="#">Profil</a></li>
-                        <li><a href="#">Visi & Misi</a></li>
-                        <li><a href="#">Team</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">Layanan</a>
-                    <!-- Submenu -->
-                    <ul>
-                        <li><a href="#">Konsultasi</a></li>
-                        <li><a href="#">Pelatihan</a></li>
-                    </ul>
-                </li>
-                <li><a href="#">Kontak</a></li>
-            </ul>
-        </div>
-
-        <!-- Konten Utama (Gambar dan Teks) -->
-        <div class="main-content">
-            <header>
-                <h1>SELAMAT DATANG DI DUNIA TIPU TIPU!</h1>
-            </header>
-
-            <main>
-                <p>Ini adalah halaman utama saya yang dihosting secara manual.</p>
-               <!-- Menambahkan gambar -->
-                <img src="https://github.com/PERAK170895/my-websit17/blob/main/DIRGA%20ZAI.C.gif?raw=true">
-                
-             </header>
-             <main>    
-                <img src="https://i.imgur.com/liMOj1N.jpg" alt="Deskripsi gambar">
-                 <img src="https://i.imgur.com/llxT7UX.png" alt="Deskripsi gambar">
-            </header>
-             <main>       <!-- Tombol Download CSV -->
-                <button class="download-button" id="downloadButton">Download CSV</button>
-            </main>
-
-            <footer>
-                <p>&copy; 2025. DIRGA. Semua hak dilindungi.</p>
-            </footer>
-        </div>
+    <h1>Selamat Datang di Halaman Depan</h1>
+    <div class="button-container">
+        <a href="login.html" class="btn">Login</a>
+        <a href="daftar.html" class="btn">Daftar</a>
     </div>
-
-    <script>
-        document.getElementById('downloadButton').addEventListener('click', function() {
-            var link = document.createElement('a');
-            link.href = 'https://raw.githubusercontent.com/PERAK170895/my-websit17/main/AKTUAL%20-%20C1.csv';
-            link.download = 'AKTUAL%20-%20C1.csv'; // Nama file saat diunduh
-            link.click();
-        });
-    </script>
 </body>
 </html>
