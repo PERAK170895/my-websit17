@@ -1,6 +1,87 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+<style>
+        body {
+            background-color: #1E3A8A; /* Warna biru laut */
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 50px;
+            margin-bottom: 50px; /* Menambahkan margin bawah untuk memberi ruang untuk teks berjalan */
+        }
+        h1 {
+            font-size: 3em;
+            margin-bottom: 50px;
+        }
+        .login-container {
+            background-color: white;
+            color: #333;
+            border-radius: 8px;
+            padding: 30px;
+            max-width: 400px;
+            margin: 0 auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .input-field {
+            margin-bottom: 15px;
+            width: 100%;
+        }
+        .input-field input {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .login-btn {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+        .login-btn:hover {
+            background-color: #45a049;
+        }
+        .error-message {
+            color: red;
+            font-size: 1em;
+            margin-top: 10px;
+        }
+        /* Teks berjalan */
+        .scrolling-text {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: white;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 100%;
+        }
+        .scrolling-text p {
+            display: inline-block;
+            animation: scroll 10s linear infinite;
+        }
+        @keyframes scroll {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(-100%);
+            }
+        }
+        /* Styling untuk footer */
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            font-size: 0.9em;
        <header>
                 <h1>LOGIN USER</h1>
             </header>
