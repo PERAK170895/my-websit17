@@ -11,6 +11,7 @@
             font-family: Arial, sans-serif;
             text-align: center;
             padding-top: 50px;
+            margin-bottom: 50px; /* Menambahkan margin bawah untuk memberi ruang untuk teks berjalan */
         }
         h1 {
             font-size: 3em;
@@ -54,6 +55,37 @@
             font-size: 1em;
             margin-top: 10px;
         }
+        /* Teks berjalan */
+        .scrolling-text {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: white;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 100%;
+        }
+        .scrolling-text p {
+            display: inline-block;
+            animation: scroll 10s linear infinite;
+        }
+        @keyframes scroll {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(-100%);
+            }
+        }
+        /* Styling untuk footer */
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            font-size: 0.9em;
+        }
     </style>
 </head>
 <body>
@@ -72,6 +104,16 @@
             <p id="errorMessage" class="error-message" style="display: none;">Username atau password salah!</p>
         </form>
     </div>
+
+    <!-- Teks Berjalan -->
+    <div class="scrolling-text">
+        <p>if you have way to life, don’t think about dying</p>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 dirga_zai sps. Semua hak dilindungi.</p>
+    </footer>
 
     <script>
         document.getElementById("loginForm").addEventListener("submit", function(event) {
