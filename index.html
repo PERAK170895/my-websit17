@@ -22,7 +22,6 @@
             gap: 20px;
         }
         .btn {
-            background-color: #3498db;
             color: white;
             border: none;
             padding: 15px 30px;
@@ -31,16 +30,50 @@
             border-radius: 5px;
             text-decoration: none;
         }
+        .btn-login {
+            background-color: #28a745; /* Warna hijau untuk Login */
+        }
+        .btn-daftar {
+            background-color: #3498db; /* Warna biru untuk Daftar */
+        }
         .btn:hover {
-            background-color: #2980b9;
+            opacity: 0.8; /* Efek hover */
+        }
+        .marquee-container {
+            margin-top: 50px;
+            font-size: 1.2em;
+            font-style: italic;
+        }
+        marquee {
+            color: #f39c12; /* Warna oranye untuk teks berjalan */
+        }
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #1E3A8A;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 1em;
         }
     </style>
 </head>
 <body>
     <h1>Selamat Datang di Halaman Depan</h1>
     <div class="button-container">
-        <a href="login.html" class="btn">Login</a>
-        <a href="daftar.html" class="btn">Daftar</a>
+        <a href="login.html" class="btn btn-login">Login</a>
+        <a href="daftar.html" class="btn btn-daftar">Daftar</a>
+    </div>
+
+    <!-- Teks berjalan -->
+    <div class="marquee-container">
+        <marquee behavior="scroll" direction="left">If you have way to life, don't think about dying.</marquee>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        &copy; 2025 Hak Cipta Dilindungi oleh Dirga_Zaisps
     </div>
 </body>
 </html>
