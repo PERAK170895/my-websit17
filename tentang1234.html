@@ -1,16 +1,115 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<style>
-        
-                <h1>LOGIN USER</h1>
-            </header>
-            <main>
-                <p>Selamat datang kembali. Di sini Anda dapat mengetahui lebih lanjut tentang Pekerjaan...</p>
-            <footer>
-                <p>&copy; 2025 dirga_zai sps. Semua hak dilindungi.</p>
-            </footer>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Pengguna</title>
+    <style>
+        body {
+            background-color: #34D399; /* Warna hijau muda */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        /* Sidebar menu */
+        .sidebar {
+            width: 200px;
+            background-color: #064E3B; /* Warna hijau gelap untuk sidebar */
+            height: 100vh;
+            padding-top: 20px;
+            color: white;
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            margin: 20px 0;
+        }
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .sidebar ul li a:hover {
+            background-color: #2D6A4F;
+        }
+        /* Konten utama */
+        .main-content {
+            flex-grow: 1;
+            padding: 30px;
+        }
+        /* Nama pengguna di atas */
+        .header {
+            background-color: #38B2AC; /* Warna hijau sedikit lebih terang */
+            padding: 20px;
+            color: white;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        /* Tombol menu dengan warna berbeda */
+        .menu-btn {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
+        }
+        .menu-btn:nth-child(1) {
+            background-color: #2D6A4F;
+            color: white;
+        }
+        .menu-btn:nth-child(2) {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .menu-btn:nth-child(3) {
+            background-color: #FFA500;
+            color: white;
+        }
+        .menu-btn:nth-child(4) {
+            background-color: #FF6347;
+            color: white;
+        }
+        .menu-btn:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <ul>
+            <li><button class="menu-btn" onclick="alert('Menu 1')">Menu 1</button></li>
+            <li><button class="menu-btn" onclick="alert('Menu 2')">Menu 2</button></li>
+            <li><button class="menu-btn" onclick="alert('Menu 3')">Menu 3</button></li>
+            <li><button class="menu-btn" onclick="alert('Menu 4')">Menu 4</button></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <!-- Header dengan Nama Pengguna -->
+        <div class="header">
+            Selamat datang, <span id="username">Pengguna</span>
+        </div>
+
+        <div>
+            <h2>Konten Utama</h2>
+            <p>Ini adalah area konten utama di mana Anda dapat menambahkan informasi lebih lanjut.</p>
         </div>
     </div>
+
+    <script>
+        // Menangkap nama pengguna dari URL atau variabel
+        // Di sini kita simulasi dengan nama pengguna "dirga" sebagai contoh
+        var username = "dirga"; // Anda bisa mengubahnya dengan cara dinamis sesuai login
+        document.getElementById("username").textContent = username;
+    </script>
 </body>
 </html>
