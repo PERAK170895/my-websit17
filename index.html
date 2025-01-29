@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halaman Depan</title>
+    <title>Halaman Login</title>
     <style>
         body {
-            background-color: #1E3A8A; /* Warna biru laut */
+            background-color: #1E3A8A;
             color: white;
             font-family: Arial, sans-serif;
             text-align: center;
             padding-top: 50px;
-            margin-bottom: 50px; /* Menambahkan margin bawah untuk memberi ruang untuk teks berjalan */
         }
         h1 {
             font-size: 3em;
@@ -55,37 +54,6 @@
             font-size: 1em;
             margin-top: 10px;
         }
-        /* Teks berjalan */
-        .scrolling-text {
-            margin-top: 20px;
-            font-size: 1.2em;
-            color: white;
-            white-space: nowrap;
-            overflow: hidden;
-            width: 100%;
-        }
-        .scrolling-text p {
-            display: inline-block;
-            animation: scroll 10s linear infinite;
-        }
-        @keyframes scroll {
-            from {
-                transform: translateX(100%);
-            }
-            to {
-                transform: translateX(-100%);
-            }
-        }
-        /* Styling untuk footer */
-        footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background-color: #333;
-            color: white;
-            padding: 10px 0;
-            font-size: 0.9em;
-        }
     </style>
 </head>
 <body>
@@ -105,19 +73,9 @@
         </form>
     </div>
 
-    <!-- Teks Berjalan -->
-    <div class="scrolling-text">
-        <p>if you have way to life, don’t think about dying</p>
-    </div>
-
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2025 dirga_zai sps. Semua hak dilindungi.</p>
-    </footer>
-
     <script>
         document.getElementById("loginForm").addEventListener("submit", function(event) {
-            event.preventDefault(); // Mencegah form untuk reload halaman
+            event.preventDefault(); // Mencegah form reload halaman
 
             // Ambil nilai username dan password
             var username = document.getElementById("username").value;
@@ -125,8 +83,9 @@
 
             // Validasi username dan password
             if (username === "dirga" && password === "peranika") {
-                // Jika berhasil, alihkan ke halaman 'tentang1234.html' yang sudah dideploy di GitHub Pages
-                window.location.href = "https://perak170895.github.io/my-websit17/tentang1234.html;
+                // Jika berhasil, simpan username di sessionStorage dan alihkan ke halaman tentang1234.html
+                sessionStorage.setItem("username", username);
+                window.location.href = "tentang1234.html"; // Redirect ke halaman tentang1234.html
             } else {
                 // Tampilkan pesan kesalahan jika login gagal
                 document.getElementById("errorMessage").style.display = "block";
