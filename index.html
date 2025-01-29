@@ -10,56 +10,86 @@
             color: white;
             font-family: Arial, sans-serif;
             text-align: center;
-            padding-top: 100px;
+            padding-top: 50px;
         }
         h1 {
             font-size: 3em;
             margin-bottom: 50px;
         }
-        .button-container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
+        .login-container {
+            background-color: white;
+            color: #333;
+            border-radius: 8px;
+            padding: 30px;
+            max-width: 400px;
+            margin: 0 auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        .btn {
+        .input-field {
+            margin-bottom: 15px;
+            width: 100%;
+        }
+        .input-field input {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .login-btn {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #4CAF50;
             color: white;
             border: none;
-            padding: 15px 30px;
-            font-size: 1.2em;
-            cursor: pointer;
-            border-radius: 5px;
-            text-decoration: none;
         }
-        .btn-login {
-            background-color: #28a745; /* Warna hijau untuk Login */
+        .login-btn:hover {
+            background-color: #45a049;
         }
-        .btn-daftar {
-            background-color: #3498db; /* Warna biru untuk Daftar */
-        }
-        .btn:hover {
-            opacity: 0.8; /* Efek hover */
+        .error-message {
+            color: red;
+            font-size: 1em;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>Selamat Datang di Halaman Depan</h1>
-    <div class="button-container">
-        <a href="#" class="btn btn-login" onclick="login()">Login</a>
-        <a href="daftar.html" class="btn btn-daftar">Daftar</a>
+    <h1>Selamat Datang di Halaman Login</h1>
+    <div class="login-container">
+        <form id="loginForm">
+            <div class="input-field">
+                <label for="username">Username:</label>
+                <input type="text" id="username" placeholder="Masukkan username" required>
+            </div>
+            <div class="input-field">
+                <label for="password">Password:</label>
+                <input type="password" id="password" placeholder="Masukkan password" required>
+            </div>
+            <button type="submit" class="login-btn">Login</button>
+            <p id="errorMessage" class="error-message" style="display: none;">Username atau password salah!</p>
+        </form>
     </div>
 
     <script>
-        function login() {
-            var username = prompt("Masukkan username:");
-            var password = prompt("Masukkan password:");
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Mencegah form untuk reload halaman
 
+            // Ambil nilai username dan password
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+
+            // Validasi username dan password
             if (username === "dirga" && password === "peranika") {
-                // Jika username dan password cocok, alihkan ke halaman tentang.html
+                // Jika berhasil, alihkan ke halaman 'tentang.html'
                 window.location.href = "tentang.html";
             } else {
-                alert("Username atau password salah!");
+                // Tampilkan pesan kesalahan jika login gagal
+                document.getElementById("errorMessage").style.display = "block";
             }
-        }
+        });
     </script>
 </body>
 </html>
