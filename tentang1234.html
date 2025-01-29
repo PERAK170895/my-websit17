@@ -51,21 +51,34 @@
             text-align: center;
             font-size: 1.5em;
             font-weight: bold;
-            position: relative;
         }
-        /* Tombol Logout */
-        .logout-btn {
-            position: absolute;
-            top: 10px;
-            right: 20px;
+        /* Tombol menu dengan warna berbeda */
+        .menu-btn {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
+        }
+        .menu-btn:nth-child(1) {
+            background-color: #2D6A4F;
+            color: white;
+        }
+        .menu-btn:nth-child(2) {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .menu-btn:nth-child(3) {
+            background-color: #FFA500;
+            color: white;
+        }
+        .menu-btn:nth-child(4) {
             background-color: #FF6347;
             color: white;
-            padding: 10px;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
         }
-        .logout-btn:hover {
+        .menu-btn:hover {
             opacity: 0.8;
         }
     </style>
@@ -84,8 +97,6 @@
         <!-- Header dengan Nama Pengguna -->
         <div class="header">
             Selamat datang, <span id="username">Pengguna</span>
-            <!-- Tombol Logout -->
-            <button class="logout-btn" onclick="logout()">Logout</button>
         </div>
 
         <div>
@@ -95,22 +106,10 @@
     </div>
 
     <script>
-        // Mengecek apakah pengguna sudah login saat membuka halaman
-        if (!sessionStorage.getItem('username')) {
-            // Jika tidak ada session username, redirect ke halaman login
-            window.location.href = "login.html";
-        }
-
-        // Menampilkan nama pengguna
-        document.getElementById("username").textContent = sessionStorage.getItem('username');
-
-        // Fungsi logout
-        function logout() {
-            // Hapus session login
-            sessionStorage.removeItem('username');
-            // Redirect ke halaman login
-            window.location.href = "index.html";
-        }
+        // Menangkap nama pengguna dari URL atau variabel
+        // Di sini kita simulasi dengan nama pengguna "dirga" sebagai contoh
+        var username = "dirga"; // Anda bisa mengubahnya dengan cara dinamis sesuai login
+        document.getElementById("username").textContent = username;
     </script>
 </body>
 </html>
