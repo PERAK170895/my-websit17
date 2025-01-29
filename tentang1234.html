@@ -12,10 +12,9 @@
             padding: 0;
             display: flex;
         }
-        /* Sidebar menu */
         .sidebar {
             width: 200px;
-            background-color: #064E3B; /* Warna hijau gelap untuk sidebar */
+            background-color: #064E3B;
             height: 100vh;
             padding-top: 20px;
             color: white;
@@ -38,22 +37,19 @@
         .sidebar ul li a:hover {
             background-color: #2D6A4F;
         }
-        /* Konten utama */
         .main-content {
             flex-grow: 1;
             padding: 30px;
         }
-        /* Nama pengguna di atas */
         .header {
-            background-color: #38B2AC; /* Warna hijau sedikit lebih terang */
+            background-color: #38B2AC;
             padding: 20px;
             color: white;
             text-align: center;
             font-size: 1.5em;
             font-weight: bold;
-            position: relative; /* Agar tombol logout bisa diposisikan di kanan atas */
+            position: relative;
         }
-        /* Tombol logout */
         .logout-btn {
             position: absolute;
             top: 10px;
@@ -68,7 +64,6 @@
         .logout-btn:hover {
             opacity: 0.8;
         }
-        /* Tombol menu dengan warna berbeda */
         .menu-btn {
             width: 100%;
             padding: 10px;
@@ -77,25 +72,6 @@
             border-radius: 5px;
             cursor: pointer;
             border: none;
-        }
-        .menu-btn:nth-child(1) {
-            background-color: #2D6A4F;
-            color: white;
-        }
-        .menu-btn:nth-child(2) {
-            background-color: #4CAF50;
-            color: white;
-        }
-        .menu-btn:nth-child(3) {
-            background-color: #FFA500;
-            color: white;
-        }
-        .menu-btn:nth-child(4) {
-            background-color: #FF6347;
-            color: white;
-        }
-        .menu-btn:hover {
-            opacity: 0.8;
         }
     </style>
 </head>
@@ -110,10 +86,8 @@
     </div>
 
     <div class="main-content">
-        <!-- Header dengan Nama Pengguna -->
         <div class="header">
             Selamat datang, <span id="username">Pengguna</span>
-            <!-- Tombol Logout -->
             <button class="logout-btn" onclick="logout()">Logout</button>
         </div>
 
@@ -124,17 +98,21 @@
     </div>
 
     <script>
-        // Menangkap nama pengguna dari URL atau variabel
-        // Di sini kita simulasi dengan nama pengguna "dirga" sebagai contoh
-        var username = "dirga"; // Anda bisa mengubahnya dengan cara dinamis sesuai login
+        // Cek apakah pengguna sudah login
+        if (!sessionStorage.getItem("username")) {
+            window.location.href = "login.html"; // Redirect ke halaman login jika belum login
+        }
+
+        // Menampilkan nama pengguna
+        var username = sessionStorage.getItem("username");
         document.getElementById("username").textContent = username;
 
         // Fungsi logout
         function logout() {
-            // Menghapus sesi login (jika menggunakan sessionStorage atau localStorage)
+            // Menghapus sesi login
             sessionStorage.removeItem("username");
-            // Redirect ke halaman 'tentang1234.html' di GitHub
-            window.location.href = "https://perak170895.github.io/my-websit17/index.html";
+            // Redirect ke halaman login setelah logout
+            window.location.href = "login.html";
         }
     </script>
 </body>
