@@ -132,9 +132,18 @@
         history.forward();
 
         // Mencegah pengguna mengakses halaman pengguna setelah logout
-        window.onunload = function() {
+        window.onbeforeunload = function() {
             sessionStorage.removeItem("username");
         };
+
+        // Untuk memastikan browser tidak menyimpan cache
+        document.addEventListener('DOMContentLoaded', function() {
+            sessionStorage.removeItem("username");
+            if (!sessionStorage.getItem("username")) {
+                window.location.replace("index.html");
+            }
+        });
+
     </script>
 </body>
 </html>
