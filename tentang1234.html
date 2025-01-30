@@ -66,15 +66,6 @@
         .logout-btn:hover {
             opacity: 0.8;
         }
-        .menu-btn {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            border: none;
-        }
         footer {
             background-color: #064E3B;
             color: white;
@@ -129,6 +120,11 @@
             // Redirect ke halaman login setelah logout
             window.location.href = "index.html";
         }
+
+        // Mengatur agar saat logout, pengguna tidak bisa kembali ke halaman ini menggunakan tombol back
+        history.pushState(null, null, location.href);
+        history.back();
+        history.forward();
     </script>
 </body>
 </html>
