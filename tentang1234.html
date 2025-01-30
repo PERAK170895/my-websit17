@@ -117,6 +117,8 @@
         function logout() {
             // Menghapus sesi login
             sessionStorage.removeItem("username");
+            // Ganti riwayat agar tombol back tidak membawa ke halaman ini
+            history.replaceState(null, null, location.href);
             // Redirect ke halaman login setelah logout
             window.location.href = "index.html";
         }
