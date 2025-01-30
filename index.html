@@ -1,48 +1,14 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halaman Login</title>
-    <style>
-        /* Styling seperti biasa */
-    </style>
-</head>
-<body>
-    <h1>Selamat Datang di Halaman Login</h1>
-    <div class="login-container">
-        <form id="loginForm">
-            <div class="input-field">
-                <label for="username">Username:</label>
-                <input type="text" id="username" placeholder="Masukkan username" required>
-            </div>
-            <div class="input-field">
-                <label for="password">Password:</label>
-                <input type="password" id="password" placeholder="Masukkan password" required>
-            </div>
-            <button type="submit" class="login-btn">Login</button>
-            <p id="errorMessage" class="error-message" style="display: none;">Username atau password salah!</p>
-        </form>
-    </div>
-    <footer>
-        <p>&copy; 2025 dirga_zaisps. All Rights Reserved.</p>
-    </footer>
-    <script>
-        document.getElementById("loginForm").addEventListener("submit", function(event) {
-            event.preventDefault(); // Mencegah form reload halaman
-
-            var username = document.getElementById("username").value;
-            var password = document.getElementById("password").value;
-
-            if (username === "dirga" && password === "peranika") {
-                // Jika berhasil, simpan username di sessionStorage dan alihkan ke halaman pengguna
-                sessionStorage.setItem("username", username);
-                window.location.href = "tentang1234.html"; // Arahkan ke halaman tentang1234.html
-            } else {
-                // Tampilkan pesan kesalahan jika login gagal
-                document.getElementById("errorMessage").style.display = "block";
-            }
-        });
-    </script>
-</body>
-</html>
+// login.php
+session_start();
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Misalnya, cek username dan password
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    
+    if ($username == 'admin' && $password == 'password') {  // Ganti dengan logika validasi
+        $_SESSION['user'] = $username;  // Simpan informasi session
+        header("Location: protected_page.php");  // Arahkan ke halaman yang dilindungi
+    } else {
+        echo "Username atau password salah.";
+    }
+}
