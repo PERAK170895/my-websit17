@@ -27,9 +27,9 @@
             // Cek apakah username dan password sesuai
             if (username === 'admin' && password === 'password') {
                 // Simpan status login di localStorage
-                localStorage.setItem('https://github.com/PERAK170895/my-websit17/blob/main/tentang1234.html', 'true');
+                localStorage.setItem('loggedIn', 'true');
                 // Redirect ke halaman yang dilindungi
-                window.location.href = 'https://github.com/PERAK170895/my-websit17/blob/main/tentang1234.html';
+                window.location.href = 'tentang1234.html';  // Gunakan path relatif
             } else {
                 alert('Username atau password salah!');
             }
