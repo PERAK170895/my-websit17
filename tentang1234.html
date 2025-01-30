@@ -109,7 +109,7 @@
     <script>
         // Cek apakah pengguna sudah login, jika tidak redirect ke halaman login
         if (!sessionStorage.getItem("username")) {
-            window.location.href = "index.html"; // Redirect ke halaman login jika belum login
+            window.location.replace("index.html"); // Redirect ke halaman login jika belum login
         }
 
         // Menampilkan nama pengguna
@@ -123,13 +123,18 @@
             // Ganti riwayat agar tombol back tidak membawa ke halaman ini
             history.replaceState(null, null, location.href);
             // Redirect ke halaman login setelah logout
-            window.location.href = "index.html";
+            window.location.replace("index.html");
         }
 
         // Mengatur agar saat logout, pengguna tidak bisa kembali ke halaman ini menggunakan tombol back
         history.pushState(null, null, location.href);
         history.back();
         history.forward();
+
+        // Mencegah pengguna mengakses halaman pengguna setelah logout
+        window.onunload = function() {
+            sessionStorage.removeItem("username");
+        };
     </script>
 </body>
 </html>
