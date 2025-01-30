@@ -4,6 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
+    <style>
+        /* Menambahkan warna latar belakang */
+        body {
+            background-color: #E6E6FA;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        h2 {
+            color: #4B0082; /* Memberi warna pada judul */
+        }
+        label, input {
+            font-size: 16px;
+        }
+        input {
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #4B0082;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #6A0DAD;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #4B0082;
+        }
+    </style>
 </head>
 <body>
     <h2>Login</h2>
@@ -16,6 +51,10 @@
 
         <button type="submit">Login</button>
     </form>
+
+    <footer>
+        <p>© dirga_sps</p>
+    </footer>
 
     <script>
         document.getElementById('loginForm').addEventListener('submit', function(event) {
