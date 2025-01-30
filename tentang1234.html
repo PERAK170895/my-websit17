@@ -1,8 +1,28 @@
-// protected_page.php
-session_start();
-if (!isset($_SESSION['user'])) {
-    header("Location: login.php");  // Jika belum login, redirect ke halaman login
-    exit();
-}
-// Halaman ini hanya bisa diakses jika sudah login
-echo "Selamat datang, " . $_SESSION['user'];
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Terlindungi</title>
+</head>
+<body>
+    <h2>Selamat datang di halaman terlindungi!</h2>
+    <p>Hanya pengguna yang sudah login yang dapat melihat halaman ini.</p>
+
+    <button id="logoutBtn">Logout</button>
+
+    <script>
+        // Cek apakah pengguna sudah login dengan memeriksa localStorage
+        if (localStorage.getItem('loggedIn') !== 'true') {
+            // Jika tidak login, arahkan ke halaman login
+            window.location.href = 'login.html';
+        }
+
+        // Logout - menghapus status login dari localStorage
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            localStorage.removeItem('loggedIn');
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>
+</html>
