@@ -9,7 +9,22 @@
         body {
             background-color: #E6E6FA;
             font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            display: flex;
+            align-items: center;
+            background-color: white;
             padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .login-form {
+            margin-right: 20px;
         }
         h2 {
             color: #4B0082; /* Memberi warna pada judul */
@@ -28,6 +43,7 @@
             padding: 10px 20px;
             cursor: pointer;
             font-size: 16px;
+            border-radius: 5px;
         }
         button:hover {
             background-color: #6A0DAD;
@@ -38,19 +54,33 @@
             font-size: 14px;
             color: #4B0082;
         }
+        .image-container img {
+            max-width: 300px;
+            height: auto;
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
-    <h2>Login</h2>
-    <form id="loginForm">
-        <label for="username">Username:</label>
-        <input type="text" id="username" required><br><br>
+    <div class="login-container">
+        <!-- Form Login -->
+        <div class="login-form">
+            <h2>Login</h2>
+            <form id="loginForm">
+                <label for="username">Username:</label>
+                <input type="text" id="username" required><br><br>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" required><br><br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" required><br><br>
 
-        <button type="submit">Login</button>
-    </form>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+        <!-- Gambar di samping kanan -->
+        <div class="image-container">
+            <img src="https://via.placeholder.com/300x200" alt="Image Placeholder">
+        </div>
+    </div>
 
     <footer>
         <p>© dirga_sps</p>
