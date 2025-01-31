@@ -4,31 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Halaman Terlindungi</title>
+    <style>
+        /* Styling untuk menampilkan user dan waktu di pojok kanan atas */
+        #userInfo {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 16px;
+            font-family: Arial, sans-serif;
+        }
+        #time {
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
 </head>
 <body>
     <h2>Selamat datang di halaman terlindungi!</h2>
     <p>Hanya pengguna yang sudah login yang dapat melihat halaman ini.</p>
-    
+
     <button id="logoutBtn">Logout</button>
-    
+
+    <div id="userInfo">
+        <div id="userName"></div>
+        <div id="time"></div>
+    </div>
+
     <script>
         // Cek apakah pengguna sudah login dengan memeriksa localStorage
         if (localStorage.getItem('loggedIn') !== 'true') {
             // Jika tidak login, arahkan ke halaman login
             window.location.href = 'https://perak170895.github.io/my-websit17/';
         }
-        
+
+        // Mendapatkan username dari localStorage
+        const username = localStorage.getItem('username');
+        document.getElementById('userName').textContent = `User: ${username}`;
+
+        // Fungsi untuk menampilkan waktu
+        function updateTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('time').textContent = `Waktu: ${hours}:${minutes}:${seconds}`;
+        }
+
+        // Memperbarui waktu setiap detik
+        setInterval(updateTime, 1000);
+
         // Logout - menghapus status login dari localStorage
         document.getElementById('logoutBtn').addEventListener('click', function() {
             localStorage.removeItem('loggedIn');
+            localStorage.removeItem('username'); // Hapus nama pengguna juga saat logout
             window.location.href = 'https://perak170895.github.io/my-websit17/';
         });
-        
+
         // Mencegah kembali ke halaman setelah logout
         window.onunload = function() {
-            localStorage.removeItem('loggedIn'); // pastikan data login dihapus saat halaman ditinggalkan
+            localStorage.removeItem('loggedIn');
+            localStorage.removeItem('username');
         };
-        
+
         // Menghindari pengguna menekan tombol back atau forward setelah logout
         window.history.forward();
         setTimeout(function() {
