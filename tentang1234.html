@@ -17,6 +17,19 @@
             font-size: 14px;
             color: #555;
         }
+
+        /* Styling untuk gambar yang di-upload */
+        #uploadedImage {
+            margin-top: 20px;
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        /* Styling untuk input file */
+        #fileInput {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -28,6 +41,20 @@
     <div id="userInfo">
         <div id="userName"></div>
         <div id="time"></div>
+    </div>
+
+    <!-- Input untuk upload gambar -->
+    <div>
+        <label for="fileInput">Upload Foto:</label>
+        <input type="file" id="fileInput" accept="image/*"><br><br>
+        <div id="imageContainer">
+            <!-- Gambar yang di-upload akan ditampilkan di sini -->
+        </div>
+    </div>
+
+    <div>
+        <!-- Tempat untuk menampilkan gambar setelah upload -->
+        <img id="uploadedImage" src="" alt="Uploaded Image" style="display:none;">
     </div>
 
     <script>
@@ -71,6 +98,26 @@
         setTimeout(function() {
             window.history.forward();
         }, 0);
+
+        // Menambahkan event listener untuk input file
+        const fileInput = document.getElementById('fileInput');
+        const uploadedImage = document.getElementById('uploadedImage');
+
+        fileInput.addEventListener('change', function(event) {
+            const file = event.target.files[0]; // Mendapatkan file yang di-upload
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    // Menampilkan gambar setelah di-upload
+                    uploadedImage.src = e.target.result;
+                    uploadedImage.style.display = 'block'; // Menampilkan gambar
+                };
+
+                reader.readAsDataURL(file); // Membaca file gambar
+            }
+        });
     </script>
 </body>
 </html>
