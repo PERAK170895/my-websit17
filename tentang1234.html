@@ -8,21 +8,32 @@
 <body>
     <h2>Selamat datang di halaman terlindungi!</h2>
     <p>Hanya pengguna yang sudah login yang dapat melihat halaman ini.</p>
-
+    
     <button id="logoutBtn">Logout</button>
-
+    
     <script>
         // Cek apakah pengguna sudah login dengan memeriksa localStorage
         if (localStorage.getItem('loggedIn') !== 'true') {
             // Jika tidak login, arahkan ke halaman login
             window.location.href = 'https://perak170895.github.io/my-websit17/';
         }
-
+        
         // Logout - menghapus status login dari localStorage
         document.getElementById('logoutBtn').addEventListener('click', function() {
             localStorage.removeItem('loggedIn');
             window.location.href = 'https://perak170895.github.io/my-websit17/';
         });
+        
+        // Mencegah kembali ke halaman setelah logout
+        window.onunload = function() {
+            localStorage.removeItem('loggedIn'); // pastikan data login dihapus saat halaman ditinggalkan
+        };
+        
+        // Menghindari pengguna menekan tombol back atau forward setelah logout
+        window.history.forward();
+        setTimeout(function() {
+            window.history.forward();
+        }, 0);
     </script>
 </body>
 </html>
