@@ -48,16 +48,24 @@
         button:hover {
             background-color: #6A0DAD;
         }
-        footer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 14px;
-            color: #4B0082;
-        }
         .image-container img {
             max-width: 300px;
             height: auto;
             border-radius: 10px;
+        }
+        /* Styling untuk footer */
+        footer {
+            width: 100%;
+            background-color: yellow;  /* Latar belakang kuning */
+            text-align: center;
+            padding: 10px 0;
+            position: absolute;
+            bottom: 0;
+        }
+        footer p {
+            margin: 0;
+            color: #4B0082;  /* Warna teks */
+            font-size: 14px;
         }
     </style>
 </head>
@@ -82,10 +90,11 @@
         </div>
     </div>
 
+    <!-- Footer -->
     <footer>
-        
-    </footer>
         <p>© dirga_sps</p>
+    </footer>
+
     <script>
         document.getElementById('loginForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Mencegah form dikirim secara default
