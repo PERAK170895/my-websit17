@@ -53,20 +53,6 @@
     </form>
 
     <footer>
-           <footer>
-                  <footer>
-                         <footer>
-                                <footer>
-                                       <footer>
-                                              <footer>
-                                                     <footer>
-                                                            <footer>
-                                                                   <footer>
-                                                                          <footer>
-                                                                                 <footer>
-                                                                                        <footer>
-                                                                                               <footer>
-                                                                                                      <footer>
         <p>© dirga_sps</p>
     </footer>
 
@@ -77,10 +63,10 @@
             var username = document.getElementById('username').value;
             var password = document.getElementById('password').value;
 
-            // Cek apakah username dan password sesuai
-            if (username === 'admin' && password === 'password') {
-            if (username === 'dirga' && password === 'peranika') {
-            if (username === 'sethi' && password === 'peranika1') {
+            // Cek apakah username dan password sesuai dengan salah satu dari tiga pengguna
+            if ((username === 'admin' && password === 'password') || 
+                (username === 'dirga' && password === 'peranika') || 
+                (username === 'sethi' && password === 'peranika1')) {
                 // Simpan status login di localStorage
                 localStorage.setItem('loggedIn', 'true');
                 // Redirect ke halaman yang dilindungi
