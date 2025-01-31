@@ -69,6 +69,8 @@
                 (username === 'sethi' && password === 'peranika1')) {
                 // Simpan status login di localStorage
                 localStorage.setItem('loggedIn', 'true');
+                // Simpan username yang berhasil login ke localStorage
+                localStorage.setItem('username', username);
                 // Redirect ke halaman yang dilindungi
                 window.location.href = 'tentang1234.html';  // Gunakan path relatif
             } else {
