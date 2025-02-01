@@ -5,17 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Halaman Terlindungi</title>
     <style>
-        /* Styling untuk menampilkan user dan waktu di pojok kanan atas */
-        #userInfo {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 16px;
-            font-family: Arial, sans-serif;
+        /* Styling untuk menu di sebelah kiri */
+        #menu {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 200px;
+            height: 100%;
+            padding-top: 20px;
+            background-color: #f4f4f4;
+            border-right: 2px solid #ccc;
+            display: flex;
+            flex-direction: column;
         }
-        #time {
-            font-size: 14px;
-            color: #555;
+
+        #menu button {
+            padding: 15px;
+            margin: 10px;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        /* Warna yang berbeda untuk tiap menu */
+        .menu1 { background-color: red; }
+        .menu2 { background-color: blue; }
+        .menu3 { background-color: green; }
+        .menu4 { background-color: orange; }
+        .menu5 { background-color: purple; }
+
+        /* Styling untuk konten utama */
+        #content {
+            margin-left: 220px;
+            padding: 20px;
         }
 
         /* Styling untuk gambar yang di-upload */
@@ -54,24 +78,36 @@
     </style>
 </head>
 <body>
-    <h2>Selamat datang di halaman terlindungi!</h2>
-    <p>Hanya pengguna yang sudah login yang dapat melihat halaman ini.</p>
-
-    <button id="logoutBtn">Logout</button>
-
-    <div id="userInfo">
-        <div id="userName"></div>
-        <div id="time"></div>
+    <!-- Menu sebelah kiri -->
+    <div id="menu">
+        <button class="menu1">Menu 1</button>
+        <button class="menu2">Menu 2</button>
+        <button class="menu3">Menu 3</button>
+        <button class="menu4">Menu 4</button>
+        <button class="menu5">Menu 5</button>
     </div>
 
-    <!-- Input untuk upload beberapa gambar -->
-    <div>
-        <label for="fileInput">Upload Foto:</label>
-        <input type="file" id="fileInput" accept="image/*" multiple><br><br>
-    </div>
+    <!-- Konten utama -->
+    <div id="content">
+        <h2>Selamat datang di halaman terlindungi!</h2>
+        <p>Hanya pengguna yang sudah login yang dapat melihat halaman ini.</p>
 
-    <!-- Tempat untuk menampilkan gambar setelah upload -->
-    <div id="imageContainer"></div>
+        <button id="logoutBtn">Logout</button>
+
+        <div id="userInfo">
+            <div id="userName"></div>
+            <div id="time"></div>
+        </div>
+
+        <!-- Input untuk upload beberapa gambar -->
+        <div>
+            <label for="fileInput">Upload Foto:</label>
+            <input type="file" id="fileInput" accept="image/*" multiple><br><br>
+        </div>
+
+        <!-- Tempat untuk menampilkan gambar setelah upload -->
+        <div id="imageContainer"></div>
+    </div>
 
     <script>
         // Cek apakah pengguna sudah login dengan memeriksa localStorage
