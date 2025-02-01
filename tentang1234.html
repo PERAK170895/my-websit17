@@ -84,6 +84,7 @@
         document.getElementById('logoutBtn').addEventListener('click', function() {
             localStorage.removeItem('loggedIn');
             localStorage.removeItem('username'); // Hapus nama pengguna juga saat logout
+            localStorage.removeItem('uploadedImage'); // Hapus gambar yang di-upload
             window.location.href = 'https://perak170895.github.io/my-websit17/';
         });
 
@@ -103,6 +104,13 @@
         const fileInput = document.getElementById('fileInput');
         const uploadedImage = document.getElementById('uploadedImage');
 
+        // Cek apakah ada gambar yang tersimpan di localStorage
+        const savedImage = localStorage.getItem('uploadedImage');
+        if (savedImage) {
+            uploadedImage.src = savedImage;
+            uploadedImage.style.display = 'block'; // Menampilkan gambar yang disimpan
+        }
+
         fileInput.addEventListener('change', function(event) {
             const file = event.target.files[0]; // Mendapatkan file yang di-upload
 
@@ -110,8 +118,12 @@
                 const reader = new FileReader();
 
                 reader.onload = function(e) {
+                    // Menyimpan gambar ke localStorage
+                    const imageDataUrl = e.target.result;
+                    localStorage.setItem('uploadedImage', imageDataUrl); // Simpan gambar di localStorage
+
                     // Menampilkan gambar setelah di-upload
-                    uploadedImage.src = e.target.result;
+                    uploadedImage.src = imageDataUrl;
                     uploadedImage.style.display = 'block'; // Menampilkan gambar
                 };
 
