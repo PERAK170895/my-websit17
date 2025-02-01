@@ -19,16 +19,37 @@
         }
 
         /* Styling untuk gambar yang di-upload */
-        #uploadedImage {
-            margin-top: 20px;
-            max-width: 100%;
+        .uploaded-image {
+            margin-top: 10px;
+            max-width: 100px;
             height: auto;
             border-radius: 10px;
+            margin-right: 10px;
+            position: relative;
+        }
+
+        /* Styling untuk tombol hapus */
+        .delete-btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+            border-radius: 50%;
         }
 
         /* Styling untuk input file */
         #fileInput {
             margin-top: 20px;
+        }
+
+        /* Container untuk gambar */
+        #imageContainer {
+            display: flex;
+            flex-wrap: wrap;
         }
     </style>
 </head>
@@ -43,19 +64,14 @@
         <div id="time"></div>
     </div>
 
-    <!-- Input untuk upload gambar -->
+    <!-- Input untuk upload beberapa gambar -->
     <div>
         <label for="fileInput">Upload Foto:</label>
-        <input type="file" id="fileInput" accept="image/*"><br><br>
-        <div id="imageContainer">
-            <!-- Gambar yang di-upload akan ditampilkan di sini -->
-        </div>
+        <input type="file" id="fileInput" accept="image/*" multiple><br><br>
     </div>
 
-    <div>
-        <!-- Tempat untuk menampilkan gambar setelah upload -->
-        <img id="uploadedImage" src="" alt="Uploaded Image" style="display:none;">
-    </div>
+    <!-- Tempat untuk menampilkan gambar setelah upload -->
+    <div id="imageContainer"></div>
 
     <script>
         // Cek apakah pengguna sudah login dengan memeriksa localStorage
@@ -84,7 +100,7 @@
         document.getElementById('logoutBtn').addEventListener('click', function() {
             localStorage.removeItem('loggedIn');
             localStorage.removeItem('username'); // Hapus nama pengguna juga saat logout
-            localStorage.removeItem('uploadedImage'); // Hapus gambar yang di-upload
+            localStorage.removeItem('uploadedImages'); // Hapus gambar yang di-upload
             window.location.href = 'https://perak170895.github.io/my-websit17/';
         });
 
@@ -102,33 +118,64 @@
 
         // Menambahkan event listener untuk input file
         const fileInput = document.getElementById('fileInput');
-        const uploadedImage = document.getElementById('uploadedImage');
+        const imageContainer = document.getElementById('imageContainer');
 
         // Cek apakah ada gambar yang tersimpan di localStorage
-        const savedImage = localStorage.getItem('uploadedImage');
-        if (savedImage) {
-            uploadedImage.src = savedImage;
-            uploadedImage.style.display = 'block'; // Menampilkan gambar yang disimpan
+        const savedImages = JSON.parse(localStorage.getItem('uploadedImages')) || [];
+
+        // Tampilkan gambar yang disimpan saat halaman dimuat ulang
+        savedImages.forEach(function(imageDataUrl, index) {
+            displayImage(imageDataUrl, index);
+        });
+
+        // Fungsi untuk menampilkan gambar
+        function displayImage(imageDataUrl, index) {
+            const imgElement = document.createElement('img');
+            imgElement.src = imageDataUrl;
+            imgElement.classList.add('uploaded-image');
+
+            // Membuat tombol hapus
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'X';
+            deleteButton.classList.add('delete-btn');
+            deleteButton.addEventListener('click', function() {
+                // Hapus gambar dari array dan simpan ulang di localStorage
+                savedImages.splice(index, 1);
+                localStorage.setItem('uploadedImages', JSON.stringify(savedImages));
+
+                // Hapus gambar dari tampilan
+                imgElement.remove();
+                deleteButton.remove();
+            });
+
+            // Tambahkan tombol hapus di sebelah gambar
+            imgElement.parentElement = imageContainer;
+            imageContainer.appendChild(imgElement);
+            imgElement.parentElement.appendChild(deleteButton);
         }
 
         fileInput.addEventListener('change', function(event) {
-            const file = event.target.files[0]; // Mendapatkan file yang di-upload
+            const files = event.target.files; // Mendapatkan semua file yang di-upload
+            const newImages = [];
 
-            if (file) {
+            // Proses setiap file
+            Array.from(files).forEach(function(file) {
                 const reader = new FileReader();
 
                 reader.onload = function(e) {
-                    // Menyimpan gambar ke localStorage
                     const imageDataUrl = e.target.result;
-                    localStorage.setItem('uploadedImage', imageDataUrl); // Simpan gambar di localStorage
 
-                    // Menampilkan gambar setelah di-upload
-                    uploadedImage.src = imageDataUrl;
-                    uploadedImage.style.display = 'block'; // Menampilkan gambar
+                    // Simpan gambar di localStorage
+                    newImages.push(imageDataUrl);
+                    savedImages.push(imageDataUrl);
+                    localStorage.setItem('uploadedImages', JSON.stringify(savedImages));
+
+                    // Menampilkan gambar yang baru di-upload
+                    displayImage(imageDataUrl, savedImages.length - 1);
                 };
 
                 reader.readAsDataURL(file); // Membaca file gambar
-            }
+            });
         });
     </script>
 </body>
