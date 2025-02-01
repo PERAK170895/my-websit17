@@ -100,7 +100,7 @@
         document.getElementById('logoutBtn').addEventListener('click', function() {
             localStorage.removeItem('loggedIn');
             localStorage.removeItem('username'); // Hapus nama pengguna juga saat logout
-            localStorage.removeItem('uploadedImages'); // Hapus gambar yang di-upload
+            // Jangan menghapus gambar di localStorage
             window.location.href = 'https://perak170895.github.io/my-websit17/';
         });
 
@@ -139,24 +139,22 @@
             deleteButton.textContent = 'X';
             deleteButton.classList.add('delete-btn');
             deleteButton.addEventListener('click', function() {
-                // Hapus gambar dari array dan simpan ulang di localStorage
-                savedImages.splice(index, 1);
-                localStorage.setItem('uploadedImages', JSON.stringify(savedImages));
-
                 // Hapus gambar dari tampilan
                 imgElement.remove();
                 deleteButton.remove();
+
+                // Simpan gambar yang tersisa di localStorage (setelah dihapus dari tampilan)
+                const updatedImages = savedImages.filter((image, i) => i !== index);
+                localStorage.setItem('uploadedImages', JSON.stringify(updatedImages));
             });
 
             // Tambahkan tombol hapus di sebelah gambar
-            imgElement.parentElement = imageContainer;
             imageContainer.appendChild(imgElement);
-            imgElement.parentElement.appendChild(deleteButton);
+            imageContainer.appendChild(deleteButton);
         }
 
         fileInput.addEventListener('change', function(event) {
             const files = event.target.files; // Mendapatkan semua file yang di-upload
-            const newImages = [];
 
             // Proses setiap file
             Array.from(files).forEach(function(file) {
@@ -166,7 +164,6 @@
                     const imageDataUrl = e.target.result;
 
                     // Simpan gambar di localStorage
-                    newImages.push(imageDataUrl);
                     savedImages.push(imageDataUrl);
                     localStorage.setItem('uploadedImages', JSON.stringify(savedImages));
 
