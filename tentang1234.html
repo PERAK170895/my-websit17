@@ -68,18 +68,14 @@
         /* Styling untuk header kanan */
         #header-right {
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between; /* Menyusun elemen secara horizontal */
             align-items: center;
             position: fixed;
             top: 20px;
             right: 20px;
             font-size: 18px;
             font-weight: bold;
-            width: 300px; /* Lebar kontainer agar elemen bisa sejajar */
-        }
-
-        #header-right div {
-            margin-right: 20px;
+            width: 350px; /* Lebar kontainer agar elemen bisa sejajar */
         }
 
         /* Styling untuk tombol logout */
@@ -152,7 +148,7 @@
         // Mendapatkan username dari localStorage
         const username = localStorage.getItem('username');
         document.getElementById('userName').textContent = `User: ${username}`;
-        document.getElementById('header-right').querySelector('#welcomeMessage').textContent = `wellcome, ${username}`;
+        document.getElementById('header-right').querySelector('#welcomeMessage').textContent = `Selamat datang, ${username}`;
 
         // Fungsi untuk menampilkan waktu
         function updateTime() {
