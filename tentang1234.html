@@ -52,6 +52,8 @@
             border-radius: 10px;
             margin-right: 10px;
             position: relative;
+        }
+
         /* Styling untuk input file */
         #fileInput {
             margin-top: 20px;
@@ -66,14 +68,18 @@
         /* Styling untuk header kanan */
         #header-right {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
             align-items: center;
-            position: absolute;
+            position: fixed;
             top: 20px;
             right: 20px;
             font-size: 18px;
             font-weight: bold;
             width: 300px; /* Lebar kontainer agar elemen bisa sejajar */
+        }
+
+        #header-right div {
+            margin-right: 20px;
         }
 
         /* Styling untuk tombol logout */
@@ -122,12 +128,13 @@
             <h2>Selamat datang di Halaman tenang cerita perjalanan!</h2>
             <p>Hanya yang beruntung yang bisa masuk.</p>
         </div>
-          <!-- Header kanan untuk menampilkan nama pengguna dan waktu, serta tombol logout -->
+    </div>
+
+    <!-- Header kanan untuk menampilkan nama pengguna, waktu, serta tombol logout -->
     <div id="header-right">
         <div id="welcomeMessage">Selamat datang, <span id="userName"></span></div>
         <div id="time"></div>
         <button id="logoutBtn">Logout</button>
-        <div id="time"></div>
     </div>
 
     <!-- Footer di bagian bawah -->
@@ -177,71 +184,6 @@
         setTimeout(function() {
             window.history.forward();
         }, 0);
-
-        // Menambahkan event listener untuk input file
-        const fileInput = document.getElementById('fileInput');
-        const imageContainer = document.getElementById('imageContainer');
-
-        // Cek apakah ada gambar yang tersimpan di localStorage
-        const savedImages = JSON.parse(localStorage.getItem('uploadedImages')) || {};
-
-        // Tampilkan gambar yang disimpan saat halaman dimuat ulang
-        Object.keys(savedImages).forEach(function(imageName) {
-            displayImage(savedImages[imageName], imageName);
-        });
-
-        // Fungsi untuk menampilkan gambar
-        function displayImage(imageDataUrl, imageName) {
-            const imgElement = document.createElement('img');
-            imgElement.src = imageDataUrl;
-            imgElement.classList.add('uploaded-image');
-
-            // Membuat tombol hapus
-            const deleteButton = document.createElement('button');
-            deleteButton.textContent = 'X';
-            deleteButton.classList.add('delete-btn');
-            deleteButton.addEventListener('click', function() {
-                // Hapus gambar dari tampilan
-                imgElement.remove();
-                deleteButton.remove();
-
-                // Hapus gambar dari localStorage
-                delete savedImages[imageName];
-                localStorage.setItem('uploadedImages', JSON.stringify(savedImages));
-            });
-
-            // Menambahkan nama gambar
-            const imageNameElement = document.createElement('div');
-            imageNameElement.textContent = imageName;
-
-            // Menambahkan elemen ke dalam container
-            imageContainer.appendChild(imgElement);
-            imageContainer.appendChild(deleteButton);
-            imageContainer.appendChild(imageNameElement);
-        }
-
-        fileInput.addEventListener('change', function(event) {
-            const files = event.target.files;
-
-            // Proses setiap file
-            Array.from(files).forEach(function(file) {
-                const reader = new FileReader();
-
-                reader.onload = function(e) {
-                    const imageDataUrl = e.target.result;
-                    const imageName = file.name;
-
-                    // Simpan gambar di localStorage dengan nama file sebagai key
-                    savedImages[imageName] = imageDataUrl;
-                    localStorage.setItem('uploadedImages', JSON.stringify(savedImages));
-
-                    // Menampilkan gambar yang baru di-upload
-                    displayImage(imageDataUrl, imageName);
-                };
-
-                reader.readAsDataURL(file);
-            });
-        });
     </script>
 </body>
 </html>
