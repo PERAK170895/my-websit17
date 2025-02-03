@@ -58,21 +58,8 @@
         .delete-btn {
             position: absolute;
             top: 0;
-            left: 0;
+            right: 0;
             background-color: red;
-            color: white;
-            border: none;
-            padding: 5px;
-            cursor: pointer;
-            border-radius: 50%;
-        }
-
-        /* Styling untuk tombol ganti nama */
-        .rename-btn {
-            position: absolute;
-            top: 0;
-            left: 40px;
-            background-color: orange;
             color: white;
             border: none;
             padding: 5px;
@@ -116,11 +103,6 @@
         .section {
             margin-bottom: 30px;
         }
-
-        /* Styling untuk tombol logout */
-        #logoutBtn {
-            margin-top: 10px;
-        }
     </style>
 </head>
 <body>
@@ -139,6 +121,7 @@
         <div class="section">
             <h2>Selamat datang di halaman terlindungi!</h2>
             <p>Hanya pengguna yang sudah login yang dapat melihat halaman ini.</p>
+            <button id="logoutBtn">Logout</button>
         </div>
 
         <!-- Bagian 2: Upload Gambar -->
@@ -152,11 +135,6 @@
         <div class="section" id="userInfo">
             <div id="userName"></div>
             <div id="time"></div>
-        </div>
-
-        <!-- Tombol Logout -->
-        <div>
-            <button id="logoutBtn">Logout</button>
         </div>
     </div>
 
@@ -183,4 +161,98 @@
         // Fungsi untuk menampilkan waktu
         function updateTime() {
             const now = new Date();
-           
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('time').textContent = `Waktu: ${hours}:${minutes}:${seconds}`;
+        }
+
+        // Memperbarui waktu setiap detik
+        setInterval(updateTime, 1000);
+
+        // Logout - menghapus status login dari localStorage
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            localStorage.removeItem('loggedIn');
+            localStorage.removeItem('username'); // Hapus nama pengguna juga saat logout
+            window.location.href = 'https://perak170895.github.io/my-websit17/';
+        });
+
+        // Mencegah kembali ke halaman setelah logout
+        window.onunload = function() {
+            localStorage.removeItem('loggedIn');
+            localStorage.removeItem('username');
+        };
+
+        // Menghindari pengguna menekan tombol back atau forward setelah logout
+        window.history.forward();
+        setTimeout(function() {
+            window.history.forward();
+        }, 0);
+
+        // Menambahkan event listener untuk input file
+        const fileInput = document.getElementById('fileInput');
+        const imageContainer = document.getElementById('imageContainer');
+
+        // Cek apakah ada gambar yang tersimpan di localStorage
+        const savedImages = JSON.parse(localStorage.getItem('uploadedImages')) || {};
+
+        // Tampilkan gambar yang disimpan saat halaman dimuat ulang
+        Object.keys(savedImages).forEach(function(imageName) {
+            displayImage(savedImages[imageName], imageName);
+        });
+
+        // Fungsi untuk menampilkan gambar
+        function displayImage(imageDataUrl, imageName) {
+            const imgElement = document.createElement('img');
+            imgElement.src = imageDataUrl;
+            imgElement.classList.add('uploaded-image');
+
+            // Membuat tombol hapus
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'X';
+            deleteButton.classList.add('delete-btn');
+            deleteButton.addEventListener('click', function() {
+                // Hapus gambar dari tampilan
+                imgElement.remove();
+                deleteButton.remove();
+
+                // Hapus gambar dari localStorage
+                delete savedImages[imageName];
+                localStorage.setItem('uploadedImages', JSON.stringify(savedImages));
+            });
+
+            // Menambahkan nama gambar
+            const imageNameElement = document.createElement('div');
+            imageNameElement.textContent = imageName;
+
+            // Menambahkan elemen ke dalam container
+            imageContainer.appendChild(imgElement);
+            imageContainer.appendChild(deleteButton);
+            imageContainer.appendChild(imageNameElement);
+        }
+
+        fileInput.addEventListener('change', function(event) {
+            const files = event.target.files;
+
+            // Proses setiap file
+            Array.from(files).forEach(function(file) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    const imageDataUrl = e.target.result;
+                    const imageName = file.name;
+
+                    // Simpan gambar di localStorage dengan nama file sebagai key
+                    savedImages[imageName] = imageDataUrl;
+                    localStorage.setItem('uploadedImages', JSON.stringify(savedImages));
+
+                    // Menampilkan gambar yang baru di-upload
+                    displayImage(imageDataUrl, imageName);
+                };
+
+                reader.readAsDataURL(file);
+            });
+        });
+    </script>
+</body>
+</html>
