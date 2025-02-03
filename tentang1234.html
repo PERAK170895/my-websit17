@@ -126,9 +126,10 @@
         </div>
     </div>
 
-    <!-- Header kanan untuk menampilkan nama pengguna, waktu, serta tombol logout -->
+    <!-- Header kanan untuk menampilkan gambar pengguna, waktu, serta tombol logout -->
     <div id="header-right">
-        <div id="welcomeMessage">Selamat datang, <span id="userName"></span></div>
+        <div id="welcomeMessage">Selamat datang, </div>
+        <img id="userImage" src="" alt="https://www.google.com/imgres?q=pengguna%20logo&imgurl=https%3A%2F%2Fe7.pngegg.com%2Fpngimages%2F527%2F663%2Fpng-clipart-logo-person-user-person-icon-rectangle-photography.png&imgrefurl=https%3A%2F%2Fwww.pngegg.com%2Fid%2Fpng-hrkhl&docid=va8L00mBlmVomM&tbnid=67K6bMOBQHPTLM&vet=12ahUKEwiB0rTjz6iLAxWs3TgGHc-IGucQM3oECBkQAA..i&w=900&h=900&hcb=2&ved=2ahUKEwiB0rTjz6iLAxWs3TgGHc-IGucQM3oECBkQAA" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
         <div id="time"></div>
         <button id="logoutBtn">Logout</button>
     </div>
@@ -145,10 +146,18 @@
             window.location.href = 'https://perak170895.github.io/my-websit17/';
         }
 
-        // Mendapatkan username dari localStorage
+        // Mendapatkan username dan gambar dari localStorage
         const username = localStorage.getItem('username');
+        const userImage = localStorage.getItem('userImage'); // Pastikan gambar disimpan di localStorage
+
+        // Menampilkan nama pengguna dan gambar di header
         document.getElementById('userName').textContent = `User: ${username}`;
         document.getElementById('header-right').querySelector('#welcomeMessage').textContent = `PENGGUNA, ${username}`;
+
+        // Menampilkan gambar pengguna jika ada
+        if (userImage) {
+            document.getElementById('userImage').src = userImage; // Menampilkan gambar pengguna
+        }
 
         // Fungsi untuk menampilkan waktu
         function updateTime() {
@@ -156,7 +165,7 @@
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('time').textContent = `Waktu: ${day}:${hours}:${minutes}:${seconds}`;
+            document.getElementById('time').textContent = `Waktu: ${hours}:${minutes}:${seconds}`;
         }
 
         // Memperbarui waktu setiap detik
@@ -166,6 +175,7 @@
         document.getElementById('logoutBtn').addEventListener('click', function() {
             localStorage.removeItem('loggedIn');
             localStorage.removeItem('username'); // Hapus nama pengguna juga saat logout
+            localStorage.removeItem('userImage'); // Hapus gambar pengguna saat logout
             window.location.href = 'https://perak170895.github.io/my-websit17/';
         });
 
@@ -173,6 +183,7 @@
         window.onunload = function() {
             localStorage.removeItem('loggedIn');
             localStorage.removeItem('username');
+            localStorage.removeItem('userImage');
         };
 
         // Menghindari pengguna menekan tombol back atau forward setelah logout
