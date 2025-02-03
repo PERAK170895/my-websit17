@@ -108,9 +108,10 @@
 
     <!-- Header kanan untuk menampilkan nama pengguna, waktu, serta tombol logout -->
     <div id="header-right">
-        <div id="welcomeMessage">Selamat datang, <span id="userName"></span></div>
-        <div id="time"></div>
+        <div id="welcomeMessage">user, <span id="userName"></span></div>
         <button id="logoutBtn">Logout</button>
+        <div id="time"></div>
+        
     </div>
 
     <!-- Footer di bagian bawah -->
@@ -143,7 +144,7 @@
             const seconds = String(now.getSeconds()).padStart(2, '0');
 
             // Menampilkan hari dan waktu
-            document.getElementById('time').textContent = `Hari: ${dayName}, Waktu: ${hours}:${minutes}:${seconds}`;
+            document.getElementById('time').textContent = `${dayName},${hours}:${minutes}:${seconds}`;
         }
 
         // Memperbarui waktu setiap detik
