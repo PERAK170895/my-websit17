@@ -80,18 +80,19 @@
 
         /* Styling untuk header kanan */
         #header-right {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             position: absolute;
             top: 20px;
             right: 20px;
             font-size: 18px;
             font-weight: bold;
+            width: 300px; /* Lebar kontainer agar elemen bisa sejajar */
         }
 
         /* Styling untuk tombol logout */
         #logoutBtn {
-            position: absolute;
-            top: 60px;  /* Menempatkan tombol di bawah jam */
-            right: 20px;
             padding: 10px 15px;
             background-color: #f44336;
             color: white;
@@ -149,8 +150,12 @@
         </div>
     </div>
 
-    <!-- Header kanan untuk menampilkan nama pengguna -->
-    <div id="header-right"></div>
+    <!-- Header kanan untuk menampilkan nama pengguna dan waktu, serta tombol logout -->
+    <div id="header-right">
+        <div id="welcomeMessage">Selamat datang, <span id="userName"></span></div>
+        <div id="time"></div>
+        <button id="logoutBtn">Logout</button>
+    </div>
 
     <!-- Footer di bagian bawah -->
     <div id="footer">
@@ -167,7 +172,7 @@
         // Mendapatkan username dari localStorage
         const username = localStorage.getItem('username');
         document.getElementById('userName').textContent = `User: ${username}`;
-        document.getElementById('header-right').textContent = `Selamat datang, ${username}`;
+        document.getElementById('header-right').querySelector('#welcomeMessage').textContent = `Selamat datang, ${username}`;
 
         // Fungsi untuk menampilkan waktu
         function updateTime() {
