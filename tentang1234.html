@@ -148,7 +148,7 @@
         // Mendapatkan username dari localStorage
         const username = localStorage.getItem('username');
         document.getElementById('userName').textContent = `User: ${username}`;
-        document.getElementById('header-right').querySelector('#welcomeMessage').textContent = `Selamat datang, ${username}`;
+        document.getElementById('header-right').querySelector('#welcomeMessage').textContent = `PENGGUNA, ${username}`;
 
         // Fungsi untuk menampilkan waktu
         function updateTime() {
@@ -156,7 +156,7 @@
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('time').textContent = `Waktu: ${hours}:${minutes}:${seconds}`;
+            document.getElementById('time').textContent = `Waktu: ${day}:${hours}:${minutes}:${seconds}`;
         }
 
         // Memperbarui waktu setiap detik
