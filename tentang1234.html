@@ -78,6 +78,15 @@
             flex-wrap: wrap;
         }
 
+        /* Styling untuk header kanan */
+        #header-right {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
         /* Styling untuk footer */
         #footer {
             text-align: center;
@@ -129,6 +138,9 @@
         </div>
     </div>
 
+    <!-- Header kanan untuk menampilkan nama pengguna -->
+    <div id="header-right"></div>
+
     <!-- Footer di bagian bawah -->
     <div id="footer">
         <p>&copy; 2025 Perusahaan Anda. Semua Hak Dilindungi.</p>
@@ -144,6 +156,7 @@
         // Mendapatkan username dari localStorage
         const username = localStorage.getItem('username');
         document.getElementById('userName').textContent = `User: ${username}`;
+        document.getElementById('header-right').textContent = `Selamat datang, ${username}`;
 
         // Fungsi untuk menampilkan waktu
         function updateTime() {
@@ -181,15 +194,15 @@
         const imageContainer = document.getElementById('imageContainer');
 
         // Cek apakah ada gambar yang tersimpan di localStorage
-        const savedImages = JSON.parse(localStorage.getItem('uploadedImages')) || [];
+        const savedImages = JSON.parse(localStorage.getItem('uploadedImages')) || {};
 
         // Tampilkan gambar yang disimpan saat halaman dimuat ulang
-        savedImages.forEach(function(imageDataUrl, index) {
-            displayImage(imageDataUrl, index);
+        Object.keys(savedImages).forEach(function(imageName) {
+            displayImage(savedImages[imageName], imageName);
         });
 
         // Fungsi untuk menampilkan gambar
-        function displayImage(imageDataUrl, index) {
+        function displayImage(imageDataUrl, imageName) {
             const imgElement = document.createElement('img');
             imgElement.src = imageDataUrl;
             imgElement.classList.add('uploaded-image');
@@ -203,18 +216,23 @@
                 imgElement.remove();
                 deleteButton.remove();
 
-                // Simpan gambar yang tersisa di localStorage (setelah dihapus dari tampilan)
-                const updatedImages = savedImages.filter((image, i) => i !== index);
-                localStorage.setItem('uploadedImages', JSON.stringify(updatedImages));
+                // Hapus gambar dari localStorage
+                delete savedImages[imageName];
+                localStorage.setItem('uploadedImages', JSON.stringify(savedImages));
             });
 
-            // Tambahkan tombol hapus di sebelah gambar
+            // Menambahkan nama gambar
+            const imageNameElement = document.createElement('div');
+            imageNameElement.textContent = imageName;
+
+            // Menambahkan elemen ke dalam container
             imageContainer.appendChild(imgElement);
             imageContainer.appendChild(deleteButton);
+            imageContainer.appendChild(imageNameElement);
         }
 
         fileInput.addEventListener('change', function(event) {
-            const files = event.target.files; // Mendapatkan semua file yang di-upload
+            const files = event.target.files;
 
             // Proses setiap file
             Array.from(files).forEach(function(file) {
@@ -222,16 +240,17 @@
 
                 reader.onload = function(e) {
                     const imageDataUrl = e.target.result;
+                    const imageName = file.name;
 
-                    // Simpan gambar di localStorage
-                    savedImages.push(imageDataUrl);
+                    // Simpan gambar di localStorage dengan nama file sebagai key
+                    savedImages[imageName] = imageDataUrl;
                     localStorage.setItem('uploadedImages', JSON.stringify(savedImages));
 
                     // Menampilkan gambar yang baru di-upload
-                    displayImage(imageDataUrl, savedImages.length - 1);
+                    displayImage(imageDataUrl, imageName);
                 };
 
-                reader.readAsDataURL(file); // Membaca file gambar
+                reader.readAsDataURL(file);
             });
         });
     </script>
