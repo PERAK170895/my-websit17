@@ -129,7 +129,7 @@
     <!-- Header kanan untuk menampilkan gambar pengguna, waktu, serta tombol logout -->
     <div id="header-right">
         <div id="welcomeMessage">Selamat datang, </div>
-        <img id="userImage" src="" alt="https://www.google.com/imgres?q=pengguna%20logo&imgurl=https%3A%2F%2Fe7.pngegg.com%2Fpngimages%2F527%2F663%2Fpng-clipart-logo-person-user-person-icon-rectangle-photography.png&imgrefurl=https%3A%2F%2Fwww.pngegg.com%2Fid%2Fpng-hrkhl&docid=va8L00mBlmVomM&tbnid=67K6bMOBQHPTLM&vet=12ahUKEwiB0rTjz6iLAxWs3TgGHc-IGucQM3oECBkQAA..i&w=900&h=900&hcb=2&ved=2ahUKEwiB0rTjz6iLAxWs3TgGHc-IGucQM3oECBkQAA" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
+        <img id="userImage" src="" alt="Gambar Pengguna" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
         <div id="time"></div>
         <button id="logoutBtn">Logout</button>
     </div>
@@ -159,13 +159,21 @@
             document.getElementById('userImage').src = userImage; // Menampilkan gambar pengguna
         }
 
-        // Fungsi untuk menampilkan waktu
+        // Fungsi untuk menampilkan hari dan waktu
         function updateTime() {
             const now = new Date();
+
+            // Menentukan hari dalam minggu
+            const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+            const dayName = days[now.getDay()];
+
+            // Format jam, menit, dan detik
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('time').textContent = `Waktu: ${hours}:${minutes}:${seconds}`;
+
+            // Menampilkan hari dan waktu
+            document.getElementById('time').textContent = `Hari: ${dayName}, Waktu: ${hours}:${minutes}:${seconds}`;
         }
 
         // Memperbarui waktu setiap detik
