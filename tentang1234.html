@@ -56,12 +56,15 @@
             font-size: 18px;
             font-weight: bold;
             width: 350px; /* Lebar kontainer agar elemen bisa sejajar */
+            background-color: #e8f5e9; /* Latar belakang hijau muda */
+            padding: 10px;
+            border-radius: 5px;
         }
 
         /* Styling untuk tombol logout */
         #logoutBtn {
             padding: 10px 15px;
-            background-color: #f44336;
+            background-color: #388e3c; /* Warna hijau untuk logout */
             color: white;
             border: none;
             cursor: pointer;
@@ -73,7 +76,7 @@
         #footer {
             text-align: center;
             padding: 10px;
-            background-color: #2903a6;
+            background-color: #f0ea3c;
             position: fixed;
             left: 0;
             bottom: 0;
@@ -111,7 +114,6 @@
         <div id="welcomeMessage">user, <span id="userName"></span></div>
         <button id="logoutBtn">Logout</button>
         <div id="time"></div>
-        
     </div>
 
     <!-- Footer di bagian bawah -->
@@ -144,7 +146,7 @@
             const seconds = String(now.getSeconds()).padStart(2, '0');
 
             // Menampilkan hari dan waktu
-            document.getElementById('time').textContent = `${dayName},${hours}:${minutes}:${seconds}`;
+            document.getElementById('time').textContent = `${dayName}, ${hours}:${minutes}:${seconds}`;
         }
 
         // Memperbarui waktu setiap detik
