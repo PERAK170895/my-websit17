@@ -6,7 +6,12 @@
     <title>SPSSDIRGA</title>
 
     <!-- Menambahkan favicon -->
-    <link rel="icon" href="my-websit17/favicon%5B1%5D.ico" type="image/x-icon">
+    <link rel="icon" href="my-websit17/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+
     <style>
         /* Styling untuk menu di sebelah kiri */
         #menu {
@@ -41,7 +46,7 @@
 
         /* Styling untuk konten utama */
         #content {
-            margin-left: 220px; /* Memberikan ruang untuk menu kiri */
+            margin-left: 220px;
             padding: 20px;
             display: flex;
             flex-direction: column;
@@ -51,15 +56,15 @@
         /* Styling untuk header kanan */
         #header-right {
             display: flex;
-            justify-content: space-between; /* Menyusun elemen secara horizontal */
+            justify-content: space-between;
             align-items: center;
             position: fixed;
             top: 20px;
             right: 20px;
             font-size: 18px;
             font-weight: bold;
-            width: 350px; /* Lebar kontainer agar elemen bisa sejajar */
-            background-color: #e8f5e9; /* Latar belakang hijau muda */
+            width: 350px;
+            background-color: #e8f5e9;
             padding: 10px;
             border-radius: 5px;
         }
@@ -67,7 +72,7 @@
         /* Styling untuk tombol logout */
         #logoutBtn {
             padding: 10px 15px;
-            background-color: #388e3c; /* Warna hijau untuk logout */
+            background-color: #388e3c;
             color: white;
             border: none;
             cursor: pointer;
@@ -86,83 +91,66 @@
             width: 100%;
             border-top: 2px solid #ccc;
         }
-
-        /* Styling untuk bagian-bagian dalam konten */
-        .section {
-            margin-bottom: 30px;
-        }
     </style>
 </head>
 <body>
     <!-- Menu sebelah kiri -->
     <div id="menu">
-        <button class="PROFIL">Menu 1</button>
+        <button class="menu1">Menu 1</button>
         <button class="menu2">Menu 2</button>
         <button class="menu3">Menu 3</button>
         <button class="menu4">Menu 4</button>
         <button class="menu5">Menu 5</button>
     </div>
-        <img src="<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/site.webmanifest">" alt="Icon">
-    </div>
-    <!-- Konten utama (bagian kanan) -->
+
+    <!-- Konten utama -->
     <div id="content">
-        <!-- Bagian 1: Teks Selamat Datang -->
         <div class="section">
             <h2>Selamat datang di Halaman tenang cerita perjalanan!</h2>
             <p>Hanya yang beruntung yang bisa masuk.</p>
         </div>
     </div>
 
-    <!-- Header kanan untuk menampilkan nama pengguna, waktu, serta tombol logout -->
+    <!-- Header kanan -->
     <div id="header-right">
         <div id="welcomeMessage">user, <span id="userName"></span></div>
         <button id="logoutBtn">Logout</button>
         <div id="time"></div>
     </div>
 
-    <!-- Footer di bagian bawah -->
+    <!-- Footer -->
     <div id="footer">
         <p>&copy; 2025 DIRGA_SPS. Semua Hak Dilindungi.</p>
     </div>
 
     <script>
-        // Cek apakah pengguna sudah login dengan memeriksa localStorage
+        // Cek apakah pengguna sudah login
         if (localStorage.getItem('loggedIn') !== 'true') {
-            // Jika tidak login, arahkan ke halaman login
             window.location.href = 'https://perak170895.github.io/my-websit17/';
         }
 
-        // Mendapatkan username dari localStorage
+        // Ambil username dari localStorage
         const username = localStorage.getItem('username');
         document.getElementById('userName').textContent = username;
 
-        // Fungsi untuk menampilkan hari dan waktu
+        // Fungsi untuk menampilkan waktu
         function updateTime() {
             const now = new Date();
-
-            // Menentukan hari dalam minggu
             const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
             const dayName = days[now.getDay()];
-
-            // Format jam, menit, dan detik
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
-
-            // Menampilkan hari dan waktu
             document.getElementById('time').textContent = `${dayName}, ${hours}:${minutes}:${seconds}`;
         }
 
-        // Memperbarui waktu setiap detik
+        // Update waktu setiap detik
         setInterval(updateTime, 1000);
 
-        // Logout - menghapus status login dari localStorage
+        // Logout
         document.getElementById('logoutBtn').addEventListener('click', function() {
             localStorage.removeItem('loggedIn');
-            localStorage.removeItem('username'); // Hapus nama pengguna juga saat logout
+            localStorage.removeItem('username');
             window.location.href = 'https://perak170895.github.io/my-websit17/';
         });
 
