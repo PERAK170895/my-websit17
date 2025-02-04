@@ -4,29 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SPSSDIRGA</title>
-
-    <!-- Menambahkan favicon -->
- <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<link rel="shortcut icon" href="/favicon.ico" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-<link rel="manifest" href="/site.webmanifest" />
-
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="<a href="https://imgbb.com/"><img src="https://i.ibb.co/60N6BV2c/s.png" alt="s" border="0"></a>" />
+    <link rel="manifest" href="/site.webmanifest" />
     <style>
-        /* Styling untuk menu di sebelah kiri */
         #menu {
             position: fixed;
             left: 0;
             top: 0;
             width: 200px;
             height: 100%;
-            padding-top: 20px;
             background-color: #f4f4f4;
+            padding-top: 20px;
             border-right: 2px solid #ccc;
             display: flex;
             flex-direction: column;
         }
-
         #menu button {
             padding: 15px;
             margin: 10px;
@@ -36,40 +31,27 @@
             cursor: pointer;
             width: 100%;
         }
-
-        /* Warna yang berbeda untuk tiap menu */
         .menu1 { background-color: red; }
         .menu2 { background-color: blue; }
         .menu3 { background-color: green; }
         .menu4 { background-color: orange; }
         .menu5 { background-color: purple; }
-
-        /* Styling untuk konten utama */
         #content {
             margin-left: 220px;
             padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
         }
-
-        /* Styling untuk header kanan */
         #header-right {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             position: fixed;
             top: 20px;
             right: 20px;
-            font-size: 18px;
-            font-weight: bold;
-            width: 350px;
             background-color: #e8f5e9;
             padding: 10px;
             border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 350px;
         }
-
-        /* Styling untuk tombol logout */
         #logoutBtn {
             padding: 10px 15px;
             background-color: #388e3c;
@@ -79,92 +61,71 @@
             font-size: 16px;
             border-radius: 5px;
         }
-
-        /* Styling untuk footer */
         #footer {
-            text-align: center;
-            padding: 10px;
-            background-color: #f0ea3c;
             position: fixed;
             left: 0;
             bottom: 0;
             width: 100%;
+            background-color: #f0ea3c;
+            text-align: center;
+            padding: 10px;
             border-top: 2px solid #ccc;
         }
     </style>
 </head>
 <body>
-    <!-- Menu sebelah kiri -->
     <div id="menu">
-        <button class="menu1">Menu 1</button>
-        <button class="menu2">Menu 2</button>
-        <button class="menu3">Menu 3</button>
-        <button class="menu4">Menu 4</button>
-        <button class="menu5">Menu 5</button>
+        <button class="menu1" onclick="changePage('Menu 1')">PROFIL</button>
+        <button class="menu2" onclick="changePage('Menu 2')">Menu 2</button>
+        <button class="menu3" onclick="changePage('Menu 3')">Menu 3</button>
+        <button class="menu4" onclick="changePage('Menu 4')">Menu 4</button>
+        <button class="menu5" onclick="changePage('Menu 5')">Menu 5</button>
     </div>
-
-    <!-- Konten utama -->
     <div id="content">
-        <div class="section">
+        <div class="section" id="pageContent">
             <h2>Selamat datang di Halaman tenang cerita perjalanan!</h2>
             <p>Hanya yang beruntung yang bisa masuk.</p>
         </div>
     </div>
-
-    <!-- Header kanan -->
     <div id="header-right">
         <div id="welcomeMessage">user, <span id="userName"></span></div>
         <button id="logoutBtn">Logout</button>
         <div id="time"></div>
     </div>
-
-    <!-- Footer -->
     <div id="footer">
         <p>&copy; 2025 DIRGA_SPS. Semua Hak Dilindungi.</p>
     </div>
-
     <script>
-        // Cek apakah pengguna sudah login
         if (localStorage.getItem('loggedIn') !== 'true') {
             window.location.href = 'https://perak170895.github.io/my-websit17/';
         }
-
-        // Ambil username dari localStorage
-        const username = localStorage.getItem('username');
-        document.getElementById('userName').textContent = username;
-
-        // Fungsi untuk menampilkan waktu
+        document.getElementById('userName').textContent = localStorage.getItem('username');
         function updateTime() {
             const now = new Date();
             const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
-            const dayName = days[now.getDay()];
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('time').textContent = `${dayName}, ${hours}:${minutes}:${seconds}`;
+            document.getElementById('time').textContent = `${days[now.getDay()]}, ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
         }
-
-        // Update waktu setiap detik
         setInterval(updateTime, 1000);
-
-        // Logout
+        function changePage(pageTitle) {
+            const content = `<h2>${pageTitle}</h2><p>Konten dari ${pageTitle}</p>`;
+            document.getElementById('pageContent').innerHTML = content;
+            localStorage.setItem('lastPage', content);
+        }
+        window.onload = function() {
+            if (localStorage.getItem('loggedIn') !== 'true') {
+                window.location.href = 'https://perak170895.github.io/my-websit17/';
+            }
+            const lastPage = localStorage.getItem('lastPage');
+            if (lastPage) {
+                document.getElementById('pageContent').innerHTML = lastPage;
+            }
+        };
         document.getElementById('logoutBtn').addEventListener('click', function() {
             localStorage.removeItem('loggedIn');
             localStorage.removeItem('username');
+            localStorage.removeItem('lastPage');
             window.location.href = 'https://perak170895.github.io/my-websit17/';
         });
-
-        // Mencegah kembali ke halaman setelah logout
-        window.onunload = function() {
-            localStorage.removeItem('loggedIn');
-            localStorage.removeItem('username');
-        };
-
-        // Menghindari pengguna menekan tombol back atau forward setelah logout
-        window.history.forward();
-        setTimeout(function() {
-            window.history.forward();
-        }, 0);
     </script>
 </body>
 </html>
