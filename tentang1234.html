@@ -7,7 +7,6 @@
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="<a href="https://imgbb.com/"><img src="https://i.ibb.co/60N6BV2c/s.png" alt="s" border="0"></a>" />
     <link rel="manifest" href="/site.webmanifest" />
     <style>
         #menu {
@@ -75,15 +74,15 @@
 </head>
 <body>
     <div id="menu">
-        <button class="menu1" onclick="changePage('Menu 1')">BERANDA</button>
-        <button class="menu2" onclick="changePage('Menu 2')">PROFIL</button>
-        <button class="menu3" onclick="changePage('Menu 3')">INTERNASIONAL</button>
-        <button class="menu4" onclick="changePage('Menu 4')">DOMESTIK</button>
-        <button class="menu5" onclick="changePage('Menu 5')">DOKUMENTASI</button>
+        <button class="menu1" onclick="changePage('BERANDA')">BERANDA</button>
+        <button class="menu2" onclick="changePage('PROFIL')">PROFIL</button>
+        <button class="menu3" onclick="changePage('INTERNASIONAL')">INTERNASIONAL</button>
+        <button class="menu4" onclick="changePage('DOMESTIK')">DOMESTIK</button>
+        <button class="menu5" onclick="changePage('DOKUMENTASI')">DOKUMENTASI</button>
     </div>
     <div id="content">
         <div class="section" id="pageContent">
-            <h2>Selamat datang di Halaman tenang cerita perjalanan!</h2>
+            <h2>Selamat datang di Halaman cerita perjalanan!</h2>
             <p>Hanya yang beruntung yang bisa masuk.</p>
         </div>
     </div>
@@ -100,17 +99,42 @@
             window.location.href = 'https://perak170895.github.io/my-websit17/';
         }
         document.getElementById('userName').textContent = localStorage.getItem('username');
+
         function updateTime() {
             const now = new Date();
             const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
             document.getElementById('time').textContent = `${days[now.getDay()]}, ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
         }
         setInterval(updateTime, 1000);
-        function changePage(pageTitle) {
-            const content = `<h2>${pageTitle}</h2><p>Konten dari ${pageTitle}</p>`;
-            document.getElementById('pageContent').innerHTML = content;
-            localStorage.setItem('lastPage', content);
+
+        async function fetchFiles() {
+            const repoUrl = 'hhttps://perak170895.github.io/my-websit17/my-websit17/contents/dirga';
+            try {
+                const response = await fetch(repoUrl);
+                const data = await response.json();
+                let fileList = '<ul>';
+                data.forEach(item => {
+                    fileList += `<li><a href="${item.download_url}" target="_blank">${item.name}</a></li>`;
+                });
+                fileList += '</ul>';
+                return fileList;
+            } catch (error) {
+                console.error('Terjadi kesalahan saat mengambil file:', error);
+                return 'Gagal memuat file.';
+            }
         }
+
+        async function changePage(pageTitle) {
+            const contentElement = document.getElementById('pageContent');
+            if (pageTitle === 'DOKUMENTASI') {
+                const files = await fetchFiles();
+                contentElement.innerHTML = `<h2>${pageTitle}</h2>${files}`;
+            } else {
+                contentElement.innerHTML = `<h2>${pageTitle}</h2><p>Konten dari ${pageTitle}</p>`;
+            }
+            localStorage.setItem('lastPage', contentElement.innerHTML);
+        }
+
         window.onload = function() {
             if (localStorage.getItem('loggedIn') !== 'true') {
                 window.location.href = 'https://perak170895.github.io/my-websit17/';
@@ -120,6 +144,7 @@
                 document.getElementById('pageContent').innerHTML = lastPage;
             }
         };
+
         document.getElementById('logoutBtn').addEventListener('click', function() {
             localStorage.removeItem('loggedIn');
             localStorage.removeItem('username');
