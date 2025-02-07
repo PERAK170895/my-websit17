@@ -91,21 +91,33 @@
     </footer>
 
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
+        document.getElementById('loginForm').addEventListener('submit', async function(event) {
             event.preventDefault();
 
             var username = document.getElementById('username').value;
             var password = document.getElementById('password').value;
-            var users = JSON.parse(localStorage.getItem('users')) || [];
-            
-            var userFound = users.some(user => user.username === username && user.password === password);
-            
-            if (userFound) {
-                localStorage.setItem('loggedIn', 'true');
-                localStorage.setItem('username', username);
-                window.location.href = 'tentang1234.html';
-            } else {
-                alert('Username atau password salah!');
+
+            // Fetch the data from datauser.html
+            try {
+                var response = await fetch('datauser.html');
+                var data = await response.text();
+
+                // Parse the HTML to extract user data
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(data, 'text/html');
+                var users = JSON.parse(doc.querySelector('pre').innerText);
+
+                var userFound = users.some(user => user.username === username && user.password === password);
+                
+                if (userFound) {
+                    localStorage.setItem('loggedIn', 'true');
+                    localStorage.setItem('username', username);
+                    window.location.href = 'tentang1234.html';
+                } else {
+                    alert('Username atau password salah!');
+                }
+            } catch (error) {
+                console.error('Error fetching user data:', error);
             }
         });
     </script>
