@@ -9,30 +9,7 @@
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="manifest" href="/site.webmanifest" />
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #E6E6FA;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-        }
-        .login-container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        input, button {
-            display: block;
-            width: 100%;
-            margin: 10px 0;
-            padding: 10px;
-        }
         #menu {
-            display: none;
             position: fixed;
             left: 0;
             top: 0;
@@ -41,76 +18,138 @@
             background-color: #f4f4f4;
             padding-top: 20px;
             border-right: 2px solid #ccc;
+            display: flex;
             flex-direction: column;
         }
-        #content, #header-right, #footer {
-            display: none;
+        #menu button {
+            padding: 15px;
+            margin: 10px;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .menu1 { background-color: red; }
+        .menu2 { background-color: blue; }
+        .menu3 { background-color: green; }
+        .menu4 { background-color: orange; }
+        .menu5 { background-color: purple; }
+        #content {
+            margin-left: 220px;
+            padding: 20px;
+        }
+        #header-right {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #e8f5e9;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 350px;
+        }
+        #logoutBtn {
+            padding: 10px 15px;
+            background-color: #388e3c;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        #footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: #f0ea3c;
+            text-align: center;
+            padding: 10px;
+            border-top: 2px solid #ccc;
         }
     </style>
 </head>
 <body>
-    <div class="login-container" id="loginContainer">
-        <h2>Login</h2>
-        <form id="loginForm">
-            <input type="text" id="username" placeholder="Masukkan Username" required>
-            <input type="password" id="password" placeholder="Masukkan Password" required>
-            <button type="submit">Login</button>
-        </form>
-    </div>
-
     <div id="menu">
-        <button onclick="changePage('BERANDA')">BERANDA</button>
-        <button onclick="changePage('PROFIL')">PROFIL</button>
-        <button onclick="changePage('INTERNASIONAL')">INTERNASIONAL</button>
-        <button onclick="changePage('DOMESTIK')">DOMESTIK</button>
-        <button onclick="changePage('DOKUMENTASI')">DOKUMENTASI</button>
+        <button class="menu1" onclick="changePage('BERANDA')">BERANDA</button>
+        <button class="menu2" onclick="changePage('PROFIL')">PROFIL</button>
+        <button class="menu3" onclick="changePage('INTERNASIONAL')">INTERNASIONAL</button>
+        <button class="menu4" onclick="changePage('DOMESTIK')">DOMESTIK</button>
+        <button class="menu5" onclick="changePage('DOKUMENTASI')">DOKUMENTASI</button>
     </div>
     <div id="content">
-        <h2>Selamat datang di Halaman cerita perjalanan!</h2>
-        <p>Hanya yang beruntung yang bisa masuk.</p>
+        <div class="section" id="pageContent">
+            <h2>Selamat datang di Halaman cerita perjalanan!</h2>
+            <p>Hanya yang beruntung yang bisa masuk.</p>
+        </div>
     </div>
     <div id="header-right">
-        <span id="userName"></span>
+        <div id="welcomeMessage">user, <span id="userName"></span></div>
         <button id="logoutBtn">Logout</button>
+        <div id="time"></div>
     </div>
     <div id="footer">
         <p>&copy; 2025 DIRGA_SPS. Semua Hak Dilindungi.</p>
     </div>
-
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            var username = document.getElementById('username').value;
-            var password = document.getElementById('password').value;
-            var users = JSON.parse(localStorage.getItem('users')) || [];
-            var isValidUser = users.some(user => user.username === username && user.password === password);
+        if (localStorage.getItem('loggedIn') !== 'true') {
+            window.location.href = 'https://perak170895.github.io/my-websit17/';
+        }
+        document.getElementById('userName').textContent = localStorage.getItem('username');
 
-            if (isValidUser) {
-                localStorage.setItem('loggedIn', 'true');
-                localStorage.setItem('username', username);
-                showMainContent();
-            } else {
-                alert('Username atau password salah!');
+        function updateTime() {
+            const now = new Date();
+            const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+            document.getElementById('time').textContent = `${days[now.getDay()]}, ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+        }
+        setInterval(updateTime, 1000);
+
+        async function fetchFiles() {
+            const repoUrl = 'hhttps://perak170895.github.io/my-websit17/my-websit17/contents/dirga';
+            try {
+                const response = await fetch(repoUrl);
+                const data = await response.json();
+                let fileList = '<ul>';
+                data.forEach(item => {
+                    fileList += `<li><a href="${item.download_url}" target="_blank">${item.name}</a></li>`;
+                });
+                fileList += '</ul>';
+                return fileList;
+            } catch (error) {
+                console.error('Terjadi kesalahan saat mengambil file:', error);
+                return 'Gagal memuat file.';
             }
-        });
-
-        function showMainContent() {
-            document.getElementById('loginContainer').style.display = 'none';
-            document.getElementById('menu').style.display = 'flex';
-            document.getElementById('content').style.display = 'block';
-            document.getElementById('header-right').style.display = 'flex';
-            document.getElementById('footer').style.display = 'block';
-            document.getElementById('userName').textContent = localStorage.getItem('username');
         }
 
-        if (localStorage.getItem('loggedIn') === 'true') {
-            showMainContent();
+        async function changePage(pageTitle) {
+            const contentElement = document.getElementById('pageContent');
+            if (pageTitle === 'DOKUMENTASI') {
+                const files = await fetchFiles();
+                contentElement.innerHTML = `<h2>${pageTitle}</h2>${files}`;
+            } else {
+                contentElement.innerHTML = `<h2>${pageTitle}</h2><p>Konten dari ${pageTitle}</p>`;
+            }
+            localStorage.setItem('lastPage', contentElement.innerHTML);
         }
+
+        window.onload = function() {
+            if (localStorage.getItem('loggedIn') !== 'true') {
+                window.location.href = 'https://perak170895.github.io/my-websit17/';
+            }
+            const lastPage = localStorage.getItem('lastPage');
+            if (lastPage) {
+                document.getElementById('pageContent').innerHTML = lastPage;
+            }
+        };
 
         document.getElementById('logoutBtn').addEventListener('click', function() {
             localStorage.removeItem('loggedIn');
             localStorage.removeItem('username');
-            location.reload();
+            localStorage.removeItem('lastPage');
+            window.location.href = 'https://perak170895.github.io/my-websit17/';
         });
     </script>
 </body>
