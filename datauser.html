@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data User</title>
+    <style>
+        body {
+            background-color: #E6E6FA;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+        .data-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h2 {
+            color: #4B0082;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4B0082;
+            color: white;
+        }
+        input, button {
+            margin-top: 10px;
+            padding: 8px;
+            font-size: 16px;
+        }
+        footer {
+            width: 100%;
+            background-color: yellow;
+            text-align: center;
+            padding: 10px 0;
+            position: absolute;
+            bottom: 0;
+        }
+        footer p {
+            margin: 0;
+            color: #4B0082;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="data-container">
+        <h2>Data User</h2>
+        <table id="userTable">
+            <tr>
+                <th>Username</th>
+                <th>Password</th>
+            </tr>
+        </table>
+        <input type="text" id="username" placeholder="Masukkan Username">
+        <input type="text" id="password" placeholder="Masukkan Password">
+        <button onclick="addUser()">Tambah User</button>
+    </div>
+    
+    <footer>
+        <p>© dirga_sps</p>
+    </footer>
+
+    <script>
+        function loadUsers() {
+            var users = JSON.parse(localStorage.getItem('users')) || [];
+            var table = document.getElementById('userTable');
+            users.forEach(user => {
+                var newRow = table.insertRow();
+                var cell1 = newRow.insertCell(0);
+                var cell2 = newRow.insertCell(1);
+                cell1.textContent = user.username;
+                cell2.textContent = user.password;
+            });
+        }
+
+        function addUser() {
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            
+            if (username && password) {
+                var users = JSON.parse(localStorage.getItem('users')) || [];
+                users.push({ username, password });
+                localStorage.setItem('users', JSON.stringify(users));
+                
+                var table = document.getElementById('userTable');
+                var newRow = table.insertRow();
+                var cell1 = newRow.insertCell(0);
+                var cell2 = newRow.insertCell(1);
+                cell1.textContent = username;
+                cell2.textContent = password;
+                
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+            } else {
+                alert('Mohon isi username dan password!');
+            }
+        }
+
+        loadUsers();
+    </script>
+</body>
+</html>
