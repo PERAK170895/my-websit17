@@ -92,27 +92,25 @@
     </footer>
 
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault();
+       document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault();
 
-            var username = document.getElementById('username').value;
-            var password = document.getElementById('password').value;
+    var username = document.getElementById('username').value;
+    var password = document.getElementById('password').value;
 
-            // Daftar pengguna dengan username dan password yang hardcoded di sini
-            var validUsername = "user1"; // Username yang valid
-            var validPassword = "pass1"; // Password yang valid
+    // Daftar pengguna dengan username dan password yang hardcoded di sini
+    var validUsername = "user1"; // Username yang valid
+    var validPassword = "pass1"; // Password yang valid
 
-            // Mengecek apakah username dan password yang dimasukkan sesuai
-            if (username === validUsername && password === validPassword) {
-                alert("Login berhasil!");
-                // Mengarahkan pengguna ke halaman lokal setelah login berhasil
-                window.location.href = 'window.location.href = 'window.location.href = 'https://PERAK170895.github.io/my-websit17/tentang1234.html';
-.html';
-// Pastikan file tersebut ada di folder yang benar
-            } else {
-                alert("Username atau password salah!");
-            }
-        });
+    // Mengecek apakah username dan password yang dimasukkan sesuai
+    if (username === validUsername && password === validPassword) {
+        alert("Login berhasil!");
+        // Redirect ke halaman tentang1234.html di GitHub Pages
+        window.location.href = 'https://perak170895.github.io/my-websit17/tentang1234.html';  // Pastikan URL ini benar
+    } else {
+        alert("Username atau password salah!");
+    }
+});
     </script>
 </body>
 </html>
