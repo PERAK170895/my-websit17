@@ -3,12 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPSSDIRGA</title>
-    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="manifest" href="/site.webmanifest" />
+    <title>TENTANG SPSS_DIRGA</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f0f8ff;
+        }
+        h2 {
+            color: #4B0082;
+        }
         #menu {
             position: fixed;
             left: 0;
@@ -89,68 +93,28 @@
     <div id="header-right">
         <div id="welcomeMessage">user, <span id="userName"></span></div>
         <button id="logoutBtn">Logout</button>
-        <div id="time"></div>
     </div>
     <div id="footer">
         <p>&copy; 2025 DIRGA_SPS. Semua Hak Dilindungi.</p>
     </div>
+
     <script>
         if (localStorage.getItem('loggedIn') !== 'true') {
-            window.location.href = 'https://perak170895.github.io/my-websit17/';
+            window.location.href = 'index.html'; // Kembali ke halaman login jika tidak ada login yang sah
         }
         document.getElementById('userName').textContent = localStorage.getItem('username');
-
-        function updateTime() {
-            const now = new Date();
-            const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
-            document.getElementById('time').textContent = `${days[now.getDay()]}, ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
-        }
-        setInterval(updateTime, 1000);
-
-        async function fetchFiles() {
-            const repoUrl = 'hhttps://perak170895.github.io/my-websit17/my-websit17/contents/dirga';
-            try {
-                const response = await fetch(repoUrl);
-                const data = await response.json();
-                let fileList = '<ul>';
-                data.forEach(item => {
-                    fileList += `<li><a href="${item.download_url}" target="_blank">${item.name}</a></li>`;
-                });
-                fileList += '</ul>';
-                return fileList;
-            } catch (error) {
-                console.error('Terjadi kesalahan saat mengambil file:', error);
-                return 'Gagal memuat file.';
-            }
-        }
-
-        async function changePage(pageTitle) {
-            const contentElement = document.getElementById('pageContent');
-            if (pageTitle === 'DOKUMENTASI') {
-                const files = await fetchFiles();
-                contentElement.innerHTML = `<h2>${pageTitle}</h2>${files}`;
-            } else {
-                contentElement.innerHTML = `<h2>${pageTitle}</h2><p>Konten dari ${pageTitle}</p>`;
-            }
-            localStorage.setItem('lastPage', contentElement.innerHTML);
-        }
-
-        window.onload = function() {
-            if (localStorage.getItem('loggedIn') !== 'true') {
-                window.location.href = 'https://perak170895.github.io/my-websit17/';
-            }
-            const lastPage = localStorage.getItem('lastPage');
-            if (lastPage) {
-                document.getElementById('pageContent').innerHTML = lastPage;
-            }
-        };
-
+        
+        // Logout
         document.getElementById('logoutBtn').addEventListener('click', function() {
             localStorage.removeItem('loggedIn');
             localStorage.removeItem('username');
-            localStorage.removeItem('lastPage');
-            window.location.href = 'https://perak170895.github.io/my-websit17/';
+            window.location.href = 'index.html'; // Redirect ke halaman login saat logout
         });
+
+        function changePage(pageTitle) {
+            const contentElement = document.getElementById('pageContent');
+            contentElement.innerHTML = `<h2>${pageTitle}</h2><p>Konten dari ${pageTitle}</p>`;
+        }
     </script>
 </body>
 </html>
