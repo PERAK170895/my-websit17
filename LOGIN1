@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN SPSS_DIRGA</title>
+    <style>
+        body {
+            background-color: #E6E6FA;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .login-form {
+            margin-right: 20px;
+        }
+        h2 {
+            color: #4B0082;
+        }
+        label, input {
+            font-size: 16px;
+        }
+        input {
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #4B0082;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #6A0DAD;
+        }
+        .image-container img {
+            max-width: 300px;
+            height: auto;
+            border-radius: 10px;
+        }
+        footer {
+            width: 100%;
+            background-color: yellow;
+            text-align: center;
+            padding: 10px 0;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+        footer p {
+            margin: 0;
+            color: #4B0082;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-form">
+            <h2>Login</h2>
+            <form id="loginForm">
+                <label for="username">Username:</label>
+                <input type="text" id="username" required><br><br>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" required><br><br>
+
+                <button type="submit">Login</button>
+            </form>
+        </div>
+        <div class="image-container">
+            <img src="https://i.postimg.cc/nLzZh6CZ/Teks-paragraf-Anda.png">
+        </div>
+    </div>
+
+    <footer>
+        <p>© dirga_sps</p>
+    </footer>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Mencegah reload halaman saat form disubmit
+
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            // Daftar pengguna dengan username dan password yang hardcoded
+            var validUsername = "dirga"; // Username yang valid
+            var validPassword = "peranika"; // Password yang valid
+
+            // Debug: Tampilkan username dan password yang dimasukkan
+            console.log('Username:', username);
+            console.log('Password:', password);
+
+            // Mengecek apakah username dan password yang dimasukkan sesuai
+            if (username === validUsername && password === validPassword) {
+                alert("Login berhasil!");
+                // Simpan username dan status login di localStorage
+                localStorage.setItem('loggedIn', 'true');
+                localStorage.setItem('username', username);
+                // Debug: Tampilkan pengalihan
+                console.log('Pengalihan ke halaman tentang...');
+                // Redirect ke halaman tentang setelah login berhasil
+                window.location.href = 'tentang.html';  // Arahkan ke halaman tentang
+            } else {
+                alert("Username atau password salah!");
+            }
+        });
+    </script>
+</body>
+</html>
