@@ -15,24 +15,19 @@
             margin: 0;
             flex-direction: column;
         }
-        .marquee {
-            width: 100%;
-            background-color: #4B0082;
-            color: white;
-            text-align: center;
+
+        .blink-text {
+            color: #4B0082;
             font-size: 24px;
-            padding: 10px 0;
-            position: absolute;
-            top: 0;
-            animation: moveText 10s linear infinite;
+            font-weight: bold;
+            text-align: center;
+            animation: blink 1.5s step-start infinite;
+            margin-bottom: 20px; /* Jarak antara teks dan form login */
         }
 
-        @keyframes moveText {
-            0% {
-                transform: translateX(100%);
-            }
-            100% {
-                transform: translateX(-100%);
+        @keyframes blink {
+            50% {
+                opacity: 0;
             }
         }
 
@@ -91,10 +86,12 @@
     </style>
 </head>
 <body>
-    <div class="marquee">
+    <!-- Teks Kedip-Kedip -->
+    <div class="blink-text">
         Selamat datang di halaman login SPSS_DIRGA! Silakan masukkan username dan password Anda.
     </div>
 
+    <!-- Form Login -->
     <div class="login-container">
         <div class="login-form">
             <h2>Login</h2>
