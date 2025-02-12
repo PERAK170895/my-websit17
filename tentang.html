@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard SPSS_DIRGA</title>
+    <title>Tentang SPS_DIRGA</title>
     <style>
         body {
             background-color: #87CEEB; /* Biru langit */
@@ -11,7 +11,6 @@
             margin: 0;
         }
 
-        /* Header dengan menu di bagian atas */
         .header {
             background-color: #4B0082; /* Warna ungu */
             color: white;
@@ -32,22 +31,30 @@
             text-decoration: underline;
         }
 
-        /* Menampilkan username dan waktu */
         .user-info {
             display: flex;
             align-items: center;
             font-size: 16px;
         }
 
-        .user-info span {
-            margin-left: 10px;
-            font-weight: bold;
-        }
-
         footer {
             text-align: center;
             background-color: yellow;
             padding: 10px 0;
+        }
+
+        button {
+            background-color: #4B0082;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #6A0DAD;
         }
     </style>
 </head>
@@ -66,15 +73,16 @@
         </div>
     </div>
 
-    <h1>Selamat datang di Dashboard!</h1>
-    <p>Ini adalah halaman yang hanya bisa diakses setelah login.</p>
+    <h1>Selamat datang di halaman Tentang!</h1>
+    <p>Halaman ini hanya bisa diakses setelah login.</p>
+    <p>JANGAN CERITAKAN LUKAMU MESKIPUN ORANG LAIN BERTANYA.</p>
+    <button id="logoutBtn">Logout</button>
 
     <footer>
         <p>© dirga_sps</p>
     </footer>
 
     <script>
-        // Menampilkan tanggal dan waktu saat ini
         function updateDateTime() {
             var now = new Date();
             var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true };
@@ -82,20 +90,25 @@
             document.getElementById('date-time').textContent = dateTimeString;
         }
 
-        // Update setiap detik
         setInterval(updateDateTime, 1000);
 
-        // Cek jika pengguna sudah login saat memuat halaman
         window.onload = function() {
             var loggedIn = localStorage.getItem('loggedIn');
             if (loggedIn !== 'true') {
-                // Jika tidak login, arahkan ke halaman login
-                window.location.href = 'index.html';
+                window.location.href = 'index.html';  // Jika belum login, arahkan ke halaman login
             } else {
                 var username = localStorage.getItem('username');
                 document.getElementById('username-display').textContent = username;
             }
         };
+
+        // Fungsi untuk logout
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            localStorage.removeItem('loggedIn');
+            localStorage.removeItem('username');
+            alert('Anda telah logout!');
+            window.location.href = 'index.html';  // Arahkan kembali ke halaman login
+        });
     </script>
 
 </body>
