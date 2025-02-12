@@ -13,7 +13,29 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            flex-direction: column;
         }
+        .marquee {
+            width: 100%;
+            background-color: #4B0082;
+            color: white;
+            text-align: center;
+            font-size: 24px;
+            padding: 10px 0;
+            position: absolute;
+            top: 0;
+            animation: moveText 10s linear infinite;
+        }
+
+        @keyframes moveText {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
         .login-container {
             display: flex;
             align-items: center;
@@ -69,6 +91,10 @@
     </style>
 </head>
 <body>
+    <div class="marquee">
+        Selamat datang di halaman login SPSS_DIRGA! Silakan masukkan username dan password Anda.
+    </div>
+
     <div class="login-container">
         <div class="login-form">
             <h2>Login</h2>
