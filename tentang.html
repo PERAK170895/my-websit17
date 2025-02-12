@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SELAMAT DATANG SPSS_DIRGA</title>
+    <style>
+        body {
+            background-color: #87CEEB; /* Biru langit */
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        /* Header dengan menu di bagian atas */
+        .header {
+            background-color: #4B0082; /* Warna ungu */
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+
+        .header a:hover {
+            text-decoration: underline;
+        }
+
+        /* Menampilkan username dan waktu */
+        .user-info {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+        }
+
+        .user-info span {
+            margin-left: 10px;
+            font-weight: bold;
+        }
+
+        /* Bagian utama login form */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+        }
+
+        .login-form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-form h2 {
+            color: #4B0082;
+        }
+
+        label, input {
+            font-size: 16px;
+        }
+
+        input {
+            padding: 8px;
+            margin-bottom: 10px;
+            width: 200px;
+        }
+
+        button {
+            background-color: #4B0082;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #6A0DAD;
+        }
+
+        footer {
+            text-align: center;
+            background-color: yellow;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header dengan menu dan informasi user -->
+    <div class="header">
+        <div class="menu">
+            <a href="#">Home</a>
+            <a href="#">Tentang</a>
+            <a href="#">Kontak</a>
+        </div>
+        <div class="user-info">
+            <span id="username-display">Guest</span>
+            <span id="date-time"></span>
+        </div>
+    </div>
+
+    <!-- Form login -->
+    <div class="login-container">
+        <div class="login-form">
+            <h2>Login</h2>
+            <form id="loginForm">
+                <label for="username">Username:</label>
+                <input type="text" id="username" required><br><br>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" required><br><br>
+
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>© dirga_sps</p>
+    </footer>
+
+    <script>
+        // Menampilkan tanggal dan waktu saat ini
+        function updateDateTime() {
+            var now = new Date();
+            var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true };
+            var dateTimeString = now.toLocaleString('id-ID', options);
+            document.getElementById('date-time').textContent = dateTimeString;
+        }
+
+        // Update setiap detik
+        setInterval(updateDateTime, 1000);
+
+        // Event listener untuk form login
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Mencegah reload halaman saat form disubmit
+
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            // Daftar pengguna dengan username dan password yang hardcoded
+            var validUsername = "dirga"; // Username yang valid
+            var validPassword = "peranika"; // Password yang valid
+
+            // Mengecek apakah username dan password yang dimasukkan sesuai
+            if (username === validUsername && password === validPassword) {
+                alert("Login berhasil!");
+                // Simpan username dan status login di localStorage
+                localStorage.setItem('loggedIn', 'true');
+                localStorage.setItem('username', username);
+                // Tampilkan nama pengguna di header
+                document.getElementById('username-display').textContent = username;
+            } else {
+                alert("Username atau password salah!");
+            }
+        });
+
+        // Cek jika pengguna sudah login saat memuat halaman
+        window.onload = function() {
+            var loggedIn = localStorage.getItem('loggedIn');
+            if (loggedIn === 'true') {
+                var username = localStorage.getItem('username');
+                document.getElementById('username-display').textContent = username;
+            }
+        };
+    </script>
+
+</body>
+</html>
