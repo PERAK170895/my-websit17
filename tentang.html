@@ -58,16 +58,21 @@
             background-color: #6A0DAD;
         }
 
-        #logoutBtn {
+        .logout-container {
             position: absolute;
-            bottom: 20px; /* Letakkan 20px dari bawah */
-            right: 20px;  /* Letakkan 20px dari kanan */
-            font-size: 16px;
+            top: 20px; /* Letakkan agak sedikit turun */
+            right: 20px; /* Letakkan di kanan */
+            text-align: right; /* Pastikan teks berada di kanan */
         }
 
         #date-time {
             font-size: 16px;
             margin-left: 10px;
+            display: block;
+        }
+
+        .logout-btn {
+            margin-top: 10px; /* Jarak antara jam dan tombol logout */
         }
     </style>
 </head>
@@ -80,18 +85,19 @@
             <a href="#">Tentang</a>
             <a href="#">Kontak</a>
         </div>
-        <div class="(user-info)">
+        <div class="user-info">
             <span id="username-display">Guest</span>
-            <span id="date-time"></span>
         </div>
     </div>
 
-            <h1>Selamat datang di halaman Tentang!</h1>
-            <p>JANGAN CERITAKAN LUKAMU MESKIPUN ORANG LAIN BERTANYA</p>
-             <p>buatlah hari hari selalu ceria!</p>
+    <h1>Selamat datang di halaman Tentang!</h1>
+    <p>Halaman ini hanya bisa diakses setelah login.</p>
 
-    <!-- Tombol Logout dbi posisi kanan bawah -->
-    <button id="logoutBtn">Logout</button>
+    <!-- Container untuk waktu dan tombol logout -->
+    <div class="logout-container">
+        <span id="date-time"></span>
+        <button id="logoutBtn" class="logout-btn">Logout</button>
+    </div>
 
     <footer>
         <p>© dirga_sps</p>
