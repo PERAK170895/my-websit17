@@ -6,7 +6,7 @@
     <title>LOGIN SPS_DIRGA_2025</title>
     <style>
         body {
-            background-color: #e6f2c6
+            background-color: #e6f2c6;
             font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
@@ -39,19 +39,24 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
         .login-form {
             margin-right: 20px;
         }
+
         h2 {
             color: #4B0082;
         }
+
         label, input {
             font-size: 16px;
         }
+
         input {
             padding: 8px;
             margin-bottom: 10px;
         }
+
         button {
             background-color: #4B0082;
             color: white;
@@ -61,14 +66,17 @@
             font-size: 16px;
             border-radius: 5px;
         }
+
         button:hover {
             background-color: #6A0DAD;
         }
+
         .image-container img {
             max-width: 300px;
             height: auto;
             border-radius: 10px;
         }
+
         footer {
             width: 100%;
             background-color: yellow;
@@ -78,10 +86,56 @@
             bottom: 0;
             left: 0;
         }
+
         footer p {
             margin: 0;
             color: #4B0082;
             font-size: 14px;
+        }
+
+        /* Pop-up Image Styles */
+        .popup-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            display: none; /* Initially hidden */
+            z-index: 1000;
+        }
+
+        .popup-container img {
+            max-width: 400px;
+            height: auto;
+        }
+
+        .popup-container button {
+            background-color: #FF0000;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .popup-container button:hover {
+            background-color: #FF6347;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none; /* Initially hidden */
+            z-index: 999;
         }
     </style>
 </head>
@@ -89,8 +143,15 @@
     <!-- Teks Kedip-Kedip -->
     <div class="blink-text">
         Selamat datang di halaman login SPS_DIRGA!<br>
-       Silakan masukkan username dan password Anda <br>
+        Silakan masukkan username dan password Anda <br>
         & JAGA KERAHASIAAN DATA ANDA.
+    </div>
+
+    <!-- Pop-up Image -->
+    <div class="overlay" id="overlay"></div>
+    <div class="popup-container" id="popup">
+        <img src="https://i.postimg.cc/nLzZh6CZ/Teks-paragraf-Anda.png" alt="Pop-up Image">
+        <button onclick="closePopup()">Tutup</button>
     </div>
 
     <!-- Form Login -->
@@ -107,9 +168,6 @@
                 <button type="submit">Login</button>
             </form>
         </div>
-        <div class="image-container">
-            <img src="https://i.postimg.cc/nLzZh6CZ/Teks-paragraf-Anda.png">
-        </div>
     </div>
 
     <footer>
@@ -117,6 +175,24 @@
     </footer>
 
     <script>
+        // Menampilkan pop-up ketika halaman dimuat
+        window.onload = function() {
+            showPopup();
+        };
+
+        // Fungsi untuk menampilkan pop-up
+        function showPopup() {
+            document.getElementById('popup').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        // Fungsi untuk menutup pop-up
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        // Menangani form login
         document.getElementById('loginForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Mencegah reload halaman saat form disubmit
 
