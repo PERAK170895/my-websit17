@@ -137,6 +137,26 @@
             display: none; /* Initially hidden */
             z-index: 999;
         }
+
+        /* Tombol Navigasi Gambar */
+        .nav-buttons {
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .nav-buttons button {
+            background-color: #4B0082;
+            color: white;
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .nav-buttons button:hover {
+            background-color: #6A0DAD;
+        }
     </style>
 </head>
 <body>
@@ -150,7 +170,11 @@
     <!-- Pop-up Image -->
     <div class="overlay" id="overlay"></div>
     <div class="popup-container" id="popup">
-        <img src="https://i.postimg.cc/nLzZh6CZ/Teks-paragraf-Anda.png" alt="Pop-up Image">
+        <img src="https://i.postimg.cc/nLzZh6CZ/Teks-paragraf-Anda.png" alt="Pop-up Image" id="popup-image">
+        <div class="nav-buttons">
+            <button onclick="prevImage()">Sebelumnya</button>
+            <button onclick="nextImage()">Berikutnya</button>
+        </div>
         <button onclick="closePopup()">Tutup</button>
     </div>
 
@@ -175,6 +199,15 @@
     </footer>
 
     <script>
+        // Gambar-gambar untuk pop-up
+        var images = [
+            "https://i.postimg.cc/nLzZh6CZ/Teks-paragraf-Anda.png",
+            "https://i.postimg.cc/Fz6ZbbFn/another-image.png",
+            "https://i.postimg.cc/2y8Hvj9C/sample-image.png"
+        ];
+        
+        var currentIndex = 0;
+
         // Menampilkan pop-up ketika halaman dimuat
         window.onload = function() {
             showPopup();
@@ -184,12 +217,31 @@
         function showPopup() {
             document.getElementById('popup').style.display = 'block';
             document.getElementById('overlay').style.display = 'block';
+            updateImage();
         }
 
         // Fungsi untuk menutup pop-up
         function closePopup() {
             document.getElementById('popup').style.display = 'none';
             document.getElementById('overlay').style.display = 'none';
+        }
+
+        // Update gambar pada pop-up
+        function updateImage() {
+            var popupImage = document.getElementById('popup-image');
+            popupImage.src = images[currentIndex];
+        }
+
+        // Fungsi untuk melihat gambar sebelumnya
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            updateImage();
+        }
+
+        // Fungsi untuk melihat gambar berikutnya
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % images.length;
+            updateImage();
         }
 
         // Menangani form login
@@ -203,18 +255,12 @@
             var validUsername = "dirga"; // Username yang valid
             var validPassword = "peranika"; // Password yang valid
 
-            // Debug: Tampilkan username dan password yang dimasukkan
-            console.log('Username:', username);
-            console.log('Password:', password);
-
             // Mengecek apakah username dan password yang dimasukkan sesuai
             if (username === validUsername && password === validPassword) {
                 alert("Login berhasil!");
                 // Simpan username dan status login di localStorage
                 localStorage.setItem('loggedIn', 'true');
                 localStorage.setItem('username', username);
-                // Debug: Tampilkan pengalihan
-                console.log('Pengalihan ke halaman tentang...');
                 // Redirect ke halaman tentang setelah login berhasil
                 window.location.href = 'tentang.html';  // Arahkan ke halaman tentang
             } else {
