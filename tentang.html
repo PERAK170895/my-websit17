@@ -9,6 +9,7 @@
             background-color: #87CEEB; /* Biru langit */
             font-family: Arial, sans-serif;
             margin: 0;
+            position: relative; /* Agar tombol logout bisa diposisikan secara absolute */
         }
 
         .header {
@@ -56,6 +57,18 @@
         button:hover {
             background-color: #6A0DAD;
         }
+
+        #logoutBtn {
+            position: absolute;
+            bottom: 20px; /* Letakkan 20px dari bawah */
+            right: 20px;  /* Letakkan 20px dari kanan */
+            font-size: 16px;
+        }
+
+        #date-time {
+            font-size: 16px;
+            margin-left: 10px;
+        }
     </style>
 </head>
 <body>
@@ -67,15 +80,17 @@
             <a href="#">Tentang</a>
             <a href="#">Kontak</a>
         </div>
-        <div class="user-info">
+        <div class="(user-info)">
             <span id="username-display">Guest</span>
             <span id="date-time"></span>
         </div>
     </div>
 
-    <h1>Selamat datang di halaman Tentang!</h1>
-    <p>Halaman ini hanya bisa diakses setelah login.</p>
-    <p>JANGAN CERITAKAN LUKAMU MESKIPUN ORANG LAIN BERTANYA.</p>
+            <h1>Selamat datang di halaman Tentang!</h1>
+            <p>JANGAN CERITAKAN LUKAMU MESKIPUN ORANG LAIN BERTANYA</p>
+             <p>buatlah hari hari selalu ceria!</p>
+
+    <!-- Tombol Logout dbi posisi kanan bawah -->
     <button id="logoutBtn">Logout</button>
 
     <footer>
