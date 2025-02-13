@@ -9,10 +9,33 @@
             background-color: #87CEEB; /* Biru langit */
             font-family: Arial, sans-serif;
             margin: 0;
-            position: relative; /* Agar tombol logout bisa diposisikan secara absolute */
+            display: flex;
         }
 
+        /* Navigasi Menu di sebelah kiri */
+        .nav-menu {
+            width: 200px;
+            background-color: #4B0082; /* Warna ungu untuk menu */
+            padding: 20px;
+            color: white;
+            height: 100vh; /* Membuat menu se-tinggi layar */
+        }
+
+        .nav-menu a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            margin: 15px 0;
+            font-size: 18px;
+        }
+
+        .nav-menu a:hover {
+            text-decoration: underline;
+        }
+
+        /* Header di kanan */
         .header {
+            flex-grow: 1; /* Agar header mengisi sisa ruang */
             background-color: #4B0082; /* Warna ungu */
             color: white;
             padding: 10px 20px;
@@ -58,6 +81,7 @@
             background-color: #6A0DAD;
         }
 
+        /* Container untuk waktu dan tombol logout */
         .logout-container {
             position: absolute;
             top: 20px; /* Letakkan agak sedikit turun */
@@ -69,6 +93,7 @@
             font-size: 16px;
             margin-left: 10px;
             display: block;
+            color: white; /* Ganti warna teks menjadi putih */
         }
 
         .logout-btn {
@@ -78,20 +103,22 @@
 </head>
 <body>
 
+    <!-- Navigasi Menu di sebelah kiri -->
+    <div class="nav-menu">
+        <a href="#">Home</a>
+        <a href="#">Tentang</a>
+        <a href="#">Kontak</a>
+    </div>
+
     <!-- Header dengan menu dan informasi user -->
     <div class="header">
-        <div class="menu">
-            <a href="#">Home</a>
-            <a href="#">Tentang</a>
-            <a href="#">Kontak</a>
-        </div>
         <div class="user-info">
             <span id="username-display">Guest</span>
         </div>
     </div>
 
-    <h1>Selamat datang di halaman Tentang!</h1>
-    <p>Halaman ini hanya bisa diakses setelah login.</p>
+            <h1>Selamat datang di halaman Tentang!</h1>
+            <p>Halaman ini hanya bisa diakses setelah login.</p>
 
     <!-- Container untuk waktu dan tombol logout -->
     <div class="logout-container">
