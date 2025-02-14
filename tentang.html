@@ -97,6 +97,22 @@
             margin-bottom: 10px;
         }
 
+        .chat-box .message.user {
+            background-color: #D3D3D3;
+            padding: 8px;
+            border-radius: 5px;
+            max-width: 70%;
+        }
+
+        .chat-box .message.admin {
+            background-color: #4B0082;
+            color: white;
+            padding: 8px;
+            border-radius: 5px;
+            max-width: 70%;
+            margin-left: auto;
+        }
+
         #chat-form {
             display: flex;
             flex-direction: column;
@@ -128,7 +144,6 @@
     </style>
 </head>
 <body>
-
     <div class="header">
         <div class="menu">
             <a href="#">Home</a>
@@ -206,6 +221,29 @@
         }
 
         setInterval(loadMessages, 1000);
+
+        // Handle form submission to simulate sending a message
+        document.getElementById('chat-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var messageInput = document.getElementById('message');
+            var chatBox = document.getElementById('chat-box');
+            
+            var message = messageInput.value.trim();
+            if (message) {
+                var messageElement = document.createElement('div');
+                var username = localStorage.getItem('username');
+                
+                // Simulate message from user or admin
+                var messageType = username === 'admin' ? 'admin' : 'user';
+                
+                messageElement.classList.add('message', messageType);
+                messageElement.textContent = message;
+
+                chatBox.appendChild(messageElement);
+                chatBox.scrollTop = chatBox.scrollHeight;  // Auto scroll to bottom
+                messageInput.value = '';  // Clear input field
+            }
+        });
     </script>
 
 </body>
