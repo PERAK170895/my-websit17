@@ -3,224 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
+    <title>Chat dengan Firebase</title>
+    <script type="module">
+        // Import functions from Firebase SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.7.1/firebase-app.js";
+        import { getDatabase, ref, set, push } from "https://www.gstatic.com/firebasejs/9.7.1/firebase-database.js";
 
-        .header {
-            background-color: #4B0082;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .header h1 {
-            margin: 0;
-        }
-
-        .navbar {
-            background-color: #333;
-            overflow: hidden;
-        }
-
-        .navbar a {
-            color: white;
-            padding: 14px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .navbar a:hover {
-            background-color: #ddd;
-            color: black;
-        }
-
-        .content {
-            padding: 20px;
-        }
-
-        .logout-btn {
-            background-color: #FF6347;
-            color: white;
-            padding: 10px;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-            border-radius: 5px;
-        }
-
-        footer {
-            background-color: #4B0082;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-
-        /* Chatbox Styles */
-        .chat-container {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            width: 300px;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .chat-box {
-            max-height: 200px;
-            overflow-y: auto;
-            padding: 10px;
-            border-bottom: 1px solid #ccc;
-        }
-
-        .chat-box .message {
-            margin-bottom: 10px;
-        }
-
-        #chat-form {
-            display: flex;
-            flex-direction: column;
-            padding: 10px;
-        }
-
-        #message {
-            width: 100%;
-            padding: 5px;
-            margin-bottom: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            resize: none;
-        }
-
-        #chat-form button {
-            align-self: flex-end;
-            padding: 5px 10px;
-            background-color: #4B0082;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        #chat-form button:hover {
-            background-color: #6A0DAD;
-        }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>Admin Dashboard</h1>
-    </div>
-
-    <div class="navbar">
-        <a href="#">Home</a>
-        <a href="#">Messages</a>
-        <a href="#">Settings</a>
-    </div>
-
-    <div class="content">
-        <h2>Welcome, Admin!</h2>
-        <p>This is your dashboard where you can manage messages and settings.</p>
-        <button class="logout-btn" onclick="logout()">Logout</button>
-    </div>
-
-    <footer>
-        <p>© DIRGA_SPS 2025</p>
-    </footer>
-
-    <!-- Chat Container -->
-    <div class="chat-container" id="chat-container">
-        <div class="chat-box" id="chat-box"></div>
-        <form id="chat-form" method="POST">
-            <textarea name="message" id="message" placeholder="Ketik balasan..." required></textarea>
-            <button type="submit">Kirim Balasan</button>
-        </form>
-    </div>
-
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.5.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.5.0/firebase-database.js"></script>
-
-    <script>
-        // Firebase configuration
+        // Firebase Config
         const firebaseConfig = {
-            apiKey: "AIzaSyAmMlffG8TEYGP4EoQhbz2Rw1kqLBm26AQ",
-            authDomain: "dirga1708-4df57.firebaseapp.com",
-            databaseURL: "https://dirga1708-4df57.firebaseio.com",
-            projectId: "dirga1708-4df57",
-            storageBucket: "dirga1708-4df57.appspot.com",
-            messagingSenderId: "769452575697",
-            appId: "1:769452575697:web:bea8af4acb3cbf13096ef0"
+            apiKey: "AIzaSyAetKEpQsiyW-_nQWSjX1G8kYqH1XOyDmw",
+            authDomain: "chatapp-ab4e7.firebaseapp.com",
+            projectId: "chatapp-ab4e7",
+            storageBucket: "chatapp-ab4e7.firebasestorage.app",
+            messagingSenderId: "417811660186",
+            appId: "1:417811660186:web:e7692e2cd1b72187d68e23"
         };
 
         // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.database(app);
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
 
-        // Cek apakah pengguna admin
-        window.onload = function() {
-            var loggedIn = localStorage.getItem('loggedIn');
-            var role = localStorage.getItem('role');
-            if (loggedIn !== 'true' || role !== 'admin') {
-                window.location.href = 'index.html'; // Arahkan ke halaman login jika bukan admin
-            } else {
-                loadMessages();
+        // Mengambil referensi dari database untuk menyimpan data chat
+        const chatRef = ref(database, 'chats/');
+
+        // Fungsi untuk mengirim pesan ke Firebase
+        function sendMessage() {
+            const message = document.getElementById('messageInput').value;
+            const username = "User1"; // Contoh username
+
+            if (message) {
+                const newMessageRef = push(chatRef);
+                set(newMessageRef, {
+                    username: username,
+                    message: message,
+                    timestamp: Date.now()
+                }).then(() => {
+                    document.getElementById('messageInput').value = ''; // Kosongkan input setelah pesan terkirim
+                    alert("Pesan Terkirim!");
+                }).catch((error) => {
+                    alert("Error: " + error.message);
+                });
             }
-        };
-
-        // Menangani Logout
-        function logout() {
-            localStorage.removeItem('loggedIn');
-            localStorage.removeItem('username');
-            localStorage.removeItem('role');
-            alert('Anda telah logout!');
-            window.location.href = 'index.html';  // Kembali ke halaman login
         }
 
-        // Mengambil pesan dari Firebase Realtime Database
-        function loadMessages() {
-            const chatBox = document.getElementById('chat-box');
-            const messageRef = db.ref('messages');
-            messageRef.on('child_added', function(snapshot) {
-                const message = snapshot.val();
-                const messageElement = document.createElement('div');
-                messageElement.classList.add('message');
-                messageElement.textContent = `${message.username}: ${message.message}`;
-                chatBox.appendChild(messageElement);
-                chatBox.scrollTop = chatBox.scrollHeight; // Scroll ke bawah
+        // Event listener untuk tombol kirim
+        document.getElementById('sendButton').addEventListener('click', sendMessage);
+
+        // Fungsi untuk menampilkan pesan di UI
+        function getMessages() {
+            const chatList = document.getElementById('chatList');
+            // Mengambil data chat dari Firebase
+            const messagesRef = ref(database, 'chats/');
+            messagesRef.on('child_added', function(snapshot) {
+                const data = snapshot.val();
+                const messageElement = document.createElement('li');
+                messageElement.textContent = `${data.username}: ${data.message}`;
+                chatList.appendChild(messageElement);
             });
         }
 
-        // Mengirim balasan ke Firebase Realtime Database
-        function sendReply(messageText) {
-            const messageRef = db.ref('messages');
-            messageRef.push({
-                username: 'Admin', // Admin bisa membalas pesan
-                message: messageText,
-                timestamp: new Date().toISOString()
-            });
-        }
-
-        // Mengirim balasan saat form disubmit
-        document.getElementById('chat-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const messageText = document.getElementById('message').value;
-            sendReply(messageText);
-            document.getElementById('message').value = ''; // Reset textarea
-        });
+        // Ambil pesan saat halaman dimuat
+        window.onload = getMessages;
     </script>
+</head>
+<body>
+    <h1>Chat Firebase</h1>
+    
+    <div>
+        <ul id="chatList">
+            <!-- Pesan akan ditampilkan di sini -->
+        </ul>
+    </div>
+
+    <div>
+        <input type="text" id="messageInput" placeholder="Tulis pesan...">
+        <button id="sendButton">Kirim</button>
+    </div>
+
 </body>
 </html>
