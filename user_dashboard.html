@@ -4,79 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Dashboard</title>
-    <!-- Include Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/9.5.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.5.0/firebase-database.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
         }
 
         .header {
             background-color: #4B0082;
             color: white;
             padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            text-align: center;
         }
 
         .header h1 {
             margin: 0;
         }
 
-        .header button {
-            background-color: #FF6347;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-            border-radius: 5px;
+        .navbar {
+            background-color: #333;
+            overflow: hidden;
         }
 
-        .header button:hover {
-            background-color: #FF4500;
+        .navbar a {
+            color: white;
+            padding: 14px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
         }
 
         .content {
             padding: 20px;
-            flex: 1;
         }
 
-        .chat-container {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
+        .logout-btn {
+            background-color: #FF6347;
+            color: white;
             padding: 10px;
-            height: 60%;
-        }
-
-        .chat-box {
-            width: 45%;
-            height: 300px;
-            background-color: white;
-            border: 1px solid #ccc;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
             border-radius: 5px;
-            padding: 10px;
-            overflow-y: scroll;
-        }
-
-        .chat-box .message {
-            margin-bottom: 10px;
-        }
-
-        .chat-box input {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
         }
 
         footer {
@@ -84,58 +60,108 @@
             color: white;
             text-align: center;
             padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
         }
 
-        .message-user {
-            background-color: #dcdcdc;
-            padding: 5px;
+        /* Chatbox Styles */
+        .chat-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            background-color: #fff;
+            border: 1px solid #ccc;
             border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
         }
 
-        .message-admin {
-            background-color: #c3c3f1;
+        .chat-box {
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .chat-box .message {
+            margin-bottom: 10px;
+        }
+
+        #chat-form {
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+        }
+
+        #message {
+            width: 100%;
             padding: 5px;
+            margin-bottom: 5px;
+            border: 1px solid #ccc;
             border-radius: 5px;
+            resize: none;
+        }
+
+        #chat-form button {
+            align-self: flex-end;
+            padding: 5px 10px;
+            background-color: #4B0082;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #chat-form button:hover {
+            background-color: #6A0DAD;
         }
     </style>
 </head>
 <body>
-    <!-- Header with Welcome & Logout button -->
     <div class="header">
-        <h1>Welcome, <span id="username">User</span></h1>
-        <button onclick="logout()">Logout</button>
+        <h1>User Dashboard</h1>
     </div>
 
-    <!-- Content and Chat -->
+    <div class="navbar">
+        <a href="#">Home</a>
+        <a href="#">Profile</a>
+        <a href="#">Settings</a>
+    </div>
+
     <div class="content">
-        <div class="chat-container">
-            <!-- User Chat Box -->
-            <div class="chat-box" id="user-chat-box">
-                <div id="user-messages"></div>
-                <input type="text" id="user-message" placeholder="Ketik pesan...">
-            </div>
-
-            <!-- Admin Chat Box -->
-            <div class="chat-box" id="admin-chat-box">
-                <div id="admin-messages"></div>
-                <input type="text" id="admin-message" placeholder="Ketik pesan...">
-            </div>
-        </div>
+        <h2>Welcome, <span id="username-display">User</span>!</h2>
+        <p>This is your dashboard where you can manage your profile and settings.</p>
+        <button class="logout-btn" onclick="logout()">Logout</button>
     </div>
 
-    <!-- Footer -->
     <footer>
         <p>© DIRGA_SPS 2025</p>
     </footer>
+
+    <!-- Chat Container -->
+    <div class="chat-container" id="chat-container">
+        <div class="chat-box" id="chat-box"></div>
+        <form id="chat-form" method="POST">
+            <textarea name="message" id="message" placeholder="Ketik pesan..." required></textarea>
+            <button type="submit">Kirim</button>
+        </form>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.5.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.5.0/firebase-database.js"></script>
 
     <script>
         // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyAmMlffG8TEYGP4EoQhbz2Rw1kqLBm26AQ",
             authDomain: "dirga1708-4df57.firebaseapp.com",
-            databaseURL: "dirga1708-4df57",
+            databaseURL: "https://dirga1708-4df57.firebaseio.com",
             projectId: "dirga1708-4df57",
-            storageBucket: "dirga1708-4df57.firebasestorage.app",
+            storageBucket: "dirga1708-4df57.appspot.com",
             messagingSenderId: "769452575697",
             appId: "1:769452575697:web:bea8af4acb3cbf13096ef0"
         };
@@ -144,63 +170,57 @@
         const app = firebase.initializeApp(firebaseConfig);
         const db = firebase.database(app);
 
-        // Menampilkan pesan chat dari Realtime Database
-        function loadMessages() {
-            const userMessagesRef = db.ref('messages/user');
-            const adminMessagesRef = db.ref('messages/admin');
-            
-            userMessagesRef.on('child_added', (snapshot) => {
-                const message = snapshot.val();
-                const messageDiv = document.createElement('div');
-                messageDiv.classList.add('message-user');
-                messageDiv.textContent = message;
-                document.getElementById('user-messages').appendChild(messageDiv);
-            });
-
-            adminMessagesRef.on('child_added', (snapshot) => {
-                const message = snapshot.val();
-                const messageDiv = document.createElement('div');
-                messageDiv.classList.add('message-admin');
-                messageDiv.textContent = message;
-                document.getElementById('admin-messages').appendChild(messageDiv);
-            });
-        }
-
-        // Kirim pesan User
-        document.getElementById('user-message').addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
-                const message = event.target.value;
-                if (message.trim() !== "") {
-                    db.ref('messages/user').push(message);
-                    event.target.value = ''; // Clear input
-                }
+        // Cek apakah pengguna sudah login
+        window.onload = function() {
+            var loggedIn = localStorage.getItem('loggedIn');
+            var username = localStorage.getItem('username');
+            if (loggedIn !== 'true') {
+                window.location.href = 'index.html'; // Arahkan ke halaman login jika belum login
+            } else {
+                document.getElementById('username-display').textContent = username;
+                loadMessages();
             }
-        });
+        };
 
-        // Kirim pesan Admin
-        document.getElementById('admin-message').addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
-                const message = event.target.value;
-                if (message.trim() !== "") {
-                    db.ref('messages/admin').push(message);
-                    event.target.value = ''; // Clear input
-                }
-            }
-        });
-
-        // Logout
+        // Menangani Logout
         function logout() {
             localStorage.removeItem('loggedIn');
             localStorage.removeItem('username');
-            window.location.href = 'login.html';
+            alert('Anda telah logout!');
+            window.location.href = 'index.html';  // Kembali ke halaman login
         }
 
-        // Menampilkan username setelah login
-        window.onload = function() {
-            const username = localStorage.getItem('username') || "User";
-            document.getElementById('username').textContent = username;
-            loadMessages(); // Load pesan-pesan
-        };
+        // Menambahkan pesan ke Firebase Realtime Database
+        function sendMessage(messageText) {
+            const messageRef = db.ref('messages');
+            messageRef.push({
+                username: localStorage.getItem('username'),
+                message: messageText,
+                timestamp: new Date().toISOString()
+            });
+        }
+
+        // Mengambil pesan dari Firebase Realtime Database
+        function loadMessages() {
+            const chatBox = document.getElementById('chat-box');
+            const messageRef = db.ref('messages');
+            messageRef.on('child_added', function(snapshot) {
+                const message = snapshot.val();
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message');
+                messageElement.textContent = `${message.username}: ${message.message}`;
+                chatBox.appendChild(messageElement);
+                chatBox.scrollTop = chatBox.scrollHeight; // Scroll ke bawah
+            });
+        }
+
+        // Mengirim pesan saat form disubmit
+        document.getElementById('chat-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const messageText = document.getElementById('message').value;
+            sendMessage(messageText);
+            document.getElementById('message').value = ''; // Reset textarea
+        });
     </script>
 </body>
 </html>
