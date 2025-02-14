@@ -55,6 +55,9 @@
         input {
             padding: 8px;
             margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 100%;
         }
 
         button {
@@ -65,16 +68,11 @@
             cursor: pointer;
             font-size: 16px;
             border-radius: 5px;
+            width: 100%;
         }
 
         button:hover {
             background-color: #6A0DAD;
-        }
-
-        .image-container img {
-            max-width: 300px;
-            height: auto;
-            border-radius: 10px;
         }
 
         footer {
@@ -93,69 +91,9 @@
             font-size: 14px;
         }
 
-        /* Pop-up Image Styles */
-        .popup-container {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-            display: none; /* Initially hidden */
-            z-index: 1000;
-        }
-
-        .popup-container img {
-            max-width: 400px;
-            height: auto;
-        }
-
-        .popup-container button {
-            background-color: #FF0000;
-            color: white;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            font-size: 14px;
-            border-radius: 5px;
-            margin-top: 10px;
-        }
-
-        .popup-container button:hover {
-            background-color: #FF6347;
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: none; /* Initially hidden */
-            z-index: 999;
-        }
-
-        /* Tombol Navigasi Gambar */
-        .nav-buttons {
-            margin-top: 15px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .nav-buttons button {
-            background-color: #4B0082;
-            color: white;
-            padding: 10px;
-            font-size: 14px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .nav-buttons button:hover {
-            background-color: #6A0DAD;
+        .error {
+            color: red;
+            font-size: 12px;
         }
     </style>
 </head>
@@ -165,17 +103,6 @@
         Selamat datang di halaman login SPS_DIRGA!<br>
         Silakan masukkan username dan password Anda <br>
         & JAGA KERAHASIAAN DATA ANDA.
-    </div>
-
-    <!-- Pop-up Image -->
-    <div class="overlay" id="overlay"></div>
-    <div class="popup-container" id="popup">
-        <img src="https://i.postimg.cc/nLzZh6CZ/Teks-paragraf-Anda.png" alt="Pop-up Image" id="popup-image">
-        <div class="nav-buttons">
-            <button onclick="prevImage()">Sebelumnya</button>
-            <button onclick="nextImage()">Berikutnya</button>
-        </div>
-        <button onclick="closePopup()">Tutup</button>
     </div>
 
     <!-- Form Login -->
@@ -190,6 +117,7 @@
                 <input type="password" id="password" required><br><br>
 
                 <button type="submit">Login</button>
+                <p id="error-message" class="error" style="display: none;">Username atau password salah!</p>
             </form>
         </div>
     </div>
@@ -199,50 +127,12 @@
     </footer>
 
     <script>
-        // Gambar-gambar untuk pop-up
-        var images = [
-            "https://i.postimg.cc/kMx7q3Rh/image-2025-02-08-T23-11-55-943-Z.png",
-            "https://i.postimg.cc/3xbTn3zW/image-2025-02-08-T23-20-08-605-Z.png",
-            "https://i.postimg.cc/xdwSVtf2/s.png"
+        // Daftar pengguna dengan username, password, dan role
+        const users = [
+            { username: "dirgaadm", password: "peranika1", role: "admin" },
+            { username: "dirga", password: "peranika", role: "user" },
+            { username: "user2", password: "userpass", role: "user" }
         ];
-        
-        var currentIndex = 0;
-
-        // Menampilkan pop-up ketika halaman dimuat
-        window.onload = function() {
-            showPopup();
-        };
-
-        // Fungsi untuk menampilkan pop-up
-        function showPopup() {
-            document.getElementById('popup').style.display = 'block';
-            document.getElementById('overlay').style.display = 'block';
-            updateImage();
-        }
-
-        // Fungsi untuk menutup pop-up
-        function closePopup() {
-            document.getElementById('popup').style.display = 'none';
-            document.getElementById('overlay').style.display = 'none';
-        }
-
-        // Update gambar pada pop-up
-        function updateImage() {
-            var popupImage = document.getElementById('popup-image');
-            popupImage.src = images[currentIndex];
-        }
-
-        // Fungsi untuk melihat gambar sebelumnya
-        function prevImage() {
-            currentIndex = (currentIndex - 1 + images.length) % images.length;
-            updateImage();
-        }
-
-        // Fungsi untuk melihat gambar berikutnya
-        function nextImage() {
-            currentIndex = (currentIndex + 1) % images.length;
-            updateImage();
-        }
 
         // Menangani form login
         document.getElementById('loginForm').addEventListener('submit', function(event) {
@@ -250,21 +140,26 @@
 
             var username = document.getElementById('username').value;
             var password = document.getElementById('password').value;
+            var errorMessage = document.getElementById('error-message');
 
-            // Daftar pengguna dengan username dan password yang hardcoded
-            var validUsername = "dirga"; // Username yang valid
-            var validPassword = "peranika"; // Password yang valid
+            // Mencari pengguna di daftar pengguna yang terdaftar
+            var user = users.find(u => u.username === username && u.password === password);
 
-            // Mengecek apakah username dan password yang dimasukkan sesuai
-            if (username === validUsername && password === validPassword) {
-                alert("Login berhasil!");
-                // Simpan username dan status login di localStorage
+            if (user) {
+                // Jika login berhasil, simpan data pengguna dan status login di localStorage
                 localStorage.setItem('loggedIn', 'true');
                 localStorage.setItem('username', username);
-                // Redirect ke halaman tentang setelah login berhasil
-                window.location.href = 'tentang.html';  // Arahkan ke halaman tentang
+                localStorage.setItem('role', user.role);
+
+                // Redirect ke halaman yang sesuai dengan role pengguna
+                if (user.role === "admin") {
+                    window.location.href = 'admin_dashboard.html';  // Halaman admin
+                } else {
+                    window.location.href = 'user_dashboard.html';  // Halaman pengguna biasa
+                }
             } else {
-                alert("Username atau password salah!");
+                // Jika login gagal
+                errorMessage.style.display = 'block';  // Menampilkan pesan kesalahan
             }
         });
     </script>
