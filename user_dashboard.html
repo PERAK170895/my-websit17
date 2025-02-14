@@ -64,6 +64,58 @@
             bottom: 0;
             width: 100%;
         }
+
+        /* Chat Styles */
+        .chat-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-box {
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .chat-box .message {
+            margin-bottom: 10px;
+        }
+
+        #chat-form {
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+        }
+
+        #message {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: none;
+        }
+
+        #chat-form button {
+            align-self: flex-end;
+            padding: 5px 10px;
+            background-color: #4B0082;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #chat-form button:hover {
+            background-color: #6A0DAD;
+        }
     </style>
 </head>
 <body>
@@ -81,6 +133,17 @@
         <h2>Welcome, User!</h2>
         <p>This is your dashboard where you can manage your profile and settings.</p>
         <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <!-- Chat Container -->
+    <div class="chat-container">
+        <div class="chat-box" id="chat-box">
+            <!-- Messages will appear here -->
+        </div>
+        <form id="chat-form" method="POST">
+            <textarea name="message" id="message" placeholder="Ketik pesan..." required></textarea>
+            <button type="submit">Kirim</button>
+        </form>
     </div>
 
     <footer>
@@ -106,6 +169,33 @@
                 window.location.href = 'index.html';  // Arahkan ke halaman login jika bukan user
             }
         };
+
+        // Load messages (simulasi)
+        function loadMessages() {
+            var chatBox = document.getElementById('chat-box');
+            var message = document.createElement('div');
+            message.classList.add('message');
+            message.textContent = "Pesan baru: " + new Date().toLocaleTimeString();
+            chatBox.appendChild(message);
+            chatBox.scrollTop = chatBox.scrollHeight; // Scroll to bottom
+        }
+
+        setInterval(loadMessages, 5000); // Load new message every 5 seconds
+
+        // Submit chat message
+        document.getElementById('chat-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var message = document.getElementById('message').value;
+            if (message.trim() !== "") {
+                var chatBox = document.getElementById('chat-box');
+                var newMessage = document.createElement('div');
+                newMessage.classList.add('message');
+                newMessage.textContent = "You: " + message;
+                chatBox.appendChild(newMessage);
+                document.getElementById('message').value = ""; // Clear the message input
+                chatBox.scrollTop = chatBox.scrollHeight; // Scroll to bottom
+            }
+        });
     </script>
 </body>
 </html>
