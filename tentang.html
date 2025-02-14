@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tentang SPS_DIRGA</title>
+    <title>Chat Page</title>
     <style>
         body {
-            background-color: #87CEEB; /* Biru langit */
+            background-color: #87CEEB;
             font-family: Arial, sans-serif;
             margin: 0;
-            position: relative; /* Agar tombol logout bisa diposisikan secara absolute */
+            position: relative;
         }
 
         .header {
-            background-color: #4B0082; /* Warna ungu */
+            background-color: #4B0082;
             color: white;
             padding: 10px 20px;
             display: flex;
@@ -60,9 +60,9 @@
 
         .logout-container {
             position: absolute;
-            top: 20px; /* Letakkan agak sedikit turun */
-            right: 20px; /* Letakkan di kanan */
-            text-align: right; /* Pastikan teks berada di kanan */
+            top: 20px;
+            right: 20px;
+            text-align: right;
         }
 
         #date-time {
@@ -72,13 +72,63 @@
         }
 
         .logout-btn {
-            margin-top: 10px; /* Jarak antara jam dan tombol logout */
+            margin-top: 10px;
+        }
+
+        .chat-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-box {
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .chat-box .message {
+            margin-bottom: 10px;
+        }
+
+        #chat-form {
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+        }
+
+        #message {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: none;
+        }
+
+        #chat-form button {
+            align-self: flex-end;
+            padding: 5px 10px;
+            background-color: #4B0082;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #chat-form button:hover {
+            background-color: #6A0DAD;
         }
     </style>
 </head>
 <body>
 
-    <!-- Header dengan menu dan informasi user -->
     <div class="header">
         <div class="menu">
             <a href="#">Home</a>
@@ -90,10 +140,20 @@
         </div>
     </div>
 
-    <h1>Selamat datang di halaman Tentang!</h1>
+    <h1>Selamat datang di halaman Chat!</h1>
     <p>Halaman ini hanya bisa diakses setelah login.</p>
 
-    <!-- Container untuk waktu dan tombol logout -->
+    <div class="chat-container">
+        <div class="chat-box" id="chat-box">
+            <!-- Pesan akan ditampilkan di sini -->
+        </div>
+        <form id="chat-form" method="POST">
+            <input type="hidden" name="receiver_id" id="receiver_id" value="1">
+            <textarea name="message" id="message" placeholder="Ketik pesan..." required></textarea>
+            <button type="submit" name="send_message">Kirim</button>
+        </form>
+    </div>
+
     <div class="logout-container">
         <span id="date-time"></span>
         <button id="logoutBtn" class="logout-btn">Logout</button>
@@ -123,13 +183,29 @@
             }
         };
 
-        // Fungsi untuk logout
         document.getElementById('logoutBtn').addEventListener('click', function() {
             localStorage.removeItem('loggedIn');
             localStorage.removeItem('username');
             alert('Anda telah logout!');
-            window.location.href = 'index.html';  // Arahkan kembali ke halaman login
+            window.location.href = 'index.html';
         });
+
+        function loadMessages() {
+            var chatBox = document.getElementById('chat-box');
+            var receiverId = document.getElementById('receiver_id').value;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'fetch_messages.php?receiver_id=' + receiverId, true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    chatBox.innerHTML = xhr.responseText;
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                }
+            };
+            xhr.send();
+        }
+
+        setInterval(loadMessages, 1000);
     </script>
 
 </body>
