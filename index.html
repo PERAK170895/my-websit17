@@ -45,34 +45,37 @@
             { username: "user2", password: "userpass", role: "user" }
         ];
 
-        // Menangani form login
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Mencegah reload halaman saat form disubmit
+// Menangani form login
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Mencegah reload halaman saat form disubmit
 
-            var username = document.getElementById('username').value;
-            var password = document.getElementById('password').value;
-            var errorMessage = document.getElementById('error-message');
+    var username = document.getElementById('username').value;
+    var password = document.getElementById('password').value;
+    var errorMessage = document.getElementById('error-message');
 
-            // Mencari pengguna di daftar pengguna yang terdaftar
-            var user = users.find(u => u.username === username && u.password === password);
+    // Mencari pengguna di daftar pengguna yang terdaftar
+    var user = users.find(u => u.username === username && u.password === password);
 
-            if (user) {
-                // Jika login berhasil, simpan data pengguna dan status login di localStorage
-                localStorage.setItem('loggedIn', 'true');
-                localStorage.setItem('username', username);
-                localStorage.setItem('role', user.role);
+    if (user) {
+        // Jika login berhasil, simpan data pengguna dan status login di localStorage
+        localStorage.setItem('loggedIn', 'true');
+        localStorage.setItem('username', username);
+        localStorage.setItem('role', user.role);
 
-                // Redirect ke halaman yang sesuai dengan role pengguna
-                if (user.role === "admin") {
-                    window.location.href = 'tentang.html';  // Halaman admin
-                } else {
-                    window.location.href = 'user_dashboard.html';  // Halaman pengguna biasa
-                }
-            } else {
-                // Jika login gagal
-                errorMessage.style.display = 'block';  // Menampilkan pesan kesalahan
-            }
-        });
+        // Redirect ke halaman yang sesuai dengan role pengguna
+        if (user.role === "admin") {
+            // Jika role admin, arahkan ke halaman admin
+            window.location.href = 'tentang.html';
+        } else {
+            // Jika role user, arahkan ke halaman user dashboard
+            window.location.href = 'user_dashboard.html'; 
+        }
+    } else {
+        // Jika login gagal
+        errorMessage.style.display = 'block';  // Menampilkan pesan kesalahan
+    }
+});
+
     </script>
 </body>
 </html>
