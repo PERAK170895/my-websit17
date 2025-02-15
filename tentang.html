@@ -28,14 +28,26 @@
             padding: 10px;
             margin: 10px 0;
             border-radius: 5px;
-            background-color: #e0e0e0;
             display: inline-block;
             width: fit-content;
             max-width: 70%;
             margin-left: auto;
+            background-color: #e0e0e0;
         }
 
-        #chatList li.username {
+        #chatList li.right {
+            background-color: #4B0082;
+            color: white;
+            margin-left: auto;
+        }
+
+        #chatList li.left {
+            background-color: #e0e0e0;
+            color: black;
+            margin-right: auto;
+        }
+
+        #chatList li .username {
             font-weight: bold;
             color: #4B0082;
         }
@@ -91,7 +103,7 @@
         // Fungsi untuk mengirim pesan ke Firebase
         function sendMessage() {
             const message = document.getElementById('messageInput').value;
-            const username = "User1"; // Contoh username
+            const username = "User1"; // Contoh username, bisa diubah menjadi nama pengguna dinamis
 
             if (message) {
                 const newMessageRef = push(chatRef);
@@ -119,7 +131,7 @@
             messagesRef.on('child_added', function(snapshot) {
                 const data = snapshot.val();
                 const messageElement = document.createElement('li');
-                messageElement.classList.add('chat-message');
+                messageElement.classList.add(data.username === 'User1' ? 'right' : 'left'); // Pesan dari User1 di sebelah kanan
                 messageElement.innerHTML = `<span class="username">${data.username}</span>: ${data.message}`;
                 chatList.appendChild(messageElement);
                 chatList.scrollTop = chatList.scrollHeight;  // Scroll otomatis ke bawah saat pesan baru
