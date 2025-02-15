@@ -4,6 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat dengan Firebase</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #chatList {
+            list-style-type: none;
+            padding: 0;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        #chatList li {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            background-color: #e0e0e0;
+            display: inline-block;
+            width: fit-content;
+            max-width: 70%;
+            margin-left: auto;
+        }
+
+        #chatList li.username {
+            font-weight: bold;
+            color: #4B0082;
+        }
+
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4B0082;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #6A0DAD;
+        }
+
+        div {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
     <script type="module">
         // Import functions from Firebase SDK
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.7.1/firebase-app.js";
@@ -57,8 +119,10 @@
             messagesRef.on('child_added', function(snapshot) {
                 const data = snapshot.val();
                 const messageElement = document.createElement('li');
-                messageElement.textContent = `${data.username}: ${data.message}`;
+                messageElement.classList.add('chat-message');
+                messageElement.innerHTML = `<span class="username">${data.username}</span>: ${data.message}`;
                 chatList.appendChild(messageElement);
+                chatList.scrollTop = chatList.scrollHeight;  // Scroll otomatis ke bawah saat pesan baru
             });
         }
 
