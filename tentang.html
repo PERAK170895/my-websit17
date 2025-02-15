@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Dashboard Pengguna</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -93,13 +93,15 @@
 <script>
     // Memeriksa apakah pengguna sudah login
     function checkLogin() {
-        const userId = localStorage.getItem('userId');
-        if (!userId) {
+        const loggedIn = localStorage.getItem('loggedIn');
+        const username = localStorage.getItem('username');
+        
+        if (!loggedIn || loggedIn !== 'true' || !username) {
             // Jika belum login, arahkan kembali ke halaman login
             window.location.href = 'index.html';
         } else {
             // Menampilkan ID pengguna yang login
-            document.getElementById('user-id').textContent = 'User ID: ' + userId;
+            document.getElementById('user-id').textContent = 'User ID: ' + username;
         }
     }
 
@@ -114,7 +116,8 @@
 
     // Fungsi untuk logout
     function logout() {
-        localStorage.removeItem('userId'); // Menghapus userId dari localStorage
+        localStorage.removeItem('loggedIn'); // Menghapus status login
+        localStorage.removeItem('username'); // Menghapus username
         window.location.href = 'index.html'; // Kembali ke halaman login
     }
 
