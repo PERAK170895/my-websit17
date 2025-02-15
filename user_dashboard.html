@@ -3,154 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat dengan Firebase</title>
+    <title>Dashboard Pengguna</title>
     <style>
-        /* Styling dasar */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
         }
-
-        h1 {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        /* Styling list pesan */
-        #chatList {
-            list-style-type: none;
-            padding: 0;
-            margin: 20px auto;
-            width: 90%;
-            max-width: 600px;
-        }
-
-        li {
-            margin-bottom: 10px;
-            padding: 10px;
-            border-radius: 10px;
-        }
-
-        .userMessage {
-            background-color: #e0f7fa;
-            color: green;
-            text-align: right;
-        }
-
-        .adminMessage {
-            background-color: #bbdefb;
-            color: blue;
-            text-align: left;
-        }
-
-        /* Styling input dan tombol kirim */
-        input[type="text"] {
-            width: 80%;
-            padding: 10px;
-            margin: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-
-        button {
-            padding: 10px 20px;
+        header {
             background-color: #4CAF50;
             color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .time-id {
+            display: flex;
+            flex-direction: column;
+            text-align: right;
+        }
+        .logout-btn {
+            background-color: #f44336;
+            color: white;
             border: none;
-            border-radius: 5px;
+            padding: 10px 20px;
             cursor: pointer;
         }
-
-        button:hover {
-            background-color: #45a049;
+        main {
+            display: flex;
+            flex: 1;
+            padding: 20px;
+        }
+        .input-container {
+            margin-right: 20px;
+        }
+        #chat-box {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 250px;
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
+        }
+        #chat-box ul {
+            list-style-type: none;
+            padding: 0;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        #chat-box input {
+            width: 100%;
+            padding: 5px;
+            margin-top: 10px;
         }
     </style>
-    <script type="module">
-        // Import functions from Firebase SDK
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.7.1/firebase-app.js";
-        import { getDatabase, ref, set, push, onChildAdded } from "https://www.gstatic.com/firebasejs/9.7.1/firebase-database.js";
-
-        // Firebase Config
-        const firebaseConfig = {
-            apiKey: "AIzaSyAetKEpQsiyW-_nQWSjX1G8kYqH1XOyDmw",
-            authDomain: "chatapp-ab4e7.firebaseapp.com",
-            projectId: "chatapp-ab4e7",
-            storageBucket: "chatapp-ab4e7.firebasestorage.app",
-            messagingSenderId: "417811660186",
-            appId: "1:417811660186:web:e7692e2cd1b72187d68e23"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const database = getDatabase(app);
-
-        // Mengambil referensi dari database untuk menyimpan data chat
-        const chatRef = ref(database, 'chats/');
-
-        // Fungsi untuk mengirim pesan ke Firebase
-        function sendMessage() {
-            const message = document.getElementById('messageInput').value;
-            const username = "User1"; // Bisa diubah dengan sistem login
-            const role = "user"; // Ubah menjadi 'admin' jika yang kirim admin
-
-            if (message) {
-                const newMessageRef = push(chatRef);
-                set(newMessageRef, {
-                    username: username,
-                    message: message,
-                    role: role, // Menyimpan role dalam pesan
-                    timestamp: Date.now()
-                }).then(() => {
-                    document.getElementById('messageInput').value = ''; // Kosongkan input setelah pesan terkirim
-                    alert("Pesan Terkirim!");
-                }).catch((error) => {
-                    alert("Error: " + error.message);
-                });
-            }
-        }
-
-        // Event listener untuk tombol kirim
-        document.getElementById('sendButton').addEventListener('click', sendMessage);
-
-        // Fungsi untuk menampilkan pesan di UI
-        function getMessages() {
-            const chatList = document.getElementById('chatList');
-            const messagesRef = ref(database, 'chats/');
-            onChildAdded(messagesRef, function(snapshot) {
-                const data = snapshot.val();
-                const messageElement = document.createElement('li');
-
-                // Cek role dan sesuaikan gaya
-                if (data.role === 'admin') {
-                    messageElement.classList.add('adminMessage');
-                } else {
-                    messageElement.classList.add('userMessage');
-                }
-
-                messageElement.textContent = `${data.username}: ${data.message}`;
-                chatList.appendChild(messageElement);
-            });
-        }
-
-        // Ambil pesan saat halaman dimuat
-        window.onload = getMessages;
-    </script>
 </head>
 <body>
-    <h1>Chat Firebase</h1>
 
+<header>
+    <div class="time-id">
+        <div id="user-id">User ID: </div>
+        <div id="time"></div>
+    </div>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+</header>
+
+<main>
+    <div class="input-container">
+        <h3>Input Gambar</h3>
+        <input type="file" id="image-input" accept="image/*">
+    </div>
     <div>
-        <ul id="chatList">
-            <!-- Pesan akan ditampilkan di sini -->
-        </ul>
+        <h3>Konten Lainnya</h3>
+        <p>Ini adalah area tempat Anda bisa menambahkan konten lainnya.</p>
     </div>
+</main>
 
-    <div style="text-align: center;">
-        <input type="text" id="messageInput" placeholder="Tulis pesan...">
-        <button id="sendButton">Kirim</button>
-    </div>
+<div id="chat-box">
+    <ul id="chat-list"></ul>
+    <input type="text" id="chat-input" placeholder="Tulis pesan..." onkeypress="sendMessage(event)">
+</div>
+
+<script>
+    // Memeriksa apakah pengguna sudah login
+    function checkLogin() {
+        const loggedIn = localStorage.getItem('loggedIn');
+        const username = localStorage.getItem('username');
+        
+        if (!loggedIn || loggedIn !== 'true' || !username) {
+            // Jika belum login, arahkan kembali ke halaman login
+            window.location.href = 'index.html';
+        } else {
+            // Menampilkan ID pengguna yang login
+            document.getElementById('user-id').textContent = 'User ID: ' + username;
+        }
+    }
+
+    // Menampilkan waktu dan memperbarui setiap detik
+    function updateTime() {
+        const now = new Date();
+        const timeString = now.toLocaleString();
+        document.getElementById('time').innerText = 'Waktu: ' + timeString;
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+
+    // Fungsi untuk logout
+    function logout() {
+        localStorage.removeItem('loggedIn'); // Menghapus status login
+        localStorage.removeItem('username'); // Menghapus username
+        window.location.href = 'index.html'; // Kembali ke halaman login
+    }
+
+    // Fungsi untuk mengirim pesan
+    function sendMessage(event) {
+        if (event.key === 'Enter') {
+            const message = document.getElementById('chat-input').value;
+            if (message.trim() !== '') {
+                const chatList = document.getElementById('chat-list');
+                const newMessage = document.createElement('li');
+                newMessage.textContent = message;
+                chatList.appendChild(newMessage);
+                document.getElementById('chat-input').value = ''; // Reset input
+            }
+        }
+    }
+
+    // Memeriksa login saat halaman dimuat
+    checkLogin();
+</script>
 
 </body>
 </html>
