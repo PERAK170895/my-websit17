@@ -5,82 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Pengguna</title>
     <style>
-        /* Reset beberapa gaya default */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            padding: 20px;
-        }
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #075e54;
-            color: white;
-            padding: 10px;
-        }
-        .time-id {
-            display: flex;
-            flex-direction: column;
-        }
-        .logout-btn {
-            background-color: #dcf8c6;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .logout-btn:hover {
-            background-color: #128c7e;
-        }
-        main {
-            margin-top: 20px;
-        }
-        .input-container {
-            background-color: #ffffff;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-        #chat-box {
-            background-color: #ffffff;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            height: 400px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-        }
-        #chat-list {
-            list-style-type: none;
-            padding: 0;
-            margin-bottom: 10px;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        #chat-list li {
-            padding: 10px;
-            background-color: #f1f0f0;
-            margin: 5px 0;
-            border-radius: 5px;
-        }
-        #chat-input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-        #chat-input:focus {
-            border-color: #075e54;
-        }
+        /* CSS yang sama seperti sebelumnya */
     </style>
 </head>
 <body>
@@ -96,7 +21,11 @@
 <main>
     <div class="input-container">
         <h3>SELAMAT DATANG PENGGUNA</h3>
-        <input type="file" id="image-input" accept="image/*">
+        <!-- Elemen untuk memilih gambar -->
+        <input type="file" id="image-input" accept="image/*" onchange="uploadImage(event)">
+        <div id="image-display">
+            <!-- Gambar akan ditampilkan di sini -->
+        </div>
     </div>
     <div>
         <h3>WEKTAa</h3>
@@ -109,7 +38,62 @@
     <input type="text" id="chat-input" placeholder="Tulis pesan..." onkeypress="sendMessage(event)">
 </div>
 
-<script>
+<!-- Firebase SDK -->
+<script type="module">
+    // Import the functions you need from the Firebase SDK
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
+    import { getDatabase, ref, set, push, onChildAdded } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js";
+    import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-storage.js";
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyDzh46D8cyx1d59_pBKUioZGLqQNgiI9ws",
+        authDomain: "chat45-b587c.firebaseapp.com",
+        projectId: "chat45-b587c",
+        storageBucket: "chat45-b587c.appspot.com",  // Pastikan ini benar
+        messagingSenderId: "698715947095",
+        appId: "1:698715947095:web:9a05c3842f34d329b3e312",
+        measurementId: "G-LNFH5DC15J"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const storage = getStorage(app);
+
+    // Fungsi untuk mengupload gambar
+    function uploadImage(event) {
+        const file = event.target.files[0]; // Ambil file yang dipilih
+        if (file) {
+            const storagePath = 'images/' + file.name; // Tentukan path penyimpanan file di Firebase Storage
+            const imageRef = storageRef(storage, storagePath);
+
+            // Mengunggah file ke Firebase Storage
+            uploadBytes(imageRef, file).then((snapshot) => {
+                console.log('File berhasil diupload!', snapshot);
+                // Mendapatkan URL download file setelah berhasil diupload
+                getDownloadURL(imageRef).then((url) => {
+                    console.log('URL Gambar:', url);
+                    displayImage(url); // Tampilkan gambar yang diupload
+                });
+            }).catch((error) => {
+                console.error('Terjadi kesalahan saat mengupload gambar:', error);
+            });
+        }
+    }
+
+    // Fungsi untuk menampilkan gambar setelah diupload
+    function displayImage(url) {
+        const imageDisplay = document.getElementById('image-display');
+        const imageElement = document.createElement('img');
+        imageElement.src = url;
+        imageElement.alt = 'Uploaded Image';
+        imageElement.style.maxWidth = '100%';
+        imageElement.style.maxHeight = '300px';
+        imageDisplay.innerHTML = ''; // Hapus konten sebelumnya
+        imageDisplay.appendChild(imageElement);
+    }
+
     // Memeriksa apakah pengguna sudah login dan memiliki role yang sesuai
     function checkLogin() {
         const loggedIn = localStorage.getItem('loggedIn');
@@ -152,16 +136,49 @@
     function sendMessage(event) {
         if (event.key === 'Enter') {
             const message = document.getElementById('chat-input').value;
+            const sender = localStorage.getItem('username');  // Ambil username
             if (message.trim() !== '') {
+                // Simpan pesan ke Firebase
+                const messagesRef = ref(database, 'messages');
+                const newMessageRef = push(messagesRef);
+                set(newMessageRef, {
+                    sender: sender,
+                    message: message,
+                    timestamp: Date.now()
+                });
+
+                // Menambahkan pesan ke tampilan
                 const chatList = document.getElementById('chat-list');
                 const newMessage = document.createElement('li');
-                newMessage.textContent = message;
+                newMessage.textContent = sender + ": " + message;
                 chatList.appendChild(newMessage);
-                document.getElementById('chat-input').value = ''; // Reset input
-                chatList.scrollTop = chatList.scrollHeight; // Scroll ke bawah
+
+                // Reset input
+                document.getElementById('chat-input').value = '';
+                chatList.scrollTop = chatList.scrollHeight;  // Scroll ke bawah
             }
         }
     }
+
+    // Mendengarkan pesan baru dari Firebase
+    function listenForMessages() {
+        const messagesRef = ref(database, 'messages');
+        onChildAdded(messagesRef, function(snapshot) {
+            const messageData = snapshot.val();
+            displayMessage(messageData);
+        });
+    }
+
+    // Menampilkan pesan
+    function displayMessage(data) {
+        const chatList = document.getElementById('chat-list');
+        const newMessage = document.createElement('li');
+        newMessage.textContent = data.sender + ": " + data.message;
+        chatList.appendChild(newMessage);
+    }
+
+    // Memulai mendengarkan pesan saat halaman dimuat
+    listenForMessages();
 
     // Memeriksa login saat halaman dimuat
     checkLogin();
