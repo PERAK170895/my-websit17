@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Pengguna - Upload Gambar ke Firebase</title>
     <style>
+        /* CSS yang ada tetap dipertahankan */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f0f2f5;
         }
-
         header {
             background-color: #4267b2;
             color: white;
@@ -21,12 +21,10 @@
             justify-content: space-between;
             align-items: center;
         }
-
         header .logo {
             font-size: 24px;
             font-weight: bold;
         }
-
         header .logout-btn {
             padding: 10px 20px;
             background-color: red;
@@ -34,17 +32,14 @@
             border: none;
             cursor: pointer;
         }
-
         header .logout-btn:hover {
             background-color: darkred;
         }
-
         main {
             display: flex;
             justify-content: space-between;
             padding: 20px;
         }
-
         .sidebar {
             width: 250px;
             background-color: #ffffff;
@@ -53,22 +48,18 @@
             border-radius: 8px;
             margin-right: 20px;
         }
-
         .sidebar ul {
             list-style: none;
             padding: 0;
         }
-
         .sidebar ul li {
             margin: 15px 0;
         }
-
         .sidebar ul li a {
             text-decoration: none;
             color: #4267b2;
             font-weight: bold;
         }
-
         .content {
             flex: 1;
             background-color: #ffffff;
@@ -76,14 +67,12 @@
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-
         .content .post-box {
             background-color: #f5f6f7;
             padding: 15px;
             border-radius: 8px;
             margin-bottom: 20px;
         }
-
         .content .post-box input {
             width: 100%;
             padding: 10px;
@@ -92,7 +81,6 @@
             border: 1px solid #ddd;
             font-size: 16px;
         }
-
         .content .post-box button {
             background-color: #4267b2;
             color: white;
@@ -101,24 +89,20 @@
             border-radius: 8px;
             cursor: pointer;
         }
-
         .content .image-container {
             display: flex;
             flex-wrap: wrap;
             gap: 15px;
         }
-
         .content .image-container img {
             width: 150px;
             height: 150px;
             object-fit: cover;
             border-radius: 8px;
         }
-
         .content .image-item {
             position: relative;
         }
-
         .content .image-item .delete-btn {
             position: absolute;
             top: 5px;
@@ -130,7 +114,6 @@
             padding: 5px;
             cursor: pointer;
         }
-
         .footer {
             background-color: #4267b2;
             color: white;
@@ -145,7 +128,7 @@
 <body>
 
 <header>
-    <div class="logo">Facebook Clone</div>
+    <div class="logo">REHAT TEST SPSS</div>
     <button class="logout-btn" onclick="logout()">Logout</button>
 </header>
 
@@ -172,7 +155,7 @@
 </main>
 
 <div class="footer">
-    <p>© 2025 Facebook Clone</p>
+    <p>© 2025 DIRGA011 CloneSPS</p>
 </div>
 
 <script type="module">
@@ -180,6 +163,7 @@
     import { getDatabase, ref, set, push, onChildAdded, remove } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js";
     import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-storage.js";
 
+    // Firebase configuration
     const firebaseConfig = {
         apiKey: "AIzaSyDzh46D8cyx1d59_pBKUioZGLqQNgiI9ws",
         authDomain: "chat45-b587c.firebaseapp.com",
@@ -190,10 +174,12 @@
         measurementId: "G-LNFH5DC15J"
     };
 
+    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
     const storage = getStorage(app);
 
+    // Function to upload images
     function uploadImages() {
         const input = document.getElementById('imageInput');
         const files = input.files;
@@ -208,28 +194,30 @@
                         saveImageURL(url);
                     });
                 }).catch((error) => {
-                    console.error('Terjadi kesalahan saat mengupload gambar:', error);
+                    console.error('Error uploading image:', error);
                 });
             }
         } else {
-            alert("Silakan pilih gambar terlebih dahulu.");
+            alert("Please select an image first.");
         }
     }
 
+    // Save image URL to Firebase Database
     function saveImageURL(url) {
         const imagesRef = ref(database, 'images');
         const newImageRef = push(imagesRef);
         set(newImageRef, { url: url }).then(() => {
             loadImages();
         }).catch((error) => {
-            console.error("Terjadi kesalahan saat menyimpan URL gambar:", error);
+            console.error("Error saving image URL:", error);
         });
     }
 
+    // Load images from Firebase Database
     function loadImages() {
         const imagesRef = ref(database, 'images');
         const imageDisplay = document.getElementById('image-display');
-        imageDisplay.innerHTML = '';
+        imageDisplay.innerHTML = ''; // Clear previously displayed images
 
         onChildAdded(imagesRef, function(snapshot) {
             const imageData = snapshot.val();
@@ -243,6 +231,7 @@
         });
     }
 
+    // Delete image from Firebase Storage and Database
     function deleteImage(imageKey, imageUrl) {
         const imageRef = storageRef(storage, 'images/' + imageUrl.split('/').pop());
         deleteObject(imageRef).then(() => {
@@ -257,15 +246,16 @@
         });
     }
 
+    // Logout function
     function logout() {
         localStorage.removeItem('loggedIn');
         localStorage.removeItem('username');
         localStorage.removeItem('role');
-        window.location.href = 'index.html';
+        window.location.href = 'index.html'; // Redirect to login page
     }
 
     window.onload = function() {
-        loadImages();
+        loadImages(); // Load images from Firebase when the page loads
     };
 </script>
 
