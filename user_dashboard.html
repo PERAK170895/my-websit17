@@ -3,9 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Pengguna</title>
+    <title>Dashboard Pengguna - Upload Gambar ke AWS S3</title>
     <style>
-        /* CSS yang sama seperti sebelumnya */
+        /* Styling untuk halaman */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        input[type="file"] {
+            margin-top: 20px;
+        }
+        img {
+            margin-top: 20px;
+            max-width: 100%;
+            height: auto;
+        }
+        .time-id {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .logout-btn {
+            padding: 10px 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .logout-btn:hover {
+            background-color: darkred;
+        }
+        #chat-box {
+            margin-top: 20px;
+        }
+        #chat-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        #chat-list li {
+            margin: 5px 0;
+        }
     </style>
 </head>
 <body>
@@ -21,24 +61,26 @@
 <main>
     <div class="input-container">
         <h3>SELAMAT DATANG PENGGUNA</h3>
+        
         <!-- Elemen untuk memilih gambar -->
-        <input type="file" id="image-input" accept="image/*" onchange="uploadImage(event)">
-        <div id="image-display">
-            <!-- Gambar akan ditampilkan di sini -->
-        </div>
+        <input type="file" id="imageInput" accept="image/*" onchange="uploadImage(event)">
+        
+        <!-- Tempat untuk menampilkan gambar setelah upload -->
+        <div id="image-display"></div>
     </div>
+    
     <div>
-        <h3>WEKTAa</h3>
+        <h3>Waktu Sekarang</h3>
         <p>Ini adalah area tempat Anda bisa menambahkan konten lainnya.</p>
     </div>
 </main>
 
+<!-- Chat Section -->
 <div id="chat-box">
     <ul id="chat-list"></ul>
     <input type="text" id="chat-input" placeholder="Tulis pesan..." onkeypress="sendMessage(event)">
 </div>
 
-<!-- Firebase SDK -->
 <script type="module">
     // Import the functions you need from the Firebase SDK
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
@@ -61,7 +103,7 @@
     const database = getDatabase(app);
     const storage = getStorage(app);
 
-    // Fungsi untuk mengupload gambar
+    // Fungsi untuk mengupload gambar ke Firebase Storage
     function uploadImage(event) {
         const file = event.target.files[0]; // Ambil file yang dipilih
         if (file) {
