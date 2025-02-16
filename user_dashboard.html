@@ -8,96 +8,171 @@
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 20px;
-            text-align: center;
+            padding: 0;
+            background-color: #f0f2f5;
         }
-        input[type="file"] {
-            margin-top: 20px;
-        }
-        img {
-            margin-top: 20px;
-            max-width: 100%;
-            height: auto;
-            margin-bottom: 10px;
-        }
-        .time-id {
+
+        header {
+            background-color: #4267b2;
+            color: white;
+            padding: 10px 20px;
+            text-align: left;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
         }
-        .logout-btn {
+
+        header .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        header .logout-btn {
             padding: 10px 20px;
             background-color: red;
             color: white;
             border: none;
             cursor: pointer;
         }
-        .logout-btn:hover {
+
+        header .logout-btn:hover {
             background-color: darkred;
         }
-        #chat-box {
-            margin-top: 20px;
+
+        main {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
         }
-        #chat-list {
-            list-style-type: none;
+
+        .sidebar {
+            width: 250px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            margin-right: 20px;
+        }
+
+        .sidebar ul {
+            list-style: none;
             padding: 0;
         }
-        #chat-list li {
-            margin: 5px 0;
+
+        .sidebar ul li {
+            margin: 15px 0;
         }
-        .image-container {
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #4267b2;
+            font-weight: bold;
+        }
+
+        .content {
+            flex: 1;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .content .post-box {
+            background-color: #f5f6f7;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .content .post-box input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+
+        .content .post-box button {
+            background-color: #4267b2;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .content .image-container {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
+            gap: 15px;
         }
-        .image-item {
-            margin: 10px;
+
+        .content .image-container img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .content .image-item {
             position: relative;
         }
-        .delete-btn {
+
+        .content .image-item .delete-btn {
             position: absolute;
             top: 5px;
             right: 5px;
             background-color: red;
             color: white;
             border: none;
+            border-radius: 50%;
+            padding: 5px;
             cursor: pointer;
+        }
+
+        .footer {
+            background-color: #4267b2;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
         }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="time-id">
-        <div id="user-id">User ID: </div>
-        <div id="time"></div>
-    </div>
+    <div class="logo">Facebook Clone</div>
     <button class="logout-btn" onclick="logout()">Logout</button>
 </header>
 
 <main>
-    <div class="input-container">
-        <h3>SELAMAT DATANG PENGGUNA</h3>
-        
-        <!-- Elemen untuk memilih gambar (multiple) -->
-        <input type="file" id="imageInput" accept="image/*" multiple>
-        <button onclick="uploadImages()">Upload</button>
-        
-        <!-- Tempat untuk menampilkan gambar setelah upload -->
-        <div id="image-display" class="image-container"></div>
+    <div class="sidebar">
+        <ul>
+            <li><a href="#">Beranda</a></li>
+            <li><a href="#">Pesan</a></li>
+            <li><a href="#">Notifikasi</a></li>
+            <li><a href="#">Teman</a></li>
+            <li><a href="#">Grup</a></li>
+        </ul>
     </div>
-    
-    <div>
-        <h3>Waktu Sekarang</h3>
-        <p>Ini adalah area tempat Anda bisa menambahkan konten lainnya.</p>
+
+    <div class="content">
+        <div class="post-box">
+            <h3>Bagikan Sesuatu</h3>
+            <input type="file" id="imageInput" accept="image/*" multiple>
+            <button onclick="uploadImages()">Upload Gambar</button>
+        </div>
+
+        <div class="image-container" id="image-display"></div>
     </div>
 </main>
 
-<!-- Chat Section -->
-<div id="chat-box">
-    <ul id="chat-list"></ul>
-    <input type="text" id="chat-input" placeholder="Tulis pesan..." onkeypress="sendMessage(event)">
+<div class="footer">
+    <p>© 2025 Facebook Clone</p>
 </div>
 
 <script type="module">
@@ -105,7 +180,6 @@
     import { getDatabase, ref, set, push, onChildAdded, remove } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js";
     import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-storage.js";
 
-    // Firebase configuration
     const firebaseConfig = {
         apiKey: "AIzaSyDzh46D8cyx1d59_pBKUioZGLqQNgiI9ws",
         authDomain: "chat45-b587c.firebaseapp.com",
@@ -116,28 +190,22 @@
         measurementId: "G-LNFH5DC15J"
     };
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
     const storage = getStorage(app);
 
-    // Fungsi untuk mengupload beberapa gambar ke Firebase Storage
     function uploadImages() {
         const input = document.getElementById('imageInput');
-        const files = input.files; // Ambil semua file yang dipilih
+        const files = input.files;
         if (files.length > 0) {
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
-                const storagePath = 'images/' + file.name; // Tentukan path penyimpanan file di Firebase Storage
+                const storagePath = 'images/' + file.name;
                 const imageRef = storageRef(storage, storagePath);
 
-                // Mengunggah file ke Firebase Storage
                 uploadBytes(imageRef, file).then((snapshot) => {
-                    console.log('File berhasil diupload!', snapshot);
-                    // Mendapatkan URL download file setelah berhasil diupload
                     getDownloadURL(imageRef).then((url) => {
-                        console.log('URL Gambar:', url);
-                        saveImageURL(url); // Simpan URL gambar ke Firebase Database
+                        saveImageURL(url);
                     });
                 }).catch((error) => {
                     console.error('Terjadi kesalahan saat mengupload gambar:', error);
@@ -148,25 +216,20 @@
         }
     }
 
-    // Fungsi untuk menyimpan URL gambar ke Firebase Database
     function saveImageURL(url) {
         const imagesRef = ref(database, 'images');
         const newImageRef = push(imagesRef);
-        set(newImageRef, {
-            url: url
-        }).then(() => {
-            console.log("URL gambar berhasil disimpan!");
-            loadImages(); // Load ulang gambar setelah berhasil disimpan
+        set(newImageRef, { url: url }).then(() => {
+            loadImages();
         }).catch((error) => {
             console.error("Terjadi kesalahan saat menyimpan URL gambar:", error);
         });
     }
 
-    // Fungsi untuk menampilkan gambar yang ada di Firebase Database
     function loadImages() {
         const imagesRef = ref(database, 'images');
         const imageDisplay = document.getElementById('image-display');
-        imageDisplay.innerHTML = ''; // Hapus gambar yang sudah ada sebelumnya
+        imageDisplay.innerHTML = '';
 
         onChildAdded(imagesRef, function(snapshot) {
             const imageData = snapshot.val();
@@ -174,30 +237,26 @@
             imageElement.classList.add('image-item');
             imageElement.innerHTML = `
                 <img src="${imageData.url}" alt="Uploaded Image">
-                <button class="delete-btn" onclick="deleteImage('${snapshot.key}', '${imageData.url}')">Hapus</button>
+                <button class="delete-btn" onclick="deleteImage('${snapshot.key}', '${imageData.url}')">X</button>
             `;
             imageDisplay.appendChild(imageElement);
         });
     }
 
-    // Fungsi untuk menghapus gambar dari Firebase Storage dan Database
     function deleteImage(imageKey, imageUrl) {
         const imageRef = storageRef(storage, 'images/' + imageUrl.split('/').pop());
         deleteObject(imageRef).then(() => {
-            console.log("Gambar berhasil dihapus dari storage.");
             const imageRefInDatabase = ref(database, 'images/' + imageKey);
             remove(imageRefInDatabase).then(() => {
-                console.log("URL gambar berhasil dihapus dari database.");
-                loadImages(); // Load ulang gambar setelah dihapus
+                loadImages();
             }).catch((error) => {
-                console.error("Terjadi kesalahan saat menghapus gambar dari database:", error);
+                console.error("Error deleting from database:", error);
             });
         }).catch((error) => {
-            console.error("Terjadi kesalahan saat menghapus gambar dari storage:", error);
+            console.error("Error deleting from storage:", error);
         });
     }
 
-    // Fungsi untuk logout
     function logout() {
         localStorage.removeItem('loggedIn');
         localStorage.removeItem('username');
@@ -205,38 +264,9 @@
         window.location.href = 'index.html';
     }
 
-    // Memperbarui waktu setiap detik
-    function updateTime() {
-        const now = new Date();
-        const timeString = now.toLocaleString();
-        document.getElementById('time').innerText = 'Waktu: ' + timeString;
-    }
-    setInterval(updateTime, 1000);
-    updateTime();
-
-    // Memeriksa login saat halaman dimuat
-    function checkLogin() {
-        const loggedIn = localStorage.getItem('loggedIn');
-        const username = localStorage.getItem('username');
-        const role = localStorage.getItem('role');
-
-        if (!loggedIn || loggedIn !== 'true' || !username) {
-            window.location.href = 'index.html';
-        } else {
-            document.getElementById('user-id').textContent = 'User ID: ' + username;
-            if (role !== "user") {
-                alert("Anda tidak memiliki akses ke halaman ini.");
-                window.location.href = 'index.html';
-            }
-        }
-    }
-
-    // Memuat gambar saat halaman dimuat
     window.onload = function() {
-        loadImages(); // Load gambar dari Firebase Database
-    }
-
-    checkLogin();
+        loadImages();
+    };
 </script>
 
 </body>
