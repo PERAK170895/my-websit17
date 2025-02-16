@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Pengguna</title>
     <style>
+        /* Styling yang ada */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -56,36 +57,13 @@
             margin-right: 30px;
             flex: 1;
         }
-        #chat-box {
-            position: fixed;
-            bottom: 80px; /* Jarak dari footer */
-            right: 30px;
-            width: 300px;
-            background-color: #2c3e50;
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0,0,0,0.15);
-            transition: transform 0.3s ease;
+        #image-container {
+            margin-top: 20px;
         }
-        #chat-box:hover {
-            transform: scale(1.05);
-        }
-        #chat-box ul {
-            list-style-type: none;
-            padding: 0;
-            max-height: 200px;
-            overflow-y: auto;
-            margin-bottom: 10px;
-        }
-        #chat-box input {
-            width: 100%;
-            padding: 8px;
+        #uploaded-image {
+            max-width: 100%;
             margin-top: 10px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            background-color: #ecf0f1;
-            color: #2c3e50;
+            border-radius: 8px;
         }
         footer {
             background-color: #333;
@@ -112,7 +90,9 @@
 <main>
     <div class="input-container">
         <h3>Input Gambar</h3>
-        <input type="file" id="image-input" accept="image/*">
+        <input type="file" id="image-input" accept="image/*" onchange="previewImage(event)">
+        <div id="image-container"></div>
+        <button id="delete-btn" style="display: none;" onclick="deleteImage()">Hapus Gambar</button>
     </div>
     <div>
         <h3>DASHBORD ADMIN</h3>
@@ -137,10 +117,8 @@
         const username = localStorage.getItem('username');
         
         if (!loggedIn || loggedIn !== 'true' || !username) {
-            // Jika belum login, arahkan kembali ke halaman login
             window.location.href = 'index.html';
         } else {
-            // Menampilkan ID pengguna yang login
             document.getElementById('user-id').textContent = 'User ID: ' + username;
         }
     }
@@ -156,9 +134,9 @@
 
     // Fungsi untuk logout
     function logout() {
-        localStorage.removeItem('loggedIn'); // Menghapus status login
-        localStorage.removeItem('username'); // Menghapus username
-        window.location.href = 'index.html'; // Kembali ke halaman login
+        localStorage.removeItem('loggedIn');
+        localStorage.removeItem('username');
+        window.location.href = 'index.html';
     }
 
     // Fungsi untuk mengirim pesan
@@ -170,9 +148,62 @@
                 const newMessage = document.createElement('li');
                 newMessage.textContent = message;
                 chatList.appendChild(newMessage);
-                document.getElementById('chat-input').value = ''; // Reset input
+                document.getElementById('chat-input').value = ''; 
             }
         }
+    }
+
+    // Fungsi untuk preview gambar dan menyimpannya di localStorage
+    function previewImage(event) {
+        const imageContainer = document.getElementById('image-container');
+        const file = event.target.files[0];
+        
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                // Menyimpan gambar dalam localStorage
+                localStorage.setItem('uploadedImage', reader.result);
+
+                // Menampilkan gambar yang diupload
+                const imgElement = document.createElement('img');
+                imgElement.id = 'uploaded-image';
+                imgElement.src = reader.result;
+                imageContainer.innerHTML = '';
+                imageContainer.appendChild(imgElement);
+                document.getElementById('delete-btn').style.display = 'inline-block'; // Tampilkan tombol hapus
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // Fungsi untuk menghapus gambar dan menghapusnya dari localStorage
+    function deleteImage() {
+        const imageContainer = document.getElementById('image-container');
+        const uploadedImage = document.getElementById('uploaded-image');
+        if (uploadedImage) {
+            imageContainer.removeChild(uploadedImage);
+            document.getElementById('delete-btn').style.display = 'none'; // Sembunyikan tombol hapus
+            localStorage.removeItem('uploadedImage'); // Hapus gambar dari localStorage
+        }
+        document.getElementById('image-input').value = ''; // Reset input file
+    }
+
+    // Fungsi untuk menampilkan gambar jika sudah disimpan di localStorage
+    function displaySavedImage() {
+        const savedImage = localStorage.getItem('uploadedImage');
+        if (savedImage) {
+            const imageContainer = document.getElementById('image-container');
+            const imgElement = document.createElement('img');
+            imgElement.id = 'uploaded-image';
+            imgElement.src = savedImage;
+            imageContainer.appendChild(imgElement);
+            document.getElementById('delete-btn').style.display = 'inline-block'; // Tampilkan tombol hapus
+        }
+    }
+
+    // Menampilkan gambar yang sudah disimpan saat halaman dimuat
+    window.onload = function() {
+        displaySavedImage();
     }
 
     // Memeriksa login saat halaman dimuat
