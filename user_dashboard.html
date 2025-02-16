@@ -18,6 +18,7 @@
             margin-top: 20px;
             max-width: 100%;
             height: auto;
+            margin-bottom: 10px;
         }
         .time-id {
             display: flex;
@@ -45,6 +46,24 @@
         #chat-list li {
             margin: 5px 0;
         }
+        .image-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .image-item {
+            margin: 10px;
+            position: relative;
+        }
+        .delete-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -60,12 +79,13 @@
 <main>
     <div class="input-container">
         <h3>SELAMAT DATANG PENGGUNA</h3>
-        <!-- Elemen untuk memilih gambar -->
-        <input type="file" id="imageInput" accept="image/*">
-        <button onclick="uploadImage()">Upload</button>
+        
+        <!-- Elemen untuk memilih gambar (multiple) -->
+        <input type="file" id="imageInput" accept="image/*" multiple>
+        <button onclick="uploadImages()">Upload</button>
         
         <!-- Tempat untuk menampilkan gambar setelah upload -->
-        <div id="image-display"></div>
+        <div id="image-display" class="image-container"></div>
     </div>
     
     <div>
@@ -82,8 +102,8 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
-    import { getDatabase, ref, set, push, onChildAdded } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js";
-    import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-storage.js";
+    import { getDatabase, ref, set, push, onChildAdded, remove } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js";
+    import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-storage.js";
 
     // Firebase configuration
     const firebaseConfig = {
@@ -101,40 +121,80 @@
     const database = getDatabase(app);
     const storage = getStorage(app);
 
-    // Fungsi untuk mengupload gambar ke Firebase Storage
-    function uploadImage() {
+    // Fungsi untuk mengupload beberapa gambar ke Firebase Storage
+    function uploadImages() {
         const input = document.getElementById('imageInput');
-        const file = input.files[0]; // Ambil file yang dipilih
-        if (file) {
-            const storagePath = 'images/' + file.name; // Tentukan path penyimpanan file di Firebase Storage
-            const imageRef = storageRef(storage, storagePath);
+        const files = input.files; // Ambil semua file yang dipilih
+        if (files.length > 0) {
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const storagePath = 'images/' + file.name; // Tentukan path penyimpanan file di Firebase Storage
+                const imageRef = storageRef(storage, storagePath);
 
-            // Mengunggah file ke Firebase Storage
-            uploadBytes(imageRef, file).then((snapshot) => {
-                console.log('File berhasil diupload!', snapshot);
-                // Mendapatkan URL download file setelah berhasil diupload
-                getDownloadURL(imageRef).then((url) => {
-                    console.log('URL Gambar:', url);
-                    displayImage(url); // Tampilkan gambar yang diupload
+                // Mengunggah file ke Firebase Storage
+                uploadBytes(imageRef, file).then((snapshot) => {
+                    console.log('File berhasil diupload!', snapshot);
+                    // Mendapatkan URL download file setelah berhasil diupload
+                    getDownloadURL(imageRef).then((url) => {
+                        console.log('URL Gambar:', url);
+                        saveImageURL(url); // Simpan URL gambar ke Firebase Database
+                    });
+                }).catch((error) => {
+                    console.error('Terjadi kesalahan saat mengupload gambar:', error);
                 });
-            }).catch((error) => {
-                console.error('Terjadi kesalahan saat mengupload gambar:', error);
-            });
+            }
         } else {
             alert("Silakan pilih gambar terlebih dahulu.");
         }
     }
 
-    // Fungsi untuk menampilkan gambar setelah diupload
-    function displayImage(url) {
+    // Fungsi untuk menyimpan URL gambar ke Firebase Database
+    function saveImageURL(url) {
+        const imagesRef = ref(database, 'images');
+        const newImageRef = push(imagesRef);
+        set(newImageRef, {
+            url: url
+        }).then(() => {
+            console.log("URL gambar berhasil disimpan!");
+            loadImages(); // Load ulang gambar setelah berhasil disimpan
+        }).catch((error) => {
+            console.error("Terjadi kesalahan saat menyimpan URL gambar:", error);
+        });
+    }
+
+    // Fungsi untuk menampilkan gambar yang ada di Firebase Database
+    function loadImages() {
+        const imagesRef = ref(database, 'images');
         const imageDisplay = document.getElementById('image-display');
-        const imageElement = document.createElement('img');
-        imageElement.src = url;
-        imageElement.alt = 'Uploaded Image';
-        imageElement.style.maxWidth = '100%';
-        imageElement.style.maxHeight = '300px';
-        imageDisplay.innerHTML = ''; // Hapus konten sebelumnya
-        imageDisplay.appendChild(imageElement);
+        imageDisplay.innerHTML = ''; // Hapus gambar yang sudah ada sebelumnya
+
+        onChildAdded(imagesRef, function(snapshot) {
+            const imageData = snapshot.val();
+            const imageElement = document.createElement('div');
+            imageElement.classList.add('image-item');
+            imageElement.innerHTML = `
+                <img src="${imageData.url}" alt="Uploaded Image">
+                <button class="delete-btn" onclick="deleteImage('${snapshot.key}', '${imageData.url}')">Hapus</button>
+            `;
+            imageDisplay.appendChild(imageElement);
+        });
+    }
+
+    // Fungsi untuk menghapus gambar dari Firebase Storage dan Database
+    function deleteImage(imageKey, imageUrl) {
+        const imageRef = storageRef(storage, 'images/' + imageUrl.split('/').pop());
+        deleteObject(imageRef).then(() => {
+            console.log("Gambar berhasil dihapus dari storage.");
+            const imageRefInDatabase = ref(database, 'images/' + imageKey);
+            remove(imageRefInDatabase).then(() => {
+                console.log("URL gambar berhasil dihapus dari database.");
+                loadImages(); // Load ulang gambar setelah dihapus
+            }).catch((error) => {
+                console.error("Terjadi kesalahan saat menghapus gambar dari database:", error);
+            });
+        }).catch((error) => {
+            console.error("Terjadi kesalahan saat menghapus gambar dari storage:", error);
+        });
     }
 
     // Fungsi untuk logout
@@ -170,6 +230,12 @@
             }
         }
     }
+
+    // Memuat gambar saat halaman dimuat
+    window.onload = function() {
+        loadImages(); // Load gambar dari Firebase Database
+    }
+
     checkLogin();
 </script>
 
