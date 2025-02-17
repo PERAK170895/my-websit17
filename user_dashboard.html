@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Pengguna - Upload Gambar ke Firebase</title>
+    <title>Form Spreadsheet</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -16,246 +16,112 @@
             color: white;
             padding: 10px 20px;
             text-align: left;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
-        header .logo {
-            font-size: 24px;
-            font-weight: bold;
+        h2 {
+            text-align: center;
         }
-        header .logout-btn {
-            padding: 10px 20px;
-            background-color: red;
+        .table-container {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        .table-container th, .table-container td {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        .table-container th {
+            background-color: #4267b2;
             color: white;
-            border: none;
-            cursor: pointer;
         }
-        header .logout-btn:hover {
-            background-color: darkred;
-        }
-        main {
-            display: flex;
-            justify-content: space-between;
-            padding: 20px;
-        }
-        .sidebar {
-            width: 250px;
-            background-color: #ffffff;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            padding: 10px;
-            border-radius: 8px;
-            margin-right: 20px;
-        }
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-        }
-        .sidebar ul li {
-            margin: 15px 0;
-        }
-        .sidebar ul li a {
-            text-decoration: none;
-            color: #4267b2;
-            font-weight: bold;
-        }
-        .content {
-            flex: 1;
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        .content .post-box {
-            background-color: #f5f6f7;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-        .content .post-box input {
+        input[type="text"], input[type="number"] {
             width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 8px;
+            padding: 6px;
+            border-radius: 5px;
             border: 1px solid #ddd;
             font-size: 16px;
         }
-        .content .post-box button {
+        button {
             background-color: #4267b2;
             color: white;
             padding: 10px 20px;
             border: none;
-            border-radius: 8px;
+            border-radius: 5px;
             cursor: pointer;
+            display: block;
+            margin: 20px auto;
         }
-        .content .image-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        .content .image-container img {
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-        .content .image-item {
-            position: relative;
-        }
-        .content .image-item .delete-btn {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background-color: red;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            padding: 5px;
-            cursor: pointer;
-        }
-        .footer {
-            background-color: #4267b2;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
+        button:hover {
+            background-color: #365899;
         }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo">REHAT TEST SPSS</div>
-    <button class="logout-btn" onclick="logout()">Logout</button>
+    <h1>Form Spreadsheet Pengguna</h1>
 </header>
 
-<main>
-    <div class="sidebar">
-        <ul>
-            <li><a href="#">Beranda</a></li>
-            <li><a href="#">Pesan</a></li>
-            <li><a href="#">Notifikasi</a></li>
-            <li><a href="#">Teman</a></li>
-            <li><a href="#">Grup</a></li>
-        </ul>
-    </div>
+<h2>Isi Data di Spreadsheet</h2>
 
-    <div class="content">
-        <div class="post-box">
-            <h3>Bagikan Sesuatu</h3>
-            <input type="file" id="imageInput" accept="image/*" multiple>
-            <button onclick="uploadImages()">Upload Gambar</button>
-        </div>
-
-        <div class="image-container" id="image-display"></div>
-    </div>
-</main>
-
-<div class="footer">
-    <p>© 2025 DIRGA011 CloneSPS</p>
+<div class="table-container">
+    <table id="spreadsheetTable">
+        <thead>
+            <tr>
+                <th>Nama</th>
+                <th>Usia</th>
+                <th>Email</th>
+                <th>Alamat</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input type="text" name="name1" placeholder="Nama"></td>
+                <td><input type="number" name="age1" placeholder="Usia"></td>
+                <td><input type="email" name="email1" placeholder="Email"></td>
+                <td><input type="text" name="address1" placeholder="Alamat"></td>
+            </tr>
+            <tr>
+                <td><input type="text" name="name2" placeholder="Nama"></td>
+                <td><input type="number" name="age2" placeholder="Usia"></td>
+                <td><input type="email" name="email2" placeholder="Email"></td>
+                <td><input type="text" name="address2" placeholder="Alamat"></td>
+            </tr>
+            <tr>
+                <td><input type="text" name="name3" placeholder="Nama"></td>
+                <td><input type="number" name="age3" placeholder="Usia"></td>
+                <td><input type="email" name="email3" placeholder="Email"></td>
+                <td><input type="text" name="address3" placeholder="Alamat"></td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
-    import { getDatabase, ref, set, push, onChildAdded, remove } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js";
-    import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-storage.js";
+<button onclick="downloadCSV()">Unduh CSV</button>
 
-    // Firebase configuration
-    const firebaseConfig = {
-        apiKey: "AIzaSyDzh46D8cyx1d59_pBKUioZGLqQNgiI9ws",
-        authDomain: "chat45-b587c.firebaseapp.com",
-        projectId: "chat45-b587c",
-        storageBucket: "chat45-b587c.appspot.com",
-        messagingSenderId: "698715947095",
-        appId: "1:698715947095:web:9a05c3842f34d329b3e312",
-        measurementId: "G-LNFH5DC15J"
-    };
+<script>
+    function downloadCSV() {
+        const table = document.getElementById('spreadsheetTable');
+        let csv = 'Nama,Usia,Email,Alamat\n'; // Menambahkan header CSV
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
-    const storage = getStorage(app);
-
-    // Function to upload images
-    function uploadImages() {
-        const input = document.getElementById('imageInput');
-        const files = input.files;
-        if (files.length > 0) {
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
-                const storagePath = 'images/' + file.name;
-                const imageRef = storageRef(storage, storagePath);
-
-                uploadBytes(imageRef, file).then((snapshot) => {
-                    getDownloadURL(imageRef).then((url) => {
-                        saveImageURL(url);
-                    });
-                }).catch((error) => {
-                    console.error('Error uploading image:', error);
-                });
-            }
-        } else {
-            alert("Please select an image first.");
-        }
-    }
-
-    // Save image URL to Firebase Database
-    function saveImageURL(url) {
-        const imagesRef = ref(database, 'images');
-        const newImageRef = push(imagesRef);
-        set(newImageRef, { url: url }).then(() => {
-            loadImages();
-        }).catch((error) => {
-            console.error("Error saving image URL:", error);
-        });
-    }
-
-    // Load images from Firebase Database
-    function loadImages() {
-        const imagesRef = ref(database, 'images');
-        const imageDisplay = document.getElementById('image-display');
-        imageDisplay.innerHTML = ''; // Clear previously displayed images
-
-        onChildAdded(imagesRef, function(snapshot) {
-            const imageData = snapshot.val();
-            const imageElement = document.createElement('div');
-            imageElement.classList.add('image-item');
-            imageElement.innerHTML = `
-                <img src="${imageData.url}" alt="Uploaded Image">
-                <button class="delete-btn" onclick="deleteImage('${snapshot.key}', '${imageData.url}')">X</button>
-            `;
-            imageDisplay.appendChild(imageElement);
-        });
-    }
-
-    // Delete image from Firebase Storage and Database
-    function deleteImage(imageKey, imageUrl) {
-        const imageRef = storageRef(storage, 'images/' + imageUrl.split('/').pop());
-        deleteObject(imageRef).then(() => {
-            const imageRefInDatabase = ref(database, 'images/' + imageKey);
-            remove(imageRefInDatabase).then(() => {
-                loadImages();
-            }).catch((error) => {
-                console.error("Error deleting from database:", error);
+        // Loop untuk setiap baris dan kolom dalam tabel
+        const rows = table.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+            const cells = row.querySelectorAll('td input');
+            let rowData = [];
+            cells.forEach(cell => {
+                rowData.push(cell.value);
             });
-        }).catch((error) => {
-            console.error("Error deleting from storage:", error);
+            csv += rowData.join(',') + '\n'; // Menambahkan data ke file CSV
         });
-    }
 
-    // Logout function
-    function logout() {
-        localStorage.removeItem('loggedIn');
-        localStorage.removeItem('username');
-        localStorage.removeItem('role');
-        window.location.href = 'index.html'; // Redirect to login page
+        // Membuat file CSV untuk diunduh
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'data_spreadsheet.csv';
+        link.click();
     }
-
-    window.onload = function() {
-        loadImages(); // Load images from Firebase when the page loads
-    };
 </script>
 
 </body>
