@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Spreadsheet</title>
+    <title>Dashboard Pengguna - Upload Gambar ke Firebase</title>
     <style>
+        /* CSS yang ada tetap dipertahankan */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -16,111 +17,185 @@
             color: white;
             padding: 10px 20px;
             text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        h2 {
-            text-align: center;
+        header .logo {
+            font-size: 24px;
+            font-weight: bold;
         }
-        .table-container {
-            width: 80%;
-            margin: 20px auto;
-            border-collapse: collapse;
-        }
-        .table-container th, .table-container td {
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            text-align: center;
-        }
-        .table-container th {
-            background-color: #4267b2;
+        header .logout-btn {
+            padding: 10px 20px;
+            background-color: red;
             color: white;
+            border: none;
+            cursor: pointer;
         }
-        input[type="text"], input[type="number"] {
+        header .logout-btn:hover {
+            background-color: darkred;
+        }
+        main {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            margin-right: 20px;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            margin: 15px 0;
+        }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #4267b2;
+            font-weight: bold;
+        }
+        .content {
+            flex: 1;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .content .post-box {
+            background-color: #f5f6f7;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .content .post-box input {
             width: 100%;
-            padding: 6px;
-            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
             border: 1px solid #ddd;
             font-size: 16px;
         }
-        button {
+        .content .post-box button {
             background-color: #4267b2;
             color: white;
             padding: 10px 20px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
-            display: block;
-            margin: 20px auto;
         }
-        button:hover {
+        .content .post-box button:hover {
             background-color: #365899;
+        }
+        .footer {
+            background-color: #4267b2;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>Form Spreadsheet Pengguna</h1>
+    <div class="logo">REHAT TEST SPSS</div>
+    <button class="logout-btn" onclick="logout()">Logout</button>
 </header>
 
-<h2>Isi Data di Spreadsheet</h2>
+<main>
+    <div class="sidebar">
+        <ul>
+            <li><a href="#">Beranda</a></li>
+            <li><a href="#">Pesan</a></li>
+            <li><a href="#">Notifikasi</a></li>
+            <li><a href="#">Teman</a></li>
+            <li><a href="#">Grup</a></li>
+        </ul>
+    </div>
 
-<div class="table-container">
-    <table id="spreadsheetTable">
-        <thead>
-            <tr>
-                <th>Nama</th>
-                <th>Usia</th>
-                <th>Email</th>
-                <th>Alamat</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><input type="text" name="name1" placeholder="Nama"></td>
-                <td><input type="number" name="age1" placeholder="Usia"></td>
-                <td><input type="email" name="email1" placeholder="Email"></td>
-                <td><input type="text" name="address1" placeholder="Alamat"></td>
-            </tr>
-            <tr>
-                <td><input type="text" name="name2" placeholder="Nama"></td>
-                <td><input type="number" name="age2" placeholder="Usia"></td>
-                <td><input type="email" name="email2" placeholder="Email"></td>
-                <td><input type="text" name="address2" placeholder="Alamat"></td>
-            </tr>
-            <tr>
-                <td><input type="text" name="name3" placeholder="Nama"></td>
-                <td><input type="number" name="age3" placeholder="Usia"></td>
-                <td><input type="email" name="email3" placeholder="Email"></td>
-                <td><input type="text" name="address3" placeholder="Alamat"></td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="content">
+        <div class="post-box">
+            <h3>Form Pengisian Data</h3>
+            <input type="text" id="name" placeholder="Nama" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="number" id="age" placeholder="Usia" required>
+            <input type="text" id="address" placeholder="Alamat" required>
+            <button onclick="submitData()">Submit</button>
+        </div>
+
+        <div id="submission-result">
+            <!-- Hasil pengisian form akan ditampilkan di sini -->
+        </div>
+    </div>
+</main>
+
+<div class="footer">
+    <p>© 2025 DIRGA011 CloneSPS</p>
 </div>
 
-<button onclick="downloadCSV()">Unduh CSV</button>
+<script type="module">
+    // Inisialisasi EmailJS dengan User ID
+    emailjs.init("Qm7rnoK-R6Q804UaH");  // Ganti dengan User ID kamu
 
-<script>
-    function downloadCSV() {
-        const table = document.getElementById('spreadsheetTable');
-        let csv = 'Nama,Usia,Email,Alamat\n'; // Menambahkan header CSV
+    // Fungsi untuk mengirimkan data
+    function submitData() {
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const age = document.getElementById("age").value;
+        const address = document.getElementById("address").value;
 
-        // Loop untuk setiap baris dan kolom dalam tabel
-        const rows = table.querySelectorAll('tbody tr');
-        rows.forEach(row => {
-            const cells = row.querySelectorAll('td input');
-            let rowData = [];
-            cells.forEach(cell => {
-                rowData.push(cell.value);
+        // Cek jika ada data yang kosong
+        if (!name || !email || !age || !address) {
+            alert("Semua kolom harus diisi!");
+            return;
+        }
+
+        // Template parameters untuk dikirim ke email
+        const templateParams = {
+            to_email: "dirgaputrajayazai01.dsb@gmail.com",  // Ganti dengan email tujuan
+            name: name,
+            age: age,
+            email: email,
+            address: address
+        };
+
+        // Mengirimkan data ke EmailJS
+        emailjs.send('service_jt9zwfc', 'service_jt9zwfc', templateParams)  // Ganti dengan Service ID dan Template ID
+            .then(function(response) {
+                console.log('Email terkirim:', response);
+                // Menampilkan hasil submit di bawah form
+                displayResult(name, age, email, address);
+            }, function(error) {
+                console.error('Error email:', error);
             });
-            csv += rowData.join(',') + '\n'; // Menambahkan data ke file CSV
-        });
+    }
 
-        // Membuat file CSV untuk diunduh
-        const blob = new Blob([csv], { type: 'text/csv' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'data_spreadsheet.csv';
-        link.click();
+    // Fungsi untuk menampilkan hasil pengisian
+    function displayResult(name, age, email, address) {
+        const resultDiv = document.getElementById("submission-result");
+        resultDiv.innerHTML = `
+            <h3>Hasil Pengisian:</h3>
+            <p><strong>Nama:</strong> ${name}</p>
+            <p><strong>Usia:</strong> ${age}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Alamat:</strong> ${address}</p>
+        `;
+    }
+
+    // Fungsi logout
+    function logout() {
+        localStorage.removeItem('loggedIn');
+        localStorage.removeItem('username');
+        localStorage.removeItem('role');
+        window.location.href = 'index.html'; // Redirect to login page
     }
 </script>
 
