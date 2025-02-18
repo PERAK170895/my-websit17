@@ -1,136 +1,71 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Pengguna - Form Pengisian Data</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f2f5;
-        }
-        header {
-            background-color: #4267b2;
-            color: white;
-            padding: 10px 20px;
-            text-align: left;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        header .logo {
-            font-size: 24px;
-            font-weight: bold;
-        }
-        header .logout-btn {
-            padding: 10px 20px;
-            background-color: red;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        header .logout-btn:hover {
-            background-color: darkred;
-        }
-        main {
-            display: flex;
-            justify-content: space-between;
-            padding: 20px;
-        }
-        .sidebar {
-            width: 250px;
-            background-color: #ffffff;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            padding: 10px;
-            border-radius: 8px;
-            margin-right: 20px;
-        }
-        .content {
-            flex: 1;
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        .post-box {
-            background-color: #f5f6f7;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-        .post-box input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            font-size: 16px;
-        }
-        .post-box button {
-            background-color: #4267b2;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-        .post-box button:hover {
-            background-color: #365899;
-        }
-        .footer {
-            background-color: #4267b2;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-        }
-        .result-box {
-            background-color: #f5f6f7;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: none;
-        }
-        .result-box p {
-            margin: 5px 0;
-        }
-        .result-box button {
-            background-color: red;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-        .result-box button:hover {
-            background-color: darkred;
-        }
-    </style>
-</head>
-<body>
+<script type="module">
+    // Inisialisasi EmailJS dengan User ID
+    emailjs.init("Qm7rnoK-R6Q804UaH");  // Ganti dengan User ID kamu
 
-<header>
-    <div class="logo">Form Pengisian Data</div>
-    <button class="logout-btn" onclick="logout()">Logout</button>
-</header>
+    // Fungsi untuk mengirimkan data
+    function submitData() {
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const age = document.getElementById("age").value;
+        const address = document.getElementById("address").value;
 
-<main>
-    <div class="sidebar">
-        <ul>
-            <li><a href="#">Beranda</a></li>
-            <li><a href="#">Pesan</a></li>
-            <li><a href="#">Notifikasi</a></li>
-            <li><a href="#">Teman</a></li>
-            <li><a href="#">Grup</a></li>
-        </ul>
-    </div>
+        // Cek jika ada data yang kosong
+        if (!name || !email || !age || !address) {
+            alert("Semua kolom harus diisi!");
+            return;
+        }
 
-    <div class="content">
-        <div class="post-box">
-            <h3>Form Pengisian Data</h3>
-            <input type="text" id="name" placeholder="Nama" required>
-            
+        // Template parameters untuk dikirim ke email
+        const templateParams = {
+            to_email: "dirgaputrajayazai01.dsb@gmail.com",  // Ganti dengan email tujuan
+            name: name,
+            age: age,
+            email: email,
+            address: address
+        };
+
+        // Mengirimkan data ke EmailJS
+        emailjs.send('service_jt9zwfc', 'service_jt9zwfc', templateParams)  // Ganti dengan Service ID dan Template ID
+            .then(function(response) {
+                console.log('Email terkirim:', response);
+                // Menampilkan hasil submit di bawah form
+                displayResult(name, age, email, address);
+            }, function(error) {
+                console.error('Error email:', error);
+            });
+    }
+
+    // Fungsi untuk menampilkan hasil pengisian
+    function displayResult(name, age, email, address) {
+        document.getElementById("result-name").textContent = name;
+        document.getElementById("result-age").textContent = age;
+        document.getElementById("result-email").textContent = email;
+        document.getElementById("result-address").textContent = address;
+
+        // Tampilkan div hasil
+        document.getElementById("result-box").style.display = "block";
+    }
+
+    // Fungsi untuk menghapus hasil
+    function clearResult() {
+        // Kosongkan form
+        document.getElementById("name").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("age").value = "";
+        document.getElementById("address").value = "";
+
+        // Sembunyikan hasil
+        document.getElementById("result-box").style.display = "none";
+    }
+
+    // Fungsi logout
+    function logout() {
+        // Menghapus data pengguna yang ada di localStorage
+        localStorage.removeItem('loggedIn');
+        localStorage.removeItem('username');
+        localStorage.removeItem('role');
+        
+        // Mengalihkan pengguna ke halaman login
+        window.location.href = 'login.html'; // Ganti dengan halaman login yang sesuai
+    }
+</script>
