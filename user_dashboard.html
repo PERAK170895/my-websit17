@@ -1,71 +1,202 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Pengisian Data</title>
+    
+    <!-- Tambahkan CDN EmailJS di sini -->
+    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+        }
+        header {
+            background-color: #4267b2;
+            color: white;
+            padding: 10px 20px;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        header .logout-btn {
+            padding: 10px 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        header .logout-btn:hover {
+            background-color: darkred;
+        }
+        main {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+        .content {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 500px;
+        }
+        .post-box {
+            background-color: #f5f6f7;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .post-box input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+        .post-box button {
+            background-color: #4267b2;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-block;
+        }
+        .post-box button:hover {
+            background-color: #365899;
+        }
+        .result-box {
+            background-color: #f5f6f7;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+        .result-box p {
+            margin: 5px 0;
+        }
+        .result-box button {
+            background-color: red;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .result-box button:hover {
+            background-color: darkred;
+        }
+        .footer {
+            background-color: #4267b2;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">Form Pengisian Data</div>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+</header>
+
+<main>
+    <div class="content">
+        <div class="post-box">
+            <h3>Form Pengisian Data</h3>
+            <input type="text" id="name" placeholder="Nama" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="number" id="age" placeholder="Usia" required>
+            <input type="text" id="address" placeholder="Alamat" required>
+            <button onclick="submitData()">Submit</button>
+        </div>
+
+        <!-- Div untuk menampilkan hasil submit dan tombol hapus -->
+        <div class="result-box" id="result-box">
+            <h3>Hasil Pengisian:</h3>
+            <p><strong>Nama:</strong> <span id="result-name"></span></p>
+            <p><strong>Usia:</strong> <span id="result-age"></span></p>
+            <p><strong>Email:</strong> <span id="result-email"></span></p>
+            <p><strong>Alamat:</strong> <span id="result-address"></span></p>
+            <button onclick="clearResult()">Hapus</button>
+        </div>
+    </div>
+</main>
+
+<div class="footer">
+    <p>© 2025 DIRGA011 CloneSPS</p>
+</div>
+
 <script type="module">
     // Inisialisasi EmailJS dengan User ID
-    emailjs.init("Qm7rnoK-R6Q804UaH");  // Ganti dengan User ID kamu
+    emailjs.init("Qm7rnoK-R6Q804UaH");
 
-    // Fungsi untuk mengirimkan data
     function submitData() {
         const name = document.getElementById("name").value;
         const email = document.getElementById("email").value;
         const age = document.getElementById("age").value;
         const address = document.getElementById("address").value;
 
-        // Cek jika ada data yang kosong
         if (!name || !email || !age || !address) {
             alert("Semua kolom harus diisi!");
             return;
         }
 
-        // Template parameters untuk dikirim ke email
         const templateParams = {
-            to_email: "dirgaputrajayazai01.dsb@gmail.com",  // Ganti dengan email tujuan
+            to_email: "dirgaputrajayazai01.dsb@gmail.com",
             name: name,
             age: age,
             email: email,
             address: address
         };
 
-        // Mengirimkan data ke EmailJS
-        emailjs.send('service_jt9zwfc', 'service_jt9zwfc', templateParams)  // Ganti dengan Service ID dan Template ID
+        emailjs.send('service_jt9zwfc', 'service_jt9zwfc', templateParams)
             .then(function(response) {
                 console.log('Email terkirim:', response);
-                // Menampilkan hasil submit di bawah form
                 displayResult(name, age, email, address);
             }, function(error) {
                 console.error('Error email:', error);
             });
     }
 
-    // Fungsi untuk menampilkan hasil pengisian
     function displayResult(name, age, email, address) {
         document.getElementById("result-name").textContent = name;
         document.getElementById("result-age").textContent = age;
         document.getElementById("result-email").textContent = email;
         document.getElementById("result-address").textContent = address;
-
-        // Tampilkan div hasil
         document.getElementById("result-box").style.display = "block";
     }
 
-    // Fungsi untuk menghapus hasil
     function clearResult() {
-        // Kosongkan form
         document.getElementById("name").value = "";
         document.getElementById("email").value = "";
         document.getElementById("age").value = "";
         document.getElementById("address").value = "";
-
-        // Sembunyikan hasil
         document.getElementById("result-box").style.display = "none";
     }
 
-    // Fungsi logout
     function logout() {
-        // Menghapus data pengguna yang ada di localStorage
         localStorage.removeItem('loggedIn');
         localStorage.removeItem('username');
         localStorage.removeItem('role');
-        
-        // Mengalihkan pengguna ke halaman login
-        window.location.href = 'login.html'; // Ganti dengan halaman login yang sesuai
+        window.location.href = 'login.html'; 
     }
 </script>
+
+</body>
+</html>
