@@ -101,6 +101,28 @@
             width: 100%;
             bottom: 0;
         }
+
+        .result-box {
+            background-color: #f5f6f7;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;  /* Sembunyikan hasil submit sampai form dikirim */
+        }
+        .result-box p {
+            margin: 5px 0;
+        }
+        .result-box button {
+            background-color: red;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .result-box button:hover {
+            background-color: darkred;
+        }
     </style>
 </head>
 <body>
@@ -131,8 +153,14 @@
             <button onclick="submitData()">Submit</button>
         </div>
 
-        <div id="submission-result">
-            <!-- Hasil pengisian form akan ditampilkan di sini -->
+        <!-- Div untuk menampilkan hasil submit dan tombol hapus -->
+        <div class="result-box" id="result-box">
+            <h3>Hasil Pengisian:</h3>
+            <p><strong>Nama:</strong> <span id="result-name"></span></p>
+            <p><strong>Usia:</strong> <span id="result-age"></span></p>
+            <p><strong>Email:</strong> <span id="result-email"></span></p>
+            <p><strong>Alamat:</strong> <span id="result-address"></span></p>
+            <button onclick="clearResult()">Hapus</button>
         </div>
     </div>
 </main>
@@ -143,7 +171,7 @@
 
 <script type="module">
     // Inisialisasi EmailJS dengan User ID
-    emailjs.init("Qm7rnoK-R6Q804UaH");  // Ganti dengan User ID kamu
+    emailjs.init("O3UTS2f3gLJAz7DFj");  // Ganti dengan User ID kamu
 
     // Fungsi untuk mengirimkan data
     function submitData() {
@@ -168,7 +196,7 @@
         };
 
         // Mengirimkan data ke EmailJS
-        emailjs.send('service_jt9zwfc', 'service_jt9zwfc', templateParams)  // Ganti dengan Service ID dan Template ID
+        emailjs.send('service_jt9zwfc', 'template_ek62oyh', templateParams)  // Ganti dengan Service ID dan Template ID
             .then(function(response) {
                 console.log('Email terkirim:', response);
                 // Menampilkan hasil submit di bawah form
@@ -180,14 +208,25 @@
 
     // Fungsi untuk menampilkan hasil pengisian
     function displayResult(name, age, email, address) {
-        const resultDiv = document.getElementById("submission-result");
-        resultDiv.innerHTML = `
-            <h3>Hasil Pengisian:</h3>
-            <p><strong>Nama:</strong> ${name}</p>
-            <p><strong>Usia:</strong> ${age}</p>
-            <p><strong>Email:</strong> ${email}</p>
-            <p><strong>Alamat:</strong> ${address}</p>
-        `;
+        document.getElementById("result-name").textContent = name;
+        document.getElementById("result-age").textContent = age;
+        document.getElementById("result-email").textContent = email;
+        document.getElementById("result-address").textContent = address;
+
+        // Tampilkan div hasil
+        document.getElementById("result-box").style.display = "block";
+    }
+
+    // Fungsi untuk menghapus hasil
+    function clearResult() {
+        // Kosongkan form
+        document.getElementById("name").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("age").value = "";
+        document.getElementById("address").value = "";
+
+        // Sembunyikan hasil
+        document.getElementById("result-box").style.display = "none";
     }
 
     // Fungsi logout
