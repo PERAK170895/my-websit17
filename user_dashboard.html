@@ -149,6 +149,7 @@
     const API_KEY = 'AIzaSyBTvC3flvwQQENVYP6hbn9O5NG8qmub1gU'; // Ganti dengan API Key Anda
     const SCOPES = 'https://www.googleapis.com/auth/spreadsheets';
 
+    // Inisialisasi client Google API
     function initClient() {
         gapi.client.init({
             apiKey: API_KEY,
@@ -171,6 +172,7 @@
         gapi.load('client:auth2', initClient);
     }
 
+    // Fungsi untuk mengirim data ke Google Sheets
     function submitData() {
         const name = document.getElementById("name").value;
         const email = document.getElementById("email").value;
@@ -193,9 +195,10 @@
         displayResult(name, age, email, address);
     }
 
+    // Fungsi untuk menulis data ke Google Sheets
     function writeToSheet(data) {
         gapi.client.sheets.spreadsheets.values.append({
-            spreadsheetId: 'https://docs.google.com/spreadsheets/d/1I__zN7uGsGsF5WtDYCPmbKUg5LG2evMoSzt_ZGokNlM', // Ganti dengan ID Spreadsheet Anda
+            spreadsheetId: '1I__zN7uGsGsF5WtDYCPmbKUg5LG2evMoSzt_ZGokNlM', // Ganti dengan ID Spreadsheet Anda
             range: 'Sheet1!A:H', // Rentang data
             valueInputOption: 'RAW',
             resource: {
@@ -210,6 +213,7 @@
         });
     }
 
+    // Fungsi untuk menampilkan hasil input data
     function displayResult(name, age, email, address) {
         document.getElementById("result-name").textContent = name;
         document.getElementById("result-age").textContent = age;
@@ -218,6 +222,7 @@
         document.getElementById("result-box").style.display = "block";
     }
 
+    // Fungsi untuk menghapus hasil yang ditampilkan
     function clearResult() {
         document.getElementById("name").value = "";
         document.getElementById("email").value = "";
@@ -226,6 +231,7 @@
         document.getElementById("result-box").style.display = "none";
     }
 
+    // Fungsi logout
     function logout() {
         localStorage.removeItem('loggedIn');
         localStorage.removeItem('username');
