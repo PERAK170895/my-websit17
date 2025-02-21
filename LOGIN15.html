@@ -137,6 +137,11 @@
             return value.replace(/\D/g, ''); // Menghapus karakter selain angka
         }
 
+        // Fungsi untuk menambahkan pemisah ribuan
+        function formatRibuan(angka) {
+            return angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
         // Fungsi untuk menghitung Total QRIS
         function hitungQRIS() {
             let qris1 = parseInt(removeTitik(document.getElementById('qris1').value)) || 0;
@@ -160,16 +165,16 @@
             document.getElementById('deposit').value = totalKeseluruhan;
         }
 
-        // Fungsi untuk menampilkan hasil di popup
+        // Fungsi untuk menampilkan hasil di popup dengan format ribuan
         function tampilkanHasil() {
             let totalQris = document.getElementById('totalQris').value;
             let jumlahEmoneyBank = document.getElementById('jumlahEmoneyBank').value;
             let deposit = document.getElementById('deposit').value;
 
-            // Menampilkan hasil pada popup
-            document.getElementById('hasilTotalQris').textContent = totalQris;
-            document.getElementById('hasilEmoneyBank').textContent = jumlahEmoneyBank;
-            document.getElementById('hasilDeposit').textContent = deposit;
+            // Menambahkan pemisah ribuan pada hasil
+            document.getElementById('hasilTotalQris').textContent = formatRibuan(totalQris);
+            document.getElementById('hasilEmoneyBank').textContent = formatRibuan(jumlahEmoneyBank);
+            document.getElementById('hasilDeposit').textContent = formatRibuan(deposit);
 
             // Menampilkan popup
             document.getElementById('popupHasil').style.display = 'flex';
