@@ -96,9 +96,9 @@
                     <th>Total Keseluruhan</th>
                 </tr>
                 <tr>
-                    <td><input type="number" id="qris1" placeholder="Masukkan QRIS 1" oninput="hitungQRIS()"></td>
-                    <td><input type="number" id="qris2" placeholder="Masukkan QRIS 2" oninput="hitungQRIS()"></td>
-                    <td><input type="number" id="totalKeseluruhan" placeholder="Masukkan Total Keseluruhan" oninput="hitungEmoneyBank()"></td>
+                    <td><input type="text" id="qris1" placeholder="Masukkan QRIS 1" oninput="formatAngkaInput('qris1')" onblur="hitungQRIS()"></td>
+                    <td><input type="text" id="qris2" placeholder="Masukkan QRIS 2" oninput="formatAngkaInput('qris2')" onblur="hitungQRIS()"></td>
+                    <td><input type="text" id="totalKeseluruhan" placeholder="Masukkan Total Keseluruhan" oninput="formatAngkaInput('totalKeseluruhan')" onblur="hitungEmoneyBank()"></td>
                 </tr>
             </table>
 
@@ -110,9 +110,9 @@
                     <th>Jumlah Deposit</th>
                 </tr>
                 <tr>
-                    <td><input type="number" id="totalQris" disabled class="result" value="0"></td>
-                    <td><input type="number" id="jumlahEmoneyBank" disabled class="result" value="0"></td>
-                    <td><input type="number" id="deposit" disabled class="result" value="0"></td>
+                    <td><input type="text" id="totalQris" disabled class="result" value="0"></td>
+                    <td><input type="text" id="jumlahEmoneyBank" disabled class="result" value="0"></td>
+                    <td><input type="text" id="deposit" disabled class="result" value="0"></td>
                 </tr>
             </table>
             <!-- Tombol untuk tampilkan hasil -->
@@ -132,15 +132,20 @@
     </div>
 
     <script>
-        // Format angka dengan tanda koma (ribuan)
-        function formatAngka(number) {
-            return number.toLocaleString();
+        // Format angka dengan titik (ribuan)
+        function formatAngkaInput(id) {
+            let inputElement = document.getElementById(id);
+            let value = inputElement.value.replace(/[^\d]/g, '');  // Menghapus karakter non-digit
+            if (value) {
+                value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');  // Menambahkan titik setiap 3 digit
+            }
+            inputElement.value = value;
         }
 
         // Fungsi untuk menghitung Total QRIS
         function hitungQRIS() {
-            let qris1 = parseFloat(document.getElementById('qris1').value) || 0;
-            let qris2 = parseFloat(document.getElementById('qris2').value) || 0;
+            let qris1 = parseInt(document.getElementById('qris1').value.replace(/[^\d]/g, '')) || 0;
+            let qris2 = parseInt(document.getElementById('qris2').value.replace(/[^\d]/g, '')) || 0;
 
             let totalQris = qris1 + qris2;
             document.getElementById('totalQris').value = formatAngka(totalQris);
@@ -150,8 +155,8 @@
 
         // Fungsi untuk menghitung Jumlah eMoney & Bank dan Deposit
         function hitungEmoneyBank() {
-            let totalKeseluruhan = parseFloat(document.getElementById('totalKeseluruhan').value) || 0;
-            let totalQris = parseFloat(document.getElementById('totalQris').value.replace(/,/g, '')) || 0;
+            let totalKeseluruhan = parseInt(document.getElementById('totalKeseluruhan').value.replace(/[^\d]/g, '')) || 0;
+            let totalQris = parseInt(document.getElementById('totalQris').value.replace(/[^\d]/g, '')) || 0;
 
             let jumlahEmoneyBank = totalKeseluruhan - totalQris;
             document.getElementById('jumlahEmoneyBank').value = formatAngka(jumlahEmoneyBank);
