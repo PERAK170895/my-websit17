@@ -79,6 +79,23 @@
             background-color: #45a049;
         }
 
+        /* Tombol tambahan ke login15.html */
+        .go-to-login15 {
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            width: 100%;
+            margin-top: 10px; /* Memberikan jarak antara tombol */
+        }
+
+        .go-to-login15:hover {
+            background-color: #f57c00;
+        }
+
         footer {
             width: 100%;
             background-color: yellow;
@@ -125,6 +142,9 @@
                 <button type="submit">Login</button>
                 <p id="error-message" class="error" style="display: none;">Username atau password salah!</p>
             </form>
+
+            <!-- Tombol untuk mengarahkan ke login15.html -->
+            <button class="go-to-login15" onclick="window.location.href='login15.html'">Pergi ke Login15</button>
         </div>
     </div>
 
