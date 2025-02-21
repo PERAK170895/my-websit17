@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Kalkulator QRIS</title>
+    <title>Form Kalkulasi QRIS</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -51,44 +51,33 @@
 <body>
 
     <div class="container">
-        <h2>Form Kalkulator QRIS</h2>
+        <h2>Form Kalkulasi QRIS</h2>
 
         <form id="formKalkulator">
+            <!-- QRIS 1 dan QRIS 2 Input -->
             <table>
                 <tr>
-                    <th>Q1</th>
-                    <th>Q2</th>
-                    <th>Total QRIS</th>
-                    <th>Total Deposit</th>
+                    <th>QRIS 1</th>
+                    <th>QRIS 2</th>
+                    <th>Total Keseluruhan</th>
                 </tr>
                 <tr>
-                    <td><input type="number" id="q1" placeholder="Masukkan jumlah Q1" oninput="hitungTotal()"></td>
-                    <td><input type="number" id="q2" placeholder="Masukkan jumlah Q2" oninput="hitungTotal()"></td>
+                    <td><input type="number" id="qris1" placeholder="Masukkan QRIS 1" oninput="hitungQRIS()"></td>
+                    <td><input type="number" id="qris2" placeholder="Masukkan QRIS 2" oninput="hitungQRIS()"></td>
+                    <td><input type="number" id="totalKeseluruhan" placeholder="Masukkan Total Keseluruhan" oninput="hitungEmoneyBank()"></td>
+                </tr>
+            </table>
+
+            <!-- Total QRIS dan Total eMoney & Bank -->
+            <table>
+                <tr>
+                    <th>Total QRIS</th>
+                    <th>Jumlah eMoney & Bank</th>
+                    <th>Jumlah Deposit</th>
+                </tr>
+                <tr>
                     <td><input type="number" id="totalQris" disabled class="result" value="0"></td>
-                    <td><input type="number" id="totalDeposit" disabled class="result" value="0"></td>
-                </tr>
-            </table>
-
-            <table>
-                <tr>
-                    <th>Jumlah eMoney</th>
-                    <th>Jumlah Bank</th>
-                    <th>Jumlah Keseluruhan</th>
-                </tr>
-                <tr>
-                    <td><input type="number" id="jumlahEmoney" placeholder="Jumlah eMoney" oninput="hitungKeseluruhan()"></td>
-                    <td><input type="number" id="jumlahBank" placeholder="Jumlah Bank" oninput="hitungKeseluruhan()"></td>
-                    <td><input type="number" id="jumlahKeseluruhan" disabled class="result" value="0"></td>
-                </tr>
-            </table>
-
-            <table>
-                <tr>
-                    <th>Total QRIS</th>
-                    <th>Deposit</th>
-                </tr>
-                <tr>
-                    <td><input type="number" id="totalQrisDeposit" disabled class="result" value="0"></td>
+                    <td><input type="number" id="jumlahEmoneyBank" disabled class="result" value="0"></td>
                     <td><input type="number" id="deposit" disabled class="result" value="0"></td>
                 </tr>
             </table>
@@ -96,39 +85,30 @@
     </div>
 
     <script>
-        function hitungTotal() {
-            let q1 = parseFloat(document.getElementById('q1').value) || 0;
-            let q2 = parseFloat(document.getElementById('q2').value) || 0;
+        // Fungsi untuk menghitung Total QRIS
+        function hitungQRIS() {
+            // Ambil nilai dari QRIS 1 dan QRIS 2
+            let qris1 = parseFloat(document.getElementById('qris1').value) || 0;
+            let qris2 = parseFloat(document.getElementById('qris2').value) || 0;
 
-            // Hitung Total QRIS
-            let totalQris = q1 + q2;
+            // Hitung Total QRIS (QRIS 1 + QRIS 2)
+            let totalQris = qris1 + qris2;
             document.getElementById('totalQris').value = totalQris;
 
-            // Hitung Total Deposit
-            let totalDeposit = totalQris; // Misalnya total deposit sama dengan total QRIS
-            document.getElementById('totalDeposit').value = totalDeposit;
-
-            hitungKeseluruhan(); // Update keseluruhan setelah perubahan total QRIS dan Deposit
+            hitungEmoneyBank(); // Setelah menghitung QRIS, hitung jumlah eMoney dan Bank
         }
 
-        function hitungKeseluruhan() {
-            let jumlahEmoney = parseFloat(document.getElementById('jumlahEmoney').value) || 0;
-            let jumlahBank = parseFloat(document.getElementById('jumlahBank').value) || 0;
-
-            // Hitung Jumlah Keseluruhan
-            let jumlahKeseluruhan = jumlahEmoney + jumlahBank;
-            document.getElementById('jumlahKeseluruhan').value = jumlahKeseluruhan;
-
-            hitungDeposit(); // Update deposit setelah menghitung keseluruhan
-        }
-
-        function hitungDeposit() {
+        // Fungsi untuk menghitung Jumlah eMoney & Bank dan Deposit
+        function hitungEmoneyBank() {
+            let totalKeseluruhan = parseFloat(document.getElementById('totalKeseluruhan').value) || 0;
             let totalQris = parseFloat(document.getElementById('totalQris').value) || 0;
-            let jumlahKeseluruhan = parseFloat(document.getElementById('jumlahKeseluruhan').value) || 0;
 
-            // Hitung deposit: total keseluruhan dikurangi dengan total QRIS
-            let deposit = jumlahKeseluruhan - totalQris;
-            document.getElementById('deposit').value = deposit;
+            // Hitung Jumlah eMoney & Bank (Total Keseluruhan - Total QRIS)
+            let jumlahEmoneyBank = totalKeseluruhan - totalQris;
+            document.getElementById('jumlahEmoneyBank').value = jumlahEmoneyBank;
+
+            // Hitung Jumlah Deposit (Jumlah eMoney & Bank)
+            document.getElementById('deposit').value = jumlahEmoneyBank;
         }
     </script>
 
