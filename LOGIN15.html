@@ -35,7 +35,7 @@
         th {
             background-color: #f1f1f1;
         }
-        input[type="number"] {
+        input[type="text"] {
             width: 100%;
             padding: 8px;
             font-size: 16px;
@@ -142,10 +142,15 @@
             inputElement.value = value;
         }
 
+        // Menghilangkan titik untuk perhitungan
+        function removeTitik(value) {
+            return value.replace(/\./g, '');
+        }
+
         // Fungsi untuk menghitung Total QRIS
         function hitungQRIS() {
-            let qris1 = parseInt(document.getElementById('qris1').value.replace(/[^\d]/g, '')) || 0;
-            let qris2 = parseInt(document.getElementById('qris2').value.replace(/[^\d]/g, '')) || 0;
+            let qris1 = parseInt(removeTitik(document.getElementById('qris1').value)) || 0;
+            let qris2 = parseInt(removeTitik(document.getElementById('qris2').value)) || 0;
 
             let totalQris = qris1 + qris2;
             document.getElementById('totalQris').value = formatAngka(totalQris);
@@ -155,8 +160,8 @@
 
         // Fungsi untuk menghitung Jumlah eMoney & Bank dan Deposit
         function hitungEmoneyBank() {
-            let totalKeseluruhan = parseInt(document.getElementById('totalKeseluruhan').value.replace(/[^\d]/g, '')) || 0;
-            let totalQris = parseInt(document.getElementById('totalQris').value.replace(/[^\d]/g, '')) || 0;
+            let totalKeseluruhan = parseInt(removeTitik(document.getElementById('totalKeseluruhan').value)) || 0;
+            let totalQris = parseInt(removeTitik(document.getElementById('totalQris').value)) || 0;
 
             let jumlahEmoneyBank = totalKeseluruhan - totalQris;
             document.getElementById('jumlahEmoneyBank').value = formatAngka(jumlahEmoneyBank);
