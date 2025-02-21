@@ -96,9 +96,9 @@
                     <th>Total Keseluruhan</th>
                 </tr>
                 <tr>
-                    <td><input type="text" id="qris1" placeholder="Masukkan QRIS 1" oninput="formatAngkaInput('qris1')" onblur="hitungQRIS()"></td>
-                    <td><input type="text" id="qris2" placeholder="Masukkan QRIS 2" oninput="formatAngkaInput('qris2')" onblur="hitungQRIS()"></td>
-                    <td><input type="text" id="totalKeseluruhan" placeholder="Masukkan Total Keseluruhan" oninput="formatAngkaInput('totalKeseluruhan')" onblur="hitungEmoneyBank()"></td>
+                    <td><input type="text" id="qris1" placeholder="Masukkan QRIS 1" oninput="hitungQRIS()" maxlength="15"></td>
+                    <td><input type="text" id="qris2" placeholder="Masukkan QRIS 2" oninput="hitungQRIS()" maxlength="15"></td>
+                    <td><input type="text" id="totalKeseluruhan" placeholder="Masukkan Total Keseluruhan" oninput="hitungEmoneyBank()" maxlength="15"></td>
                 </tr>
             </table>
 
@@ -132,19 +132,9 @@
     </div>
 
     <script>
-        // Format angka dengan titik (ribuan)
-        function formatAngkaInput(id) {
-            let inputElement = document.getElementById(id);
-            let value = inputElement.value.replace(/[^\d]/g, '');  // Menghapus karakter non-digit
-            if (value) {
-                value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');  // Menambahkan titik setiap 3 digit
-            }
-            inputElement.value = value;
-        }
-
-        // Menghilangkan titik untuk perhitungan
+        // Menghilangkan titik dan melakukan perhitungan langsung
         function removeTitik(value) {
-            return value.replace(/\./g, '');
+            return value.replace(/\D/g, ''); // Menghapus karakter selain angka
         }
 
         // Fungsi untuk menghitung Total QRIS
@@ -153,7 +143,7 @@
             let qris2 = parseInt(removeTitik(document.getElementById('qris2').value)) || 0;
 
             let totalQris = qris1 + qris2;
-            document.getElementById('totalQris').value = formatAngka(totalQris);
+            document.getElementById('totalQris').value = totalQris;
 
             hitungEmoneyBank(); // Menghitung eMoney & Bank setelah menghitung QRIS
         }
@@ -161,13 +151,13 @@
         // Fungsi untuk menghitung Jumlah eMoney & Bank dan Deposit
         function hitungEmoneyBank() {
             let totalKeseluruhan = parseInt(removeTitik(document.getElementById('totalKeseluruhan').value)) || 0;
-            let totalQris = parseInt(removeTitik(document.getElementById('totalQris').value)) || 0;
+            let totalQris = parseInt(document.getElementById('totalQris').value) || 0;
 
             let jumlahEmoneyBank = totalKeseluruhan - totalQris;
-            document.getElementById('jumlahEmoneyBank').value = formatAngka(jumlahEmoneyBank);
+            document.getElementById('jumlahEmoneyBank').value = jumlahEmoneyBank;
 
             // Set Jumlah Deposit sama dengan Total Keseluruhan
-            document.getElementById('deposit').value = formatAngka(totalKeseluruhan);
+            document.getElementById('deposit').value = totalKeseluruhan;
         }
 
         // Fungsi untuk menampilkan hasil di popup
