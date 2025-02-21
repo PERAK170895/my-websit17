@@ -141,6 +141,8 @@
         <div class="popup-content">
             <h3>DETAIL TRANSAKSI:</h3>
             <h3>WEB: FLAS4D</h3>
+            <!-- Tanggal Pop-up -->
+            <p><strong id="tanggalPopup">Tanggal: </strong></p>
             <p><strong>___________________________</p>
             <p><strong>T. Deposit:</strong> <span id="hasilDeposit"></span></p>
             <p><strong>T. Depo Bank dan Emoney :</strong> <span id="hasilEmoneyBank"></span></p>
@@ -209,6 +211,19 @@
             document.getElementById('hasilEmoneyBank').textContent = formatRibuan(jumlahEmoneyBank);
             document.getElementById('hasilDeposit').textContent = formatRibuan(deposit);
             document.getElementById('hasilWithdraw').textContent = formatRibuan(totalWithdraw);
+
+            // Menentukan tanggal yang akan ditampilkan di popup
+            let currentDate = new Date();
+            let hours = currentDate.getHours();
+            let formattedDate = currentDate.toLocaleDateString();
+
+            if (hours >= 0 && hours < 1) {
+                // Jika waktu antara 00.00 - 01.00, tampilkan tanggal sebelumnya
+                currentDate.setDate(currentDate.getDate() - 1);
+                formattedDate = currentDate.toLocaleDateString();
+            }
+
+            document.getElementById('tanggalPopup').textContent = "Tanggal: " + formattedDate;
 
             // Menampilkan popup
             document.getElementById('popupHasil').style.display = 'flex';
