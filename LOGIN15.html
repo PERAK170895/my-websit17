@@ -156,7 +156,8 @@
             let jumlahEmoneyBank = totalKeseluruhan - totalQris;
             document.getElementById('jumlahEmoneyBank').value = formatAngka(jumlahEmoneyBank);
 
-            document.getElementById('deposit').value = formatAngka(jumlahEmoneyBank);
+            // Set Jumlah Deposit sama dengan Total Keseluruhan
+            document.getElementById('deposit').value = formatAngka(totalKeseluruhan);
         }
 
         // Fungsi untuk menampilkan hasil di popup
