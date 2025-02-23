@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Kalkulasi QRIS</title>
+    <title>FORM KALKULASI CHEKER</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -58,61 +58,105 @@
         button:hover {
             background-color: #45a049;
         }
-        /* Popup style */
-        .popup {
+        /* Popup Styling */
+        #popupHasil {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1;
-            justify-content: center;
-            align-items: center;
-        }
-        .popup-content {
-            background-color: white;
-            padding: 54px;
-            border-radius: 21px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            width: 50%;
             text-align: center;
         }
-        .popup button {
+        .popup-content {
+            margin-bottom: 20px;
+        }
+        .close-btn {
             background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .close-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        /* Position the WEB and TANGGAL input fields */
+        .top-inputs {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .top-inputs input {
+            width: 45%;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h2>Form Cheker transaksi</h2>
+        <h2>FORM KALKULASI CHEKER</h2>
+
+        <div class="top-inputs">
+            <!-- Input for WEB and TANGGAL -->
+            <input type="text" id="web" placeholder="Masukkan WEB" />
+            <input type="date" id="tanggal" placeholder="Masukkan TANGGAL" onchange="ubahFormatTanggal()" />
+        </div>
 
         <form id="formKalkulator">
-            <!-- QRIS 1, QRIS 2, Total Keseluruhan -->
+            <!-- QRIS 1, QRIS 2, QRIS 3, Total Keseluruhan -->
             <table>
                 <tr>
                     <th>QRIS 1</th>
+                    <th>QTY QRIS1</th>
                     <th>QRIS 2</th>
+                    <th>QTY QRIS2</th>
+                    <th>QRIS 3</th>
+                    <th>QTY QRIS3</th>
                     <th>Total Keseluruhan</th>
+                    <th>QTY Keseluruhan</th>
                 </tr>
                 <tr>
-                    <td><input type="text" id="qris1" placeholder="Masukkan QRIS 1" oninput="hitungQRIS()" maxlength="15"></td>
-                    <td><input type="text" id="qris2" placeholder="Masukkan QRIS 2" oninput="hitungQRIS()" maxlength="15"></td>
-                    <td><input type="text" id="totalKeseluruhan" placeholder="Masukkan Total Keseluruhan" oninput="hitungEmoneyBank()" maxlength="15"></td>
+                    <td><input type="text" id="qris1" placeholder="Masukkan QRIS 1" oninput="hitungQRIS(); hitungQtyQris(); hitungEmoneyBank();" maxlength="15"></td>
+                    <td><input type="text" id="qtyQris1" placeholder="Masukkan QTY QRIS1" oninput="hitungQtyQris(); hitungEmoneyBank();" maxlength="15"></td>
+                    <td><input type="text" id="qris2" placeholder="Masukkan QRIS 2" oninput="hitungQRIS(); hitungQtyQris(); hitungEmoneyBank();" maxlength="15"></td>
+                    <td><input type="text" id="qtyQris2" placeholder="Masukkan QTY QRIS2" oninput="hitungQtyQris(); hitungEmoneyBank();" maxlength="15"></td>
+                    <td><input type="text" id="qris3" placeholder="Masukkan QRIS 3" oninput="hitungQRIS(); hitungQtyQris(); hitungEmoneyBank();" maxlength="15"></td>
+                    <td><input type="text" id="qtyQris3" placeholder="Masukkan QTY QRIS3" oninput="hitungQtyQris(); hitungEmoneyBank();" maxlength="15"></td>
+                    <td><input type="text" id="totalKeseluruhan" placeholder="Masukkan Total Keseluruhan" oninput="hitungEmoneyBank(); salinDeposit()" maxlength="15"></td>
+                    <td><input type="text" id="QTYKeseluruhan" placeholder="Masukkan QTY Keseluruhan" oninput="hitungEmoneyBank(); salinQtyDeposit()" maxlength="15"></td>
                 </tr>
             </table>
 
-            <!-- QRIS WD1, QRIS WD2, Total Keseluruhan WD -->
+            <!-- QRIS WD1, QRIS WD2, QRIS WD3, Total Keseluruhan WD -->
             <table>
                 <tr>
                     <th>QRIS WD1</th>
+                    <th>QTYQRIS WD1</th>
                     <th>QRIS WD2</th>
+                    <th>QTYQRIS WD2</th>
+                    <th>QRIS WD3</th>
+                    <th>QTYQRIS WD3</th>
                     <th>Total Keseluruhan WD</th>
+                    <th>QTY WD Keseluruhan</th>
+                    <th>Total WD Keseluruhan</th>
                 </tr>
                 <tr>
                     <td><input type="text" id="qrisWd1" placeholder="Masukkan QRIS WD1" oninput="hitungWithdraw()" maxlength="15"></td>
+                    <td><input type="text" id="qtyQrisWd1" placeholder="QTYQRIS WD1" oninput="hitungWithdraw()" maxlength="15"></td>
                     <td><input type="text" id="qrisWd2" placeholder="Masukkan QRIS WD2" oninput="hitungWithdraw()" maxlength="15"></td>
+                    <td><input type="text" id="qtyQrisWd2" placeholder="QTYQRIS WD2" oninput="hitungWithdraw()" maxlength="15"></td>
+                    <td><input type="text" id="qrisWd3" placeholder="Masukkan QRIS WD3" oninput="hitungWithdraw()" maxlength="15"></td>
+                    <td><input type="text" id="qtyQrisWd3" placeholder="QTYQRIS WD3" oninput="hitungWithdraw()" maxlength="15"></td>
                     <td><input type="text" id="totalKeseluruhanWd" placeholder="Masukkan Total Keseluruhan WD" oninput="hitungWithdraw()" maxlength="15"></td>
+                    <td><input type="text" id="qtyWdKeseluruhan" placeholder="Masukkan QTY WD Keseluruhan" oninput="hitungWithdraw()" maxlength="15"></td>
+                    <td><input type="text" id="totalWDKeseluruhan" placeholder="Total WD Keseluruhan" oninput="hitungWithdraw()" maxlength="15"></td>
                 </tr>
             </table>
 
@@ -120,113 +164,128 @@
             <table>
                 <tr>
                     <th>Total QRIS</th>
+                    <th>QTY QRIS</th>
                     <th>Jumlah eMoney & Bank</th>
+                    <th>Qty eMoney</th>
                     <th>Total Withdraw</th>
+                    <th>QTY Withdraw</th>
                     <th>Jumlah Deposit</th>
+                    <th>QTY Deposit</th>
                 </tr>
                 <tr>
                     <td><input type="text" id="totalQris" disabled class="result" value="0"></td>
+                    <td><input type="text" id="totalQtyQris" disabled class="result" value="0"></td>
                     <td><input type="text" id="jumlahEmoneyBank" disabled class="result" value="0"></td>
+                    <td><input type="text" id="qtyEmoney" disabled class="result" value="0"></td>
                     <td><input type="text" id="totalWithdraw" disabled class="result" value="0"></td>
+                    <td><input type="text" id="qtyWithdraw" disabled class="result" value="0"></td>
                     <td><input type="text" id="deposit" disabled class="result" value="0"></td>
+                    <td><input type="text" id="QTYDeposit" disabled class="result" value="0"></td>
                 </tr>
             </table>
-            <!-- Tombol untuk tampilkan hasil -->
             <button type="button" onclick="tampilkanHasil()">Tampilkan Hasil</button>
         </form>
     </div>
 
-    <!-- Popup Hasil -->
-    <div class="popup" id="popupHasil">
+    <!-- Popup Detail Transaksi -->
+    <div id="popupHasil">
         <div class="popup-content">
-            <h3>DETAIL TRANSAKSI:</h3>
-            <h3>WEB: FLAS4D</h3>
-            <!-- Tanggal Pop-up -->
-            <p><strong id="tanggalPopup">Tanggal: </strong></p>
-            <p><strong>___________________________</p>
-            <p><strong>T. Deposit:</strong> <span id="hasilDeposit"></span></p>
-            <p><strong>T. Depo Bank dan Emoney :</strong> <span id="hasilEmoneyBank"></span></p>
-            <p><strong>T. Depo QRIS (PAY4D):</strong> <span id="hasilTotalQris"></span></p>
-            <p><strong>T. Withdraw:</strong> <span id="hasilWithdraw"></span></p>
-            <button onclick="tutupPopup()">Tutup</button>
+	    <p>DETAIL TRANSAKSI</p>
+            <p><strong>WEB:</strong> <span id="hasilWeb"></span></p>
+            <p><strong>TANGGAL:</strong> <span id="hasilTanggal"></span></p>
+            <p>---------------------------</p>
+            <p><strong>Total Deposit:</strong> <span id="hasilDeposit"></span> (<span id="hasilQtyDeposit"></span>)</p>
+            <p><strong>T. Depo Bank dan Emoney:</strong> <span id="hasilEmoneyBank"></span> (<span id="hasilQtyEmoney"></span>)</p>
+            <p><strong>Total Withdraw:</strong> <span id="hasilWithdraw"></span></p>
         </div>
+        <button class="close-btn" onclick="tutupPopup()">Tutup</button>
     </div>
 
     <script>
-        // Menghilangkan titik dan melakukan perhitungan langsung
         function removeTitik(value) {
             return value.replace(/\D/g, ''); // Menghapus karakter selain angka
         }
 
-        // Fungsi untuk menambahkan pemisah ribuan
-        function formatRibuan(angka) {
-            return angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        // Fungsi untuk mengubah format tanggal menjadi dd/mm/yyyy
+        function ubahFormatTanggal() {
+            let tanggalInput = document.getElementById('tanggal').value;
+            if (tanggalInput) {
+                // Mengubah format yyyy-mm-dd menjadi dd/mm/yyyy
+                let tanggal = new Date(tanggalInput);
+                let day = String(tanggal.getDate()).padStart(2, '0');
+                let month = String(tanggal.getMonth() + 1).padStart(2, '0');
+                let year = tanggal.getFullYear();
+                
+                // Menampilkan tanggal dengan format dd/mm/yyyy
+                document.getElementById('tanggal').value = `${day}/${month}/${year}`;
+            }
         }
 
-        // Fungsi untuk menghitung Total QRIS
-        function hitungQRIS() {
-            let qris1 = parseInt(removeTitik(document.getElementById('qris1').value)) || 0;
-            let qris2 = parseInt(removeTitik(document.getElementById('qris2').value)) || 0;
-
-            let totalQris = qris1 + qris2;
-            document.getElementById('totalQris').value = totalQris;
-
-            hitungEmoneyBank(); // Menghitung eMoney & Bank setelah menghitung QRIS
-        }
-
-        // Fungsi untuk menghitung Total QRIS WD dan Total Withdraw
-        function hitungWithdraw() {
-            let qrisWd1 = parseInt(removeTitik(document.getElementById('qrisWd1').value)) || 0;
-            let qrisWd2 = parseInt(removeTitik(document.getElementById('qrisWd2').value)) || 0;
-            let totalKeseluruhanWd = parseInt(removeTitik(document.getElementById('totalKeseluruhanWd').value)) || 0;
-
-            // Menghitung Total Withdraw
-            let totalWithdraw = totalKeseluruhanWd - (qrisWd1 + qrisWd2);
-            document.getElementById('totalWithdraw').value = totalWithdraw;
-
-            hitungEmoneyBank(); // Menghitung eMoney & Bank setelah menghitung Withdraw
-        }
-
-        // Fungsi untuk menghitung Jumlah eMoney & Bank dan Deposit
-        function hitungEmoneyBank() {
-            let totalKeseluruhan = parseInt(removeTitik(document.getElementById('totalKeseluruhan').value)) || 0;
-            let totalQris = parseInt(document.getElementById('totalQris').value) || 0;
-
-            let jumlahEmoneyBank = totalKeseluruhan - totalQris;
-            document.getElementById('jumlahEmoneyBank').value = jumlahEmoneyBank;
-
-            // Set Jumlah Deposit sama dengan Total Keseluruhan
+        // Fungsi untuk menyalin Total Keseluruhan ke Jumlah Deposit
+        function salinDeposit() {
+            let totalKeseluruhan = document.getElementById('totalKeseluruhan').value;
             document.getElementById('deposit').value = totalKeseluruhan;
         }
 
-        // Fungsi untuk menampilkan hasil di popup dengan format ribuan
+        // Fungsi untuk menyalin QTY Keseluruhan ke QTY Deposit
+        function salinQtyDeposit() {
+            let qtyKeseluruhan = document.getElementById('QTYKeseluruhan').value;
+            document.getElementById('QTYDeposit').value = qtyKeseluruhan;
+        }
+
+        // Fungsi untuk menghitung Total Withdraw
+        function hitungWithdraw() {
+            let totalKeseluruhanWd = parseInt(removeTitik(document.getElementById('totalKeseluruhanWd').value)) || 0;
+            let qrisWd1 = parseInt(removeTitik(document.getElementById('qrisWd1').value)) || 0;
+            let qrisWd2 = parseInt(removeTitik(document.getElementById('qrisWd2').value)) || 0;
+            let qrisWd3 = parseInt(removeTitik(document.getElementById('qrisWd3').value)) || 0;
+            let qtyQrisWd1 = parseInt(removeTitik(document.getElementById('qtyQrisWd1').value)) || 0;
+            let qtyQrisWd2 = parseInt(removeTitik(document.getElementById('qtyQrisWd2').value)) || 0;
+            let qtyQrisWd3 = parseInt(removeTitik(document.getElementById('qtyQrisWd3').value)) || 0;
+            let totalWithdraw = totalKeseluruhanWd + qrisWd1 + qrisWd2 + qrisWd3;
+            let totalQtyWithdraw = qtyQrisWd1 + qtyQrisWd2 + qtyQrisWd3;
+            
+            document.getElementById('totalWithdraw').value = totalWithdraw;
+            document.getElementById('qtyWithdraw').value = totalQtyWithdraw;
+        }
+
+        // Fungsi untuk menghitung QRIS, QTY QRIS, dan eMoney Bank
+        function hitungQRIS() {
+            let qris1 = parseInt(removeTitik(document.getElementById('qris1').value)) || 0;
+            let qris2 = parseInt(removeTitik(document.getElementById('qris2').value)) || 0;
+            let qris3 = parseInt(removeTitik(document.getElementById('qris3').value)) || 0;
+            let totalQris = qris1 + qris2 + qris3;
+            document.getElementById('totalQris').value = totalQris;
+        }
+
+        // Fungsi untuk menghitung QTY QRIS
+        function hitungQtyQris() {
+            let qtyQris1 = parseInt(removeTitik(document.getElementById('qtyQris1').value)) || 0;
+            let qtyQris2 = parseInt(removeTitik(document.getElementById('qtyQris2').value)) || 0;
+            let qtyQris3 = parseInt(removeTitik(document.getElementById('qtyQris3').value)) || 0;
+            let totalQtyQris = qtyQris1 + qtyQris2 + qtyQris3;
+            document.getElementById('totalQtyQris').value = totalQtyQris;
+        }
+
+        // Fungsi untuk menghitung emoney bank dan qty emoney
+        function hitungEmoneyBank() {
+            let totalKeseluruhan = parseInt(removeTitik(document.getElementById('totalKeseluruhan').value)) || 0;
+            let totalQty = parseInt(removeTitik(document.getElementById('QTYKeseluruhan').value)) || 0;
+            document.getElementById('jumlahEmoneyBank').value = totalKeseluruhan;
+            document.getElementById('qtyEmoney').value = totalQty;
+        }
+
+        // Fungsi untuk menampilkan hasil
         function tampilkanHasil() {
-            let totalQris = document.getElementById('totalQris').value;
-            let jumlahEmoneyBank = document.getElementById('jumlahEmoneyBank').value;
-            let deposit = document.getElementById('deposit').value;
-            let totalWithdraw = document.getElementById('totalWithdraw').value;
+            document.getElementById('hasilWeb').innerText = document.getElementById('web').value;
+            document.getElementById('hasilTanggal').innerText = document.getElementById('tanggal').value;
+            document.getElementById('hasilDeposit').innerText = document.getElementById('deposit').value;
+            document.getElementById('hasilQtyDeposit').innerText = document.getElementById('QTYDeposit').value;
+            document.getElementById('hasilEmoneyBank').innerText = document.getElementById('jumlahEmoneyBank').value;
+            document.getElementById('hasilQtyEmoney').innerText = document.getElementById('qtyEmoney').value;
+            document.getElementById('hasilWithdraw').innerText = document.getElementById('totalWithdraw').value;
 
-            // Menambahkan pemisah ribuan pada hasil
-            document.getElementById('hasilTotalQris').textContent = formatRibuan(totalQris);
-            document.getElementById('hasilEmoneyBank').textContent = formatRibuan(jumlahEmoneyBank);
-            document.getElementById('hasilDeposit').textContent = formatRibuan(deposit);
-            document.getElementById('hasilWithdraw').textContent = formatRibuan(totalWithdraw);
-
-            // Menentukan tanggal yang akan ditampilkan di popup
-            let currentDate = new Date();
-            let hours = currentDate.getHours();
-            let formattedDate = currentDate.toLocaleDateString();
-
-            if (hours >= 0 && hours < 1) {
-                // Jika waktu antara 00.00 - 01.00, tampilkan tanggal sebelumnya
-                currentDate.setDate(currentDate.getDate() - 1);
-                formattedDate = currentDate.toLocaleDateString();
-            }
-
-            document.getElementById('tanggalPopup').textContent = "Tanggal: " + formattedDate;
-
-            // Menampilkan popup
-            document.getElementById('popupHasil').style.display = 'flex';
+            document.getElementById('popupHasil').style.display = 'block';
         }
 
         // Fungsi untuk menutup popup
@@ -234,6 +293,5 @@
             document.getElementById('popupHasil').style.display = 'none';
         }
     </script>
-
 </body>
 </html>
