@@ -106,7 +106,7 @@
         <div class="top-inputs">
             <!-- Input for WEB and TANGGAL -->
             <input type="text" id="web" placeholder="Masukkan WEB" />
-            <input type="date" id="tanggal" placeholder="Masukkan TANGGAL" onchange="ubahFormatTanggal()" />
+            <input type="text" id="tanggal" placeholder="Masukkan TANGGAL" onblur="ubahFormatTanggal()" />
         </div>
 
         <form id="formKalkulator">
@@ -206,21 +206,6 @@
             return value.replace(/\D/g, ''); // Menghapus karakter selain angka
         }
 
-        // Fungsi untuk mengubah format tanggal menjadi dd/mm/yyyy
-        function ubahFormatTanggal() {
-            let tanggalInput = document.getElementById('tanggal').value;
-            if (tanggalInput) {
-                // Mengubah format yyyy-mm-dd menjadi dd/mm/yyyy
-                let tanggal = new Date(tanggalInput);
-                let day = String(tanggal.getDate()).padStart(2, '0');
-                let month = String(tanggal.getMonth() + 1).padStart(2, '0');
-                let year = tanggal.getFullYear();
-                
-                // Menampilkan tanggal dengan format dd/mm/yyyy
-                document.getElementById('tanggal').value = `${day}/${month}/${year}`;
-            }
-        }
-
         // Fungsi untuk menyalin Total Keseluruhan ke Jumlah Deposit
         function salinDeposit() {
             let totalKeseluruhan = document.getElementById('totalKeseluruhan').value;
@@ -239,21 +224,31 @@
             let qrisWd1 = parseInt(removeTitik(document.getElementById('qrisWd1').value)) || 0;
             let qrisWd2 = parseInt(removeTitik(document.getElementById('qrisWd2').value)) || 0;
             let qrisWd3 = parseInt(removeTitik(document.getElementById('qrisWd3').value)) || 0;
+
+            let totalWithdraw = totalKeseluruhanWd - (qrisWd1 + qrisWd2 + qrisWd3);
+            document.getElementById('totalWithdraw').value = totalWithdraw;
+
+            // Menghitung QTY Withdraw
+            hitungQtyWithdraw();
+        }
+
+        // Fungsi untuk menghitung QTY Withdraw
+        function hitungQtyWithdraw() {
+            let qtyWdKeseluruhan = parseInt(removeTitik(document.getElementById('qtyWdKeseluruhan').value)) || 0;
             let qtyQrisWd1 = parseInt(removeTitik(document.getElementById('qtyQrisWd1').value)) || 0;
             let qtyQrisWd2 = parseInt(removeTitik(document.getElementById('qtyQrisWd2').value)) || 0;
             let qtyQrisWd3 = parseInt(removeTitik(document.getElementById('qtyQrisWd3').value)) || 0;
-            let totalWithdraw = totalKeseluruhanWd + qrisWd1 + qrisWd2 + qrisWd3;
-            let totalQtyWithdraw = qtyQrisWd1 + qtyQrisWd2 + qtyQrisWd3;
-            
-            document.getElementById('totalWithdraw').value = totalWithdraw;
-            document.getElementById('qtyWithdraw').value = totalQtyWithdraw;
+
+            let qtyWithdraw = qtyWdKeseluruhan - (qtyQrisWd1 + qtyQrisWd2 + qtyQrisWd3);
+            document.getElementById('qtyWithdraw').value = qtyWithdraw;
         }
 
-        // Fungsi untuk menghitung QRIS, QTY QRIS, dan eMoney Bank
+        // Fungsi untuk menghitung Total QRIS
         function hitungQRIS() {
             let qris1 = parseInt(removeTitik(document.getElementById('qris1').value)) || 0;
             let qris2 = parseInt(removeTitik(document.getElementById('qris2').value)) || 0;
             let qris3 = parseInt(removeTitik(document.getElementById('qris3').value)) || 0;
+
             let totalQris = qris1 + qris2 + qris3;
             document.getElementById('totalQris').value = totalQris;
         }
@@ -263,28 +258,47 @@
             let qtyQris1 = parseInt(removeTitik(document.getElementById('qtyQris1').value)) || 0;
             let qtyQris2 = parseInt(removeTitik(document.getElementById('qtyQris2').value)) || 0;
             let qtyQris3 = parseInt(removeTitik(document.getElementById('qtyQris3').value)) || 0;
+
             let totalQtyQris = qtyQris1 + qtyQris2 + qtyQris3;
             document.getElementById('totalQtyQris').value = totalQtyQris;
         }
 
-        // Fungsi untuk menghitung emoney bank dan qty emoney
+        // Fungsi untuk menghitung Emoney dan Bank
         function hitungEmoneyBank() {
-            let totalKeseluruhan = parseInt(removeTitik(document.getElementById('totalKeseluruhan').value)) || 0;
-            let totalQty = parseInt(removeTitik(document.getElementById('QTYKeseluruhan').value)) || 0;
-            document.getElementById('jumlahEmoneyBank').value = totalKeseluruhan;
-            document.getElementById('qtyEmoney').value = totalQty;
+            let totalQris = parseInt(removeTitik(document.getElementById('totalQris').value)) || 0;
+            let totalWithdraw = parseInt(removeTitik(document.getElementById('totalWithdraw').value)) || 0;
+            let jumlahEmoneyBank = totalQris - totalWithdraw;
+            document.getElementById('jumlahEmoneyBank').value = jumlahEmoneyBank;
         }
 
-        // Fungsi untuk menampilkan hasil
-        function tampilkanHasil() {
-            document.getElementById('hasilWeb').innerText = document.getElementById('web').value;
-            document.getElementById('hasilTanggal').innerText = document.getElementById('tanggal').value;
-            document.getElementById('hasilDeposit').innerText = document.getElementById('deposit').value;
-            document.getElementById('hasilQtyDeposit').innerText = document.getElementById('QTYDeposit').value;
-            document.getElementById('hasilEmoneyBank').innerText = document.getElementById('jumlahEmoneyBank').value;
-            document.getElementById('hasilQtyEmoney').innerText = document.getElementById('qtyEmoney').value;
-            document.getElementById('hasilWithdraw').innerText = document.getElementById('totalWithdraw').value;
+        // Fungsi untuk menghitung Qty eMoney
+        function hitungQtyEmoney() {
+            let totalQtyQris = parseInt(removeTitik(document.getElementById('totalQtyQris').value)) || 0;
+            let qtyWithdraw = parseInt(removeTitik(document.getElementById('qtyWithdraw').value)) || 0;
+            let qtyEmoney = totalQtyQris - qtyWithdraw;
+            document.getElementById('qtyEmoney').value = qtyEmoney;
+        }
 
+        // Fungsi untuk menampilkan hasil detail transaksi
+        function tampilkanHasil() {
+            let web = document.getElementById('web').value;
+            let tanggal = document.getElementById('tanggal').value;
+            let deposit = document.getElementById('deposit').value;
+            let qtyDeposit = document.getElementById('QTYDeposit').value;
+            let emoneyBank = document.getElementById('jumlahEmoneyBank').value;
+            let qtyEmoney = document.getElementById('qtyEmoney').value;
+            let withdraw = document.getElementById('totalWithdraw').value;
+
+            // Menampilkan hasil di popup
+            document.getElementById('hasilWeb').innerText = web;
+            document.getElementById('hasilTanggal').innerText = tanggal;
+            document.getElementById('hasilDeposit').innerText = deposit;
+            document.getElementById('hasilQtyDeposit').innerText = qtyDeposit;
+            document.getElementById('hasilEmoneyBank').innerText = emoneyBank;
+            document.getElementById('hasilQtyEmoney').innerText = qtyEmoney;
+            document.getElementById('hasilWithdraw').innerText = withdraw;
+
+            // Menampilkan popup
             document.getElementById('popupHasil').style.display = 'block';
         }
 
@@ -292,6 +306,21 @@
         function tutupPopup() {
             document.getElementById('popupHasil').style.display = 'none';
         }
+
+        // Fungsi untuk mengubah format tanggal menjadi dd/mm/yyyy
+        function ubahFormatTanggal() {
+            let tanggalInput = document.getElementById('tanggal').value;
+            if (tanggalInput) {
+                let tanggal = new Date(tanggalInput);
+                let day = String(tanggal.getDate()).padStart(2, '0');
+                let month = String(tanggal.getMonth() + 1).padStart(2, '0');
+                let year = tanggal.getFullYear();
+                document.getElementById('tanggal').value = `${day}/${month}/${year}`;
+            } else {
+                document.getElementById('tanggal').value = '';
+            }
+        }
     </script>
+
 </body>
 </html>
