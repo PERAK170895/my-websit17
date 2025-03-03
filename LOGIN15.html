@@ -346,8 +346,8 @@
 		<p id="popup-date"></p>
 		<p>----------------------------------------</p>
        		<p id="popup-deposit"></p> <!-- Menampilkan hasil hitungDeposit -->
-        	<p id="popup-withdraw"></p> <!-- Menampilkan hasil hitungWithdraw -->
         	<p id="popup-total-emoney"></p> <!-- Menampilkan hasil totalemoney -->
+        	<p id="popup-withdraw"></p> <!-- Menampilkan hasil hitungWithdraw -->
                 <button onclick="closePopup()">Tutup</button>
             </div>
         </div>
@@ -446,7 +446,10 @@
     const day = currentDate.getDate();
     const month = currentDate.getMonth() + 1; // months are zero-indexed
     const year = currentDate.getFullYear();
-
+    
+    function formatRupiah(value) {
+          return parseFloat(value).toLocaleString('id-ID');
+    }
     const dateStr = `Tanggal: ${day}/${month}/${year} | Waktu: ${hours}:${minutes}:${seconds}`;
     document.getElementById('popup-date').textContent = dateStr; // Menampilkan tanggal di pop-up
 
@@ -460,8 +463,8 @@
 
     // Menambahkan hasil perhitungan ke dalam pop-up
     document.getElementById('popup-deposit').textContent = `Total Deposit: Rp ${totalDeposit}  (${totalQtyDeposit})`;
-    document.getElementById('popup-withdraw').textContent = `Total Withdraw: Rp ${totalWithdraw} | QTY: ${totalQtyWithdraw}`;
-    document.getElementById('popup-total-emoney').textContent = `Emoney: Rp ${emoneyResult} | Emoney QTY: ${qtyEmoneyResult}`;
+    document.getElementById('popup-total-emoney').textContent = `Deposit bank dan Emoney: Rp ${emoneyResult} (${qtyEmoneyResult})`;
+    document.getElementById('popup-withdraw').textContent = `Total Withdraw: Rp ${totalWithdraw} (${totalQtyWithdraw})`;
 
     // Tampilkan pop-up
     document.getElementById('popup').style.display = 'flex';
