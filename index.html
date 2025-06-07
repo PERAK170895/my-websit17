@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FALS4D Admin Panel</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="logo">FALS4D</div>
+      <div class="section">
+        <h3>👑 Admin</h3>
+        <button>Admin User</button>
+        <button>Admin Log</button>
+      </div>
+      <div class="section">
+        <h3>👥 Users</h3>
+        <button>All User</button>
+        <button>Win Lose Togel</button>
+        <button>Win Lose All</button>
+        <button>Memo</button>
+      </div>
+      <div class="section">
+        <h3>🛠 Service</h3>
+        <button>Deposit</button>
+        <button>Withdraw</button>
+        <button>Rekening</button>
+        <button>Mutasi Bank</button>
+        <button>Bank Online</button>
+      </div>
+      <div class="section">
+        <h3>🎲 Bets</h3>
+        <button>Bets Table</button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="header">
+        <h2>Deposit</h2>
+        <button class="mutasi-btn">🗂 Open Mutasi Window</button>
+      </header>
+
+      <section class="filter-section">
+        <div class="filter-row">
+          <label>Sort By</label>
+          <select>
+            <option>Tanggal</option>
+          </select>
+          <label>Select Bank</label>
+          <select>
+            <option>Active</option>
+          </select>
+          <select>
+            <option>All selected (18)</option>
+          </select>
+          <button class="refresh-btn">Refresh</button>
+        </div>
+      </section>
+
+      <section class="table-section">
+        <h3>📥 DEPOSIT APPROVED</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>Tanggal</th>
+              <th>Username</th>
+              <th>Bank Asal</th>
+              <th>Bank Tujuan</th>
+              <th>Bonus</th>
+              <th>Jumlah</th>
+              <th>Note</th>
+              <th>Admin</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>06 Jun 2025 08:58:32</td>
+              <td class="highlight">oking08</td>
+              <td>DANA – NUR HAR</td>
+              <td>DANA – Akherudi</td>
+              <td>No Bonus</td>
+              <td class="success">20,000</td>
+              <td>-</td>
+              <td>botdana</td>
+            </tr>
+            <!-- Tambahkan baris lainnya sesuai kebutuhan -->
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
