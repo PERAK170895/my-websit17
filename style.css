@@ -1,0 +1,133 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  min-height: 100vh; /* penting agar background penuh tinggi layar */
+  background-image: url('https://i.postimg.cc/Nf9Yp96P/downloadaaaa.jpg');
+  background-size: cover; /* gambar menutupi seluruh area */
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed; /* opsional agar tetap di tempat saat scroll */
+  color: #161604;
+}
+
+h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+label {
+  display: block;
+  margin: 15px 0 10px;
+  font-weight: bold;
+}
+
+select,
+input[type="password"] {
+  padding: 8px;
+  margin-right: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  margin-right: 10px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  margin-right: 10px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+/* Tombol Keluar - Oranye */
+.btn-keluar {
+  background-color: #35dc3d;
+}
+.btn-keluar:hover {
+  background-color: #ee2b2b;
+}
+
+/* Tombol Masuk - Merah Gelap */
+.btn-masuk {
+  background-color: #e92d20;
+}
+.btn-masuk:hover {
+  background-color: #1a7a1a;
+}
+
+/* Tombol Export - Pink ke Biru */
+.btn-export {
+  background-color: #008cff;
+}
+.btn-export:hover {
+  background-color: #4dc100;
+}
+
+
+/* Tabel Presensi */
+#tabelPresensi {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 30px;
+  background-color: rgba(211, 221, 209, 0.9);
+}
+
+#tabelPresensi th,
+#tabelPresensi td {
+  border: 1px solid #bfbad6;
+  padding: 10px;
+  text-align: center;
+}
+
+#tabelPresensi th {
+  background-color: #dae485;
+}
+
+/* Durasi warna merah */
+.durasi-merah {
+  color: red;
+  font-weight: bold;
+}
+
+/* Daftar keluar */
+.keluar-container {
+  margin-top: 20px;
+  text-align: right;
+  font-weight: bold;
+}
+
+.keluar-item {
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* Jam digital */
+#digitalClock {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: rgba(26, 223, 190, 0.8);
+  padding: 8px 12px;
+  font-weight: bold;
+  border-radius: 16px;
+  font-family: monospace;
+  z-index: 9999;
+  user-select: none;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  font-size: 18px;
+  color: #444;
+}
