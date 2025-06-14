@@ -53,15 +53,15 @@ button {
   transition: 0.3s;
 }
 
-/* Tombol Keluar - Oranye */
+/* Tombol Keluar */
 .btn-keluar {
-  background-color: #35dc3d;
+  background-color: #137418;
 }
 .btn-keluar:hover {
   background-color: #ee2b2b;
 }
 
-/* Tombol Masuk - Merah Gelap */
+/* Tombol Masuk */
 .btn-masuk {
   background-color: #e92d20;
 }
@@ -69,7 +69,7 @@ button {
   background-color: #1a7a1a;
 }
 
-/* Tombol Export - Pink ke Biru */
+/* Tombol Export */
 .btn-export {
   background-color: #008cff;
 }
@@ -77,6 +77,13 @@ button {
   background-color: #4dc100;
 }
 
+/* Tombol Bersihkan */
+.btn-bersihkan {
+  background-color: #22312d;
+}
+.btn-bersihkan:hover {
+  background-color: #4dc100;
+}
 
 /* Tabel Presensi */
 #tabelPresensi {
