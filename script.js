@@ -236,3 +236,41 @@ function updateDigitalClock() {
 
   setTimeout(updateDigitalClock, 1000);
 }
+async function bersihkanTabel() {
+  const tanggal = document.getElementById("tanggalHapus").value;
+  const kodeInput = document.getElementById("kodeAksesHapus").value.trim();
+
+  if (!tanggal || !kodeInput) {
+    return alert("Harap isi tanggal dan kode akses.");
+  }
+
+  // Cek kode akses admin
+  const { data: adminData, error: adminError } = await supabaseClient
+    .from("admin")
+    .select("*")
+    .eq("kode_akses", kodeInput)
+    .maybeSingle();
+
+  if (adminError || !adminData) {
+    return alert("Kode akses salah atau bukan admin.");
+  }
+
+  // Buat rentang waktu dari tanggal tersebut (WIB)
+  const awal = new Date(`${tanggal}T00:00:00+07:00`).toISOString();
+  const akhir = new Date(`${tanggal}T23:59:59+07:00`).toISOString();
+
+  // Hapus data presensi yang jam_keluar-nya dalam rentang tersebut
+  const { error } = await supabaseClient
+    .from("presensi")
+    .delete()
+    .gte("jam_keluar", awal)
+    .lte("jam_keluar", akhir);
+
+  if (error) {
+    console.error("Gagal menghapus:", error.message);
+    alert("Gagal menghapus data!");
+  } else {
+    alert(`Semua data presensi pada ${tanggal} telah dihapus.`);
+    await loadPresensiDariSupabase();
+  }
+}
