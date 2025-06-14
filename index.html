@@ -12,7 +12,7 @@
 </h2>
 <div id="digitalClock"></div>
 
-  <label>Nama:
+  <label>Nama STAF:
     <select id="namaStaf">
       <option value="">Loading...</option>
     </select>
@@ -22,7 +22,13 @@
 <button class="btn-keluar" onclick="catatKeluar()">Keluar</button>
 <button class="btn-masuk" onclick="catatMasuk()">Masuk</button>
 <button class="btn-export" onclick="exportToCSV()">Export ke CSV</button>
+<label>
+  Tanggal:
+  <input type="date" id="tanggalHapus">
+</label>
 
+<input type="password" id="kodeAksesHapus" placeholder="Kode Akses Admin">
+<button class="btn-bersihkan" onclick="bersihkanTabel()">Bersihkan Tabel</button>
 
   <div id="daftarKeluar" class="keluar-container"></div>
 
