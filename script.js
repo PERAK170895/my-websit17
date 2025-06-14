@@ -236,5 +236,3 @@ function updateDigitalClock() {
 
   setTimeout(updateDigitalClock, 1000);
 }
-
-console.log("Durasi:", durasi, "Total Menit:", totalMenit);
