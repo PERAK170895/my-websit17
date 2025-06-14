@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <title>Presensi Staf</title>
+  <title>DAFTAR KELUAR MASUK</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -18,7 +18,7 @@
     </select>
   </label>
 
-<input type="password" id="kodeAkses" placeholder="Kode Akses (hanya saat keluar)">
+<input type="password" id="kodeAkses" placeholder="Kode Akses (saat keluar)">
 <button class="btn-keluar" onclick="catatKeluar()">Keluar</button>
 <button class="btn-masuk" onclick="catatMasuk()">Masuk</button>
 <button class="btn-export" onclick="exportToCSV()">Export ke CSV</button>
@@ -30,6 +30,7 @@
     <thead>
       <tr>
         <th>Nama</th>
+        <th>Tanggal</th>
         <th>Jam Keluar</th>
         <th>Jam Masuk</th>
         <th>Durasi</th>
