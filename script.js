@@ -170,10 +170,21 @@ async function loadPresensiDariSupabase() {
 
   data.forEach(item => {
     const row = tbody.insertRow();
-    row.insertCell(0).innerText = item.nama || "-";
-    row.insertCell(1).innerText = formatJamWIB(item.jam_keluar);
-    row.insertCell(2).innerText = formatJamWIB(item.jam_masuk);
-    const durasiCell = row.insertCell(3);
+row.insertCell(0).innerText = item.nama || "-";
+
+// Tanggal dari jam_keluar
+const tanggal = new Date(item.jam_keluar).toLocaleDateString("id-ID", {
+  day: "2-digit", month: "2-digit", year: "numeric", timeZone: "Asia/Jakarta"
+});
+row.insertCell(1).innerText = tanggal;
+
+// Jam keluar & masuk
+row.insertCell(2).innerText = formatJamWIB(item.jam_keluar);
+row.insertCell(3).innerText = formatJamWIB(item.jam_masuk);
+
+// Durasi
+const durasiCell = row.insertCell(4);
+
     durasiCell.innerText = item.durasi || "-";
 
     if (item.durasi) {
