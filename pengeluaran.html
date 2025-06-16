@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>DAFTAR KELUAR MASUK</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h2>
+    <img src="https://i.postimg.cc/1zmbg12G/dark-dsb.png" alt="Logo" style="height: 30px; vertical-align: middle; margin-right: 10px;">
+    ABSENSI KELUAR MASUK STAF
+  </h2>
+
+  <div id="digitalClock"></div>
+
+  <!-- Baris 1: Nama, Kode Akses, Keluar, Masuk -->
+  <div style="margin-bottom: 10px;">
+    <label for="namaStaf">Nama STAF:</label>
+    <select id="namaStaf">
+      <option value="">Loading...</option>
+    </select>
+
+    <input type="password" id="kodeAkses" placeholder="Kode Akses">
+    <button class="btn-keluar" onclick="catatKeluar()">Keluar</button>
+    <button class="btn-masuk" onclick="catatMasuk()">Masuk</button>
+  </div>
+
+  <!-- Baris 2: Denda, Bukti Denda, Pengeluaran, Export -->
+  <div style="margin-bottom: 10px;">
+    <button class="btn-denda" onclick="bukaHalamanDenda()">Denda</button>
+    <button class="btn-bukti" onclick="catatBuktiDenda()">Bukti Denda</button>
+    <button class="btn-pengeluaran" onclick="catatPengeluaran()">Bukti Pengeluaran</button>
+    <button class="btn-export" onclick="exportToCSV()">Export ke CSV</button>
+  </div>
+
+  <!-- Baris 3: Tanggal, Kode Akses Admin, Bersihkan -->
+  <div style="margin-bottom: 20px;">
+    <label for="tanggalHapus">Tanggal:</label>
+    <input type="date" id="tanggalHapus">
+    <input type="password" id="kodeAksesHapus" placeholder="Kode Akses Admin">
+    <button class="btn-bersihkan" onclick="bersihkanTabel()">Bersihkan Tabel</button>
+  </div>
+
+  <!-- Daftar Keluar -->
+  <div id="daftarKeluar" class="keluar-container"></div>
+
+  <!-- Tabel Presensi -->
+  <table id="tabelPresensi">
+    <thead>
+      <tr>
+        <th>Nama</th>
+        <th>Tanggal</th>
+        <th>Jam Keluar</th>
+        <th>Jam Masuk</th>
+        <th>Durasi</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <!-- Supabase & JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
