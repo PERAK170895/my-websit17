@@ -274,3 +274,6 @@ async function bersihkanTabel() {
     await loadPresensiDariSupabase();
   }
 }
+function bukaHalamanDenda() {
+  window.location.href = 'denda.html'; // karena file ada di folder yang sama
+}

@@ -61,6 +61,26 @@ button {
   background-color: #ee2b2b;
 }
 
+.btn-denda {
+  background-color: #010b13;
+}
+.btn-denda:hover {
+  background-color: #ee2b2b;
+}
+
+.btn-bukti {
+  background-color: #010b13;
+}
+.btn-bukti:hover {
+  background-color: #ee2b2b;
+}
+
+.btn-pengeluaran {
+  background-color: #010b13;
+}
+.btn-pengeluaran:hover {
+  background-color: #ee2b2b;
+}
 /* Tombol Masuk */
 .btn-masuk {
   background-color: #e92d20;
@@ -71,15 +91,15 @@ button {
 
 /* Tombol Export */
 .btn-export {
-  background-color: #008cff;
+  background-color: #42d842;
 }
 .btn-export:hover {
-  background-color: #4dc100;
+  background-color: #c10000;
 }
 
 /* Tombol Bersihkan */
 .btn-bersihkan {
-  background-color: #22312d;
+  background-color: #7653f3;
 }
 .btn-bersihkan:hover {
   background-color: #4dc100;
@@ -137,4 +157,100 @@ button {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   font-size: 18px;
   color: #444;
+}
+/* Untuk form baris */
+div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.btn-beranda {
+  background-color: #5c5cff;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-right: 10px;
+}
+.btn-beranda:hover {
+  background-color: #3e3ee0;
+}
+
+.btn-bukti-denda {
+  background-color: #bd6700;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-right: 10px;
+}
+.btn-bukti-denda:hover {
+  background-color: #ff8800;
+}
+#daftarKeluar {
+  display: flex;
+  flex-direction: column; /* agar ke bawah */
+  align-items: flex-end;   /* supaya teks ke kanan */
+  gap: 4px;
+}
+
+.keluar-item {
+  padding: 6px 10px;
+  background-color: #f8f9fa;
+  border-right: 4px solid #007bff;
+  text-align: right;       /* teks dalam box juga rata kanan */
+  font-weight: 500;
+  font-family: sans-serif;
+  width: auto;            /* atau bisa width: auto kalau ingin box ngepas */
+}
+
+form label {
+  display: block;
+  margin: 8px 0;
+}
+form input, select {
+  padding: 4px;
+  margin-left: 5px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+th {
+  padding: 8px;
+  text-align: left; /* Judul tetap kiri */
+}
+
+td {
+  padding: 8px;
+  text-align: right; /* Semua isi kolom diratakan kanan */
+}
+
+/* Gaya khusus untuk Tabel Denda */
+#tabelDenda {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+}
+
+#tabelDenda thead th {
+  background-color: #dae485; /* sama dengan tabel presensi */
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #bbb;
+  font-weight: bold;
+}
+
+#tabelDenda tbody td {
+  text-align: center;
+  padding: 8px;
+  border: 1px solid #ccc;
 }
