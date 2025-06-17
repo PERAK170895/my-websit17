@@ -277,3 +277,6 @@ async function bersihkanTabel() {
 function bukaHalamanDenda() {
   window.location.href = 'denda.html'; // karena file ada di folder yang sama
 }
+function bukaHalamanPengeluaran() {
+  window.location.href = 'pengeluaran.html'; // Contoh
+}
