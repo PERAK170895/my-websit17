@@ -35,8 +35,25 @@ async function isiDropdownNama() {
     dropdown.appendChild(opt);
   });
 }
+console.log("Script dimuat");
 
 async function tambahDenda() {
+  const kodeAdmin = prompt("Kode akses LEADER / JOKER:");
+
+  // Cek kode akses admin di Supabase
+  const { data: adminData, error: adminError } = await supabaseClient
+    .from("admin")
+    .select("*")
+    .eq("kode_akses", kodeAdmin)
+    .single(); // karena kita anggap 1 kode unik
+
+  if (adminError || !adminData) {
+    alert("Kode akses LEADER / JOKER salah atau tidak ditemukan!");
+    return;
+
+  }
+
+  // Kalau valid, lanjutkan proses tambah denda
   const nama = document.getElementById("namaDropdown").value;
   const tanggal = document.getElementById("tanggalDenda").value;
   const ss = document.getElementById("ssDenda").value;
@@ -50,11 +67,13 @@ async function tambahDenda() {
     alert("Gagal tambah denda!");
     console.error(error);
   } else {
-    alert("Denda berhasil ditambahkan.");
+    alert("Denda berhasil ditambahkan oleh admin: " + adminData.nama_admin);
     document.getElementById("formDenda").reset();
     await tampilkanDenda();
   }
+  
 }
+
 
 async function tampilkanDenda() {
   document.getElementById("loadingDenda").style.display = "block";
@@ -76,8 +95,9 @@ async function tampilkanDenda() {
     tr.innerHTML = `
       <td>${nama}</td>
       <td>${new Date(tanggal).toLocaleDateString("id-ID")}</td>
-      <td><a href="${ss_denda}" target="_blank">Lihat SS</a></td>
-      <td>Rp ${Number(nominal).toLocaleString("id-ID")}</td>
+      <td><a href="${ss_denda}" target="_blank">bukti pelanggaran</a></td>
+      <td>$${Number(nominal).toLocaleString("en-US")}</td>
+
     `;
     tbody.appendChild(tr);
   });
