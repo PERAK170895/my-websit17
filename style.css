@@ -254,3 +254,27 @@ td {
   padding: 8px;
   border: 1px solid #ccc;
 }
+#formPengeluaran {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+#formPengeluaran > div {
+  display: flex;
+  flex-direction: column;
+}
+.btn-upload {
+  background-color: #4CAF50; /* hijau */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-upload:hover {
+  background-color: #45a049;
+}

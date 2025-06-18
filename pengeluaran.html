@@ -2,19 +2,39 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <title>DAFTAR KELUAR MASUK</title>
+  <title>DAFTAR PENGELUARAN</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h2>
-    <img src="https://i.postimg.cc/1zmbg12G/dark-dsb.png" alt="Logo" style="height: 30px; vertical-align: middle; margin-right: 10px;">
-    BUKTI PENGELUARAN KEGIATAN
-  </h2>
-  <div id="digitalClock"></div>
-<button class="btn-beranda" onclick="window.location.href='index.html'">Beranda Absensi</button>
+   <img src="https://i.postimg.cc/1zmbg12G/dark-dsb.png" alt="Logo" style="height: 30px; vertical-align: middle;">
+   <h2>Bukti Pengeluaran</h2>
+  <button class="btn-beranda" onclick="window.location.href='index.html'">Beranda Absensi</button>
+  <button class="btn-denda" onclick="bukaHalamanDenda()">Denda</button>
 
+  <form id="formPengeluaran" style="display: flex; gap: 20px; align-items: flex-start;">
+  <div>
+    <label for="tanggal">Tanggal:</label><br />
+    <input type="date" id="tanggal" required />
+  </div>
 
-  <!-- Supabase & JS -->
+  <div>
+    <label for="keterangan">Keterangan:</label><br />
+    <input type="text" id="keterangan" placeholder="Keterangan pengeluaran" required />
+  </div>
+
+  <div>
+    <label for="buktiGambar">Bukti Gambar:</label><br />
+    <input type="file" id="buktiGambar" accept="image/*" required />
+  </div>
+
+<button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
+  Upload & Simpan
+</button>
+</form>
+<div id="listPengeluaran" style="margin-top: 30px;">
+  <h3>Daftar Bukti Pengeluaran</h3>
+  <div id="gambarContainer" style="display: flex; flex-wrap: wrap; gap: 20px;"></div>
+</div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script src="pengeluaran.js"></script>
 </body>
