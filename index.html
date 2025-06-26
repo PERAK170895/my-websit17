@@ -14,7 +14,11 @@
     <div style="margin-bottom: 10px;">
     <button class="btn-denda" onclick="bukaHalamanDenda()">Denda</button>
     <button class="btn-pengeluaran" onclick="bukaHalamanPengeluaran()">Slip Pengeluaran</button>
-    <button class="btn-denda" onclick="bukaHalamanDenda()">Laporan & Pengaduan</button>
+     <img src="https://i.postimg.cc/3wJYDs6k/lapor-pengaduan.png" 
+     alt="Slip Pengeluaran" 
+     style="cursor:pointer; height:40px;" 
+     onclick="bukaHalamanPengeluaran()">
+    
   </div>
 
   </h2>
@@ -64,8 +68,16 @@
     <label for="tanggalHapus">Tanggal:</label>
     <input type="date" id="tanggalHapus">
     <input type="password" id="kodeAksesHapus" placeholder="Kode Akses Admin">
-    <button class="btn-bersihkan" onclick="bersihkanTabel()">Bersihkan Tabel</button>
-    <button class="btn-export" onclick="exportToCSV()">Export ke CSV</button>
+    <img src="https://i.postimg.cc/HkD2SH4h/hapus.jpg" 
+     alt="Bersihkan Tabel" 
+     style="cursor:pointer; height:40px;" 
+     onclick="bersihkanTabel()">
+
+    <img src="https://i.postimg.cc/BQY86Ctc/excel.png" 
+     alt="Export ke CSV" 
+     style="cursor:pointer; height:40px;" 
+     onclick="exportToCSV()">
+
 
   </div>
   <!-- Supabase & JS -->
