@@ -62,21 +62,21 @@ button {
 }
 
 .btn-denda {
-  background-color: #010b13;
+  background-color: #85a7c4;
 }
 .btn-denda:hover {
   background-color: #ee2b2b;
 }
 
 .btn-bukti {
-  background-color: #010b13;
+  background-color: #85a7c4;
 }
 .btn-bukti:hover {
   background-color: #ee2b2b;
 }
 
 .btn-pengeluaran {
-  background-color: #010b13;
+  background-color: #85a7c4;
 }
 .btn-pengeluaran:hover {
   background-color: #ee2b2b;
@@ -129,6 +129,14 @@ button {
   color: red;
   font-weight: bold;
 }
+.durasi-HIJAU {
+  color: green;
+  font-weight: bold;
+}
+.durasi-kuning {
+  color: rgb(27, 16, 184);
+  font-weight: bold;
+}
 
 /* Daftar keluar */
 .keluar-container {
@@ -147,7 +155,7 @@ button {
   position: fixed;
   top: 10px;
   right: 10px;
-  background: rgba(26, 223, 190, 0.8);
+  background: rgba(136, 201, 184, 0.877);
   padding: 8px 12px;
   font-weight: bold;
   border-radius: 16px;
@@ -157,7 +165,12 @@ button {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   font-size: 18px;
   color: #444;
+  width: 400px; /* ukuran tetap */
+  text-align: center; /* agar teks di tengah */
+  box-sizing: border-box; /* biar padding gak nambah ukuran luar */
 }
+
+
 /* Untuk form baris */
 div {
   display: flex;
@@ -278,3 +291,20 @@ td {
 .btn-upload:hover {
   background-color: #45a049;
 }
+/* Letakkan di dalam <style> atau file .css */
+.keterangan-aman {
+  background-color: #a6f3a6;
+  font-weight: bold;
+}
+
+.keterangan-duasesi {
+  background-color: #ffff99;
+  font-weight: bold;
+}
+
+.keterangan-wasted {
+  background-color: #ff4d4d;
+  color: white;
+  font-weight: bold;
+}
+

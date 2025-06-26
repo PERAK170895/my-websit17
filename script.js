@@ -183,18 +183,23 @@ row.insertCell(2).innerText = formatJamWIB(item.jam_keluar);
 row.insertCell(3).innerText = formatJamWIB(item.jam_masuk);
 
 // Durasi
+// Durasi
 const durasiCell = row.insertCell(4);
+durasiCell.innerText = item.durasi || "-";
 
-    durasiCell.innerText = item.durasi || "-";
+if (item.durasi) {
+  const [jam, menit, detik] = item.durasi.split(":").map(Number);
+  const totalMenit = jam * 60 + menit + (detik >= 30 ? 1 : 0);
 
-    if (item.durasi) {
-      const [jam, menit, detik] = item.durasi.split(":").map(Number);
-      const totalMenit = jam * 60 + menit + (detik >= 30 ? 1 : 0);
+  if (totalMenit <= 15) {
+    durasiCell.classList.add("durasi-hijau");
+  } else if (totalMenit <= 30) {
+    durasiCell.classList.add("durasi-kuning");
+  } else {
+    durasiCell.classList.add("durasi-merah");
+  }
+}
 
-      if (totalMenit > 15) {
-        durasiCell.classList.add("durasi-merah");
-      }
-    }
   }); // <<< penutup .forEach
 
 } // <<< PENUTUP loadPresensiDariSupabase YANG HILANG
@@ -232,7 +237,7 @@ function updateDigitalClock() {
   const tanggal = now.toLocaleDateString("id-ID", { day: "2-digit", month: "long", year: "numeric" });
   const waktu = now.toLocaleTimeString("id-ID", { hour12: false });
 
-  clock.textContent = `${hari}, ${tanggal} - ${waktu}`;
+  clock.textContent = `📆 ${hari} , ${tanggal} - ${waktu}`;
 
   setTimeout(updateDigitalClock, 1000);
 }
@@ -280,3 +285,83 @@ function bukaHalamanDenda() {
 function bukaHalamanPengeluaran() {
   window.location.href = 'pengeluaran.html'; // Contoh
 }
+async function loadDurasiKeluarDariSupabase() {
+  const { data, error } = await supabaseClient
+    .from("presensi")
+    .select("nama, jam_keluar, jam_masuk, durasi")
+    .order("jam_keluar", { ascending: false });
+
+  if (error) {
+    console.error("Gagal ambil data durasi keluar:", error.message);
+    return;
+  }
+
+  const tbody = document.querySelector("#tabelDurasiKeluar tbody");
+  tbody.innerHTML = "";
+
+  data.forEach(item => {
+    const row = tbody.insertRow();
+
+    const tanggal = new Date(item.jam_keluar).toLocaleDateString("id-ID", {
+      day: "2-digit", month: "2-digit", year: "numeric", timeZone: "Asia/Jakarta"
+    });
+    row.insertCell(0).innerText = tanggal;
+
+    row.insertCell(1).innerText = item.nama || "-";
+    row.insertCell(2).innerText = formatJamWIB(item.jam_keluar);
+    row.insertCell(3).innerText = item.jam_masuk ? formatJamWIB(item.jam_masuk) : "-";
+
+    const durasiCell = row.insertCell(4);
+    durasiCell.innerText = item.durasi || "-";
+
+    if (item.durasi) {
+      const [jam, menit, detik] = item.durasi.split(":").map(Number);
+      const totalMenit = jam * 60 + menit + (detik >= 30 ? 1 : 0);
+
+      if (totalMenit <= 15) {
+        durasiCell.classList.add("durasi-hijau");
+      } else if (totalMenit <= 30) {
+        durasiCell.classList.add("durasi-kuning");
+      } else {
+        durasiCell.classList.add("durasi-merah");
+      }
+    }
+  });
+}
+
+// ✅ GABUNGKAN SEMUA DI SINI
+window.addEventListener("DOMContentLoaded", async () => {
+  const select = document.getElementById("namaStaf");
+  select.innerHTML = "<option value=''>-- Pilih Nama --</option>";
+
+  const { data, error } = await supabaseClient.from("staf").select("nama, kode_akses");
+  if (error) {
+    alert("Gagal ambil staf!");
+    return;
+  }
+
+  data.forEach(({ nama, kode_akses }) => {
+    daftarStaf[nama] = kode_akses;
+    const option = document.createElement("option");
+    option.value = nama;
+    option.textContent = nama;
+    select.appendChild(option);
+  });
+
+  await loadPresensiDariSupabase();       // Tabel presensi utama
+  await muatKeluarSementara();            // Ambil data keluar sementara
+  await document.addEventListener("DOMContentLoaded", () => {
+  loadDurasiKeluarDariSupabase();
+});
+  // Tabel rekap durasi
+
+  updateDigitalClock();                   // Jam digital
+});
+if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+    // Bisa redirect ke halaman lain
+    // window.location.href = "https://example.com/mobile-not-allowed.html";
+
+    // Atau hanya tampilkan alert dan kosongkan isi halaman
+    alert("Halaman ini tidak dapat diakses melalui perangkat mobile.");
+    document.body.innerHTML = ""; // Kosongkan halaman
+  }

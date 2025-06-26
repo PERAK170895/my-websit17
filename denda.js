@@ -58,9 +58,10 @@ async function tambahDenda() {
   const tanggal = document.getElementById("tanggalDenda").value;
   const ss = document.getElementById("ssDenda").value;
   const nominal = parseInt(document.getElementById("nominalDenda").value) || 0;
+  const keterangan = document.getElementById("keteranganDenda").value.trim();
 
   const { error } = await supabaseClient.from("denda").insert([
-    { nama, tanggal, ss_denda: ss, nominal }
+    { nama, tanggal, ss_denda: ss, nominal, keterangan }
   ]);
 
   if (error) {
@@ -81,7 +82,7 @@ async function tampilkanDenda() {
   const { data, error } = await supabaseClient
     .from("denda")
     .select("*")
-    .order("tanggal", { ascending: false });
+    .order("tanggal", { ascending: true });
 
   document.getElementById("loadingDenda").style.display = "none";
 
@@ -90,15 +91,24 @@ async function tampilkanDenda() {
   const tbody = document.querySelector("#tabelDenda tbody");
   tbody.innerHTML = "";
 
-  data.forEach(({ nama, tanggal, ss_denda, nominal }) => {
+  let totalNominal = 0;
+
+  data.forEach(({ nama, tanggal, ss_denda, nominal, keterangan }) => {
+    totalNominal += nominal;
+
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td>${nama}</td>
       <td>${new Date(tanggal).toLocaleDateString("id-ID")}</td>
+      <td>${nama}</td>
       <td><a href="${ss_denda}" target="_blank">bukti pelanggaran</a></td>
       <td>$${Number(nominal).toLocaleString("en-US")}</td>
-
+      <td>${keterangan || "-"}</td>
     `;
     tbody.appendChild(tr);
   });
+
+  // Tampilkan total denda
+  const totalDendaElem = document.getElementById("totalDenda");
+totalDendaElem.textContent = `Total Denda: $${totalNominal.toLocaleString("en-US")}`;
 }
+

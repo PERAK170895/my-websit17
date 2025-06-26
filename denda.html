@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>DENDA STAF</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -11,7 +12,7 @@
     DAFTAR NAMA DAN DENDA STAF
   </h2>
 
-  <div id="digitalClock"></div>
+  
 
   <h3>Tambah Denda</h3>
   <form id="formDenda">
@@ -19,26 +20,29 @@
     <input type="date" id="tanggalDenda" required />
     <input type="url" id="ssDenda" placeholder="Link SS Denda" required />
     <input type="number" id="nominalDenda" placeholder="Nominal Denda" required />
+    <input type="text" id="keteranganDenda" placeholder="Keterangan Denda" required />
     <button type="submit" class="btn-denda">Tambah Denda</button>
   </form>
   <div style="margin: 20px 0;">
     <button class="btn-beranda" onclick="window.location.href='index.html'">Beranda Absensi</button>
-        <button class="btn-pengeluaran" onclick="window.location.href='pengeluaran.html'">Bukti Pengeluaran</button>
+    <button class="btn-pengeluaran" onclick="window.location.href='pengeluaran.html'">Bukti Pengeluaran</button>
   </div>
-
+<div id="digitalClock"></div>
   <div id="loadingDenda" style="display:none;">Memuat data...</div>
-
+  <h4 id="totalDenda">Total Denda: Rp0</h4>
   <table id="tabelDenda">
     <thead>
       <tr>
-        <th>Nama</th>
-        <th>Tanggal</th>
+        <th>TANGGAL</th>
+        <th>NAMA</th>
         <th>BUKTI PELANGARAN</th>
-        <th>Nominal Denda</th>
+        <th>NOMINAL DENDA</th>
+        <th>KETERANGAN</th>
       </tr>
     </thead>
     <tbody></tbody>
   </table>
+
 
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>

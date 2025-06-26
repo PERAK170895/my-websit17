@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>DAFTAR PENGELUARAN</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -13,21 +14,18 @@
 
   <form id="formPengeluaran" style="display: flex; gap: 20px; align-items: flex-start;">
   <div>
-    <label for="tanggal">Tanggal:</label><br />
     <input type="date" id="tanggal" required />
   </div>
 
   <div>
-    <label for="keterangan">Keterangan:</label><br />
     <input type="text" id="keterangan" placeholder="Keterangan pengeluaran" required />
   </div>
 
   <div>
-    <label for="buktiGambar">Bukti Gambar:</label><br />
-    <input type="file" id="buktiGambar" accept="image/*" required />
+     <input type="file" id="buktiGambar" accept="image/*" required />
   </div>
 
-<button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
+<button type="submit" style="background-color: #4CAF50; color: rgb(131, 6, 6); padding: 10px 20px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
   Upload & Simpan
 </button>
 </form>
